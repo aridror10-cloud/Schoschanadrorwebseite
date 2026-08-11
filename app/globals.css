@@ -1,0 +1,662 @@
+/* =========================================================================
+   Schoschana Dror - globales Stylesheet
+   Aufbau: 1) Tokens  2) Reset  3) Basis  4) Layout  5) Komponenten
+           6) Abschnitte  7) Utilities  8) Medien-Abfragen
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1) Design-Tokens
+   ------------------------------------------------------------------------- */
+:root {
+  /* Farben - hell */
+  --c-bg: #faf9f7;
+  --c-surface: #ffffff;
+  --c-border: #e4e0d9;
+  --c-text: #1c1b19;
+  --c-text-muted: #5f5b54;
+  --c-accent: #9c5f3c;
+  --c-accent-hover: #7d4a2d;
+  --c-accent-soft: #f2e9e3;
+
+  /* Typografie - bewusst nur Systemschriften.
+     Google Fonts wuerden bei jedem Aufruf die IP an Google senden
+     (LG Muenchen, Az. 3 O 17493/20) und damit die DSGVO verletzen. */
+  --font-heading: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Fliessende Schriftgroessen (min .. max ueber die Viewportbreite) */
+  --fs-display: clamp(2.25rem, 1.4rem + 4.2vw, 4rem);
+  --fs-h2: clamp(1.5rem, 1.15rem + 1.7vw, 2.25rem);
+  --fs-h3: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --fs-small: 0.875rem;
+
+  /* Abstaende */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3.5rem;
+  --space-2xl: clamp(4rem, 2rem + 8vw, 7rem);
+
+  /* Sonstiges */
+  --content-width: 68rem;
+  --prose-width: 40rem;
+  --radius: 0.5rem;
+  --shadow: 0 1px 2px rgb(28 27 25 / 6%), 0 8px 24px -12px rgb(28 27 25 / 14%);
+  --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: light dark;
+}
+
+/* Farben - dunkel. Zuerst die Systemeinstellung ... */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: #16171a;
+    --c-surface: #1e2024;
+    --c-border: #33363c;
+    --c-text: #eceae6;
+    --c-text-muted: #a5a29b;
+    --c-accent: #d8956a;
+    --c-accent-hover: #e8ab84;
+    --c-accent-soft: #2b2320;
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px -12px rgb(0 0 0 / 60%);
+  }
+}
+
+/* ... danach die ausdrueckliche Wahl der Besucherin, die immer gewinnt. */
+:root[data-theme="light"] {
+  --c-bg: #faf9f7;
+  --c-surface: #ffffff;
+  --c-border: #e4e0d9;
+  --c-text: #1c1b19;
+  --c-text-muted: #5f5b54;
+  --c-accent: #9c5f3c;
+  --c-accent-hover: #7d4a2d;
+  --c-accent-soft: #f2e9e3;
+  --shadow: 0 1px 2px rgb(28 27 25 / 6%), 0 8px 24px -12px rgb(28 27 25 / 14%);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --c-bg: #16171a;
+  --c-surface: #1e2024;
+  --c-border: #33363c;
+  --c-text: #eceae6;
+  --c-text-muted: #a5a29b;
+  --c-accent: #d8956a;
+  --c-accent-hover: #e8ab84;
+  --c-accent-soft: #2b2320;
+  --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px -12px rgb(0 0 0 / 60%);
+  color-scheme: dark;
+}
+
+/* -------------------------------------------------------------------------
+   2) Reset
+   ------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem; /* Platz fuer die klebrige Kopfzeile */
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* -------------------------------------------------------------------------
+   3) Basis
+   ------------------------------------------------------------------------- */
+body {
+  min-height: 100dvh; /* dvh statt vh: keine abgeschnittene Ansicht auf dem Handy */
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance; /* verhindert eine einsame letzte Zeile */
+}
+
+h1 {
+  font-size: var(--fs-display);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--c-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--c-accent-hover);
+}
+
+/* Sichtbarer Fokus - nur bei Tastaturbedienung, nicht bei Mausklick */
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* -------------------------------------------------------------------------
+   4) Layout
+   ------------------------------------------------------------------------- */
+.container {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+}
+
+.prose {
+  max-width: var(--prose-width);
+}
+
+.prose h2 + p,
+.prose h3 + p {
+  margin-top: var(--space-sm);
+}
+
+.prose p + p,
+.prose p + h3,
+.prose ul + h3 {
+  margin-top: var(--space-md);
+}
+
+.prose ul {
+  margin-top: var(--space-sm);
+  padding-left: 1.2rem;
+  color: var(--c-text-muted);
+}
+
+.section {
+  padding-block: var(--space-2xl);
+  border-top: 1px solid var(--c-border);
+}
+
+.section__label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  color: var(--c-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* -------------------------------------------------------------------------
+   5) Komponenten
+   ------------------------------------------------------------------------- */
+
+/* Sprungmarke - erst beim Fokussieren sichtbar */
+.skip-link {
+  position: absolute;
+  top: var(--space-xs);
+  left: var(--space-xs);
+  z-index: 100;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius);
+  background-color: var(--c-accent);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--transition);
+}
+
+.skip-link:focus-visible {
+  color: #fff;
+  transform: translateY(0);
+}
+
+/* Kopfzeile */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--c-border);
+  background-color: color-mix(in srgb, var(--c-bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 4.25rem;
+}
+
+.brand {
+  color: var(--c-text);
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--c-accent);
+}
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* Navigation */
+.nav__list {
+  display: flex;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__link {
+  display: inline-block;
+  padding-block: var(--space-2xs);
+  color: var(--c-text-muted);
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.nav__link:hover,
+.nav__link[aria-current="page"] {
+  color: var(--c-text);
+}
+
+/* Symbol-Schaltflaechen (Menue, Farbschema) */
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition),
+    background-color var(--transition);
+}
+
+.icon-button:hover {
+  border-color: var(--c-accent);
+  background-color: var(--c-accent-soft);
+  color: var(--c-accent);
+}
+
+.icon-button svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* Die beiden Symbole im Farbschema-Schalter wechseln sich ab.
+   Gesteuert ueber data-theme, damit React nichts nachrendern muss. */
+.icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .icon-moon {
+  display: block;
+}
+
+/* Menuesymbol: geschlossen zeigt Balken, geoeffnet ein Kreuz */
+.nav-toggle .icon-close {
+  display: none;
+}
+
+.nav-toggle[aria-expanded="true"] .icon-close {
+  display: block;
+}
+
+.nav-toggle[aria-expanded="true"] .icon-menu {
+  display: none;
+}
+
+.nav-toggle {
+  display: none; /* nur im Handy-Layout sichtbar */
+}
+
+/* Schaltflaechen */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.7rem 1.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition),
+    color var(--transition);
+}
+
+.button--primary {
+  background-color: var(--c-accent);
+  color: #fff;
+}
+
+.button--primary:hover {
+  background-color: var(--c-accent-hover);
+  color: #fff;
+}
+
+.button--ghost {
+  border-color: var(--c-border);
+  color: var(--c-text);
+}
+
+.button--ghost:hover {
+  border-color: var(--c-accent);
+  background-color: var(--c-accent-soft);
+  color: var(--c-accent);
+}
+
+/* Karten */
+.card {
+  padding: var(--space-lg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background-color: var(--c-surface);
+  transition: border-color var(--transition), transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.card:hover {
+  border-color: var(--c-accent);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.card__title {
+  margin-bottom: var(--space-xs);
+}
+
+.card__text {
+  color: var(--c-text-muted);
+  font-size: 0.95rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+/* -------------------------------------------------------------------------
+   6) Abschnitte
+   ------------------------------------------------------------------------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: min(78dvh, 40rem);
+  padding-block: var(--space-2xl);
+}
+
+.hero__eyebrow {
+  margin-bottom: var(--space-md);
+  color: var(--c-accent);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero__lead {
+  max-width: 34rem;
+  margin-top: var(--space-md);
+  color: var(--c-text-muted);
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+/* Kontaktliste */
+.contact-list {
+  margin-top: var(--space-lg);
+}
+
+.contact-list > div + div {
+  margin-top: var(--space-md);
+}
+
+.contact-list dt {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+}
+
+.contact-list dd {
+  margin: 0;
+}
+
+/* Fusszeile */
+.site-footer {
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--c-border);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer a {
+  color: var(--c-text-muted);
+}
+
+.site-footer a:hover {
+  color: var(--c-accent);
+}
+
+/* Fehlerseite */
+.error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 70dvh;
+  padding-block: var(--space-2xl);
+}
+
+.error-page__code {
+  color: var(--c-accent);
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 2rem + 10vw, 8rem);
+  line-height: 1;
+}
+
+/* -------------------------------------------------------------------------
+   7) Utilities
+   ------------------------------------------------------------------------- */
+
+/* Nur fuer Screenreader - optisch verborgen, aber vorlesbar */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.stack > * + * {
+  margin-top: var(--space-md);
+}
+
+.mt-lg {
+  margin-top: var(--space-lg);
+}
+
+/* Platzhalter, die vor dem Livegang ersetzt werden muessen */
+.todo {
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+  background-color: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-size: 0.9em;
+}
+
+/* -------------------------------------------------------------------------
+   8) Medien-Abfragen
+   ------------------------------------------------------------------------- */
+
+/* Handy-Layout: Navigation klappt unter die Kopfzeile */
+@media (max-width: 44rem) {
+  .nav-toggle {
+    display: grid;
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    width: 100%;
+    border-bottom: 1px solid var(--c-border);
+    background-color: var(--c-bg);
+  }
+
+  .nav[data-open="true"] {
+    display: block;
+  }
+
+  .nav__list {
+    flex-direction: column;
+    gap: 0;
+    width: min(100% - 2.5rem, var(--content-width));
+    margin-inline: auto;
+    padding-block: var(--space-xs);
+  }
+
+  .nav__link {
+    display: block;
+    padding-block: var(--space-sm);
+  }
+
+  .nav__list li + li {
+    border-top: 1px solid var(--c-border);
+  }
+}
+
+/* Bewegung reduzieren, wenn das System es verlangt */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* Druckausgabe */
+@media print {
+  .site-header,
+  .skip-link,
+  .hero__actions {
+    display: none;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .section {
+    border-top: 1px solid #ccc;
+  }
+
+  /* Ziel-URL hinter jeden Link drucken */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+  }
+}
