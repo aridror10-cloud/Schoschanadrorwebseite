@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ScrollFx } from "@/components/ScrollFx";
 import { content, type Lang } from "@/lib/content";
 
 /* Icons der "Was erhalten Sie"-Sektion, 1:1 aus der Design-Vorlage */
@@ -52,6 +53,7 @@ export function Landing({ lang }: { lang: Lang }) {
 
   return (
     <div className="page" lang={lang} dir={t.dir}>
+      <ScrollFx />
       <header className="nav">
         <div className="nav-inner">
           <div className="brand">
@@ -96,10 +98,10 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 2 — WHEN ART MEETS MEMORY ===== */}
         <section className="meet" id="meet">
           <div className="wrap meet-grid">
-            <div className="ph">
+            <div className="ph" data-reveal>
               <img src="/carlebach/closeup.webp" alt={t.meet.imgAlt} loading="lazy" />
             </div>
-            <div className="meet-text">
+            <div className="meet-text" data-reveal>
               <div className="kicker">{t.meet.kicker}</div>
               <h2>
                 {t.meet.titleLines[0]}
@@ -116,12 +118,12 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 3 — CHOOSE YOUR PORTRAIT ===== */}
         <section className="choose" id="choose">
           <div className="wrap">
-            <div className="section-head">
+            <div className="section-head" data-reveal>
               <div className="kicker">{t.choose.kicker}</div>
               <h2>{t.choose.title}</h2>
             </div>
 
-            <div className="version-toggle">
+            <div className="version-toggle" data-reveal>
               <p>{t.choose.toggle.intro}</p>
               <div className="version-options">
                 {t.choose.toggle.options.map((opt) => (
@@ -134,7 +136,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="v-note">{t.choose.toggle.note}</div>
             </div>
 
-            <div className="pieces">
+            <div className="pieces" data-reveal-group>
               {t.choose.pieces.map((piece) => (
                 <div className="piece" key={piece.img}>
                   <div className="ph">
@@ -152,10 +154,10 @@ export function Landing({ lang }: { lang: Lang }) {
               ))}
             </div>
 
-            <div className="ph set-photo">
+            <div className="ph set-photo" data-reveal>
               <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
             </div>
-            <div className="buy-all">
+            <div className="buy-all" data-reveal>
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
@@ -167,9 +169,9 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 4 — PROCESS ===== */}
         <section className="process">
           <div className="wrap">
-            <h2>{t.process.title}</h2>
-            <p className="process-sub">{t.process.sub}</p>
-            <div className="process-grid">
+            <h2 data-reveal>{t.process.title}</h2>
+            <p className="process-sub" data-reveal>{t.process.sub}</p>
+            <div className="process-grid" data-reveal-group>
               {t.process.steps.map((step, i) => (
                 <div className="p-card" key={step.label}>
                   {step.img ? (
@@ -194,8 +196,8 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 5 — WHAT YOU GET ===== */}
         <section className="getgrid">
           <div className="wrap">
-            <h2>{t.get.title}</h2>
-            <div className="get-icons">
+            <h2 data-reveal>{t.get.title}</h2>
+            <div className="get-icons" data-reveal-group>
               {t.get.items.map((item, i) => (
                 <div className="get-item" key={item}>
                   <div className="icon">{getIcons[i]}</div>
@@ -209,10 +211,10 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 6 — WHO IT'S FOR ===== */}
         <section className="whofor">
           <div className="wrap whofor-grid">
-            <div className="ph">
+            <div className="ph" data-reveal>
               <img src="/carlebach/livingroom.webp" alt={t.whofor.imgAlt} loading="lazy" />
             </div>
-            <div>
+            <div data-reveal>
               <div className="kicker">{t.whofor.kicker}</div>
               <h2>{t.whofor.title}</h2>
               <p className="lead">{t.whofor.lead}</p>
@@ -228,7 +230,7 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 7 — ABOUT THE ARTIST ===== */}
         <section className="about">
           <div className="wrap about-grid">
-            <div>
+            <div data-reveal>
               <div className="kicker">{t.about.kicker}</div>
               <h2>{t.about.title}</h2>
               {t.about.paras.map((p) => (
@@ -236,7 +238,7 @@ export function Landing({ lang }: { lang: Lang }) {
               ))}
               <div className="signature">{t.about.signature}</div>
             </div>
-            <div className="ph">
+            <div className="ph" data-reveal>
               <img src="/carlebach/artist.webp" alt={t.about.imgAlt} loading="lazy" />
             </div>
           </div>
@@ -244,7 +246,7 @@ export function Landing({ lang }: { lang: Lang }) {
 
         {/* ===== CHARITY BANNER ===== */}
         <section className="charity">
-          <div className="charity-inner">
+          <div className="charity-inner" data-reveal>
             <div className="charity-icon">{charityIcon}</div>
             <div className="charity-text">
               <p>
@@ -259,12 +261,12 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 8 — PRICING ===== */}
         <section className="pricing">
           <div className="wrap">
-            <div className="section-head">
+            <div className="section-head" data-reveal>
               <div className="kicker">{t.pricing.kicker}</div>
               <h2>{t.pricing.title}</h2>
             </div>
             {t.pricing.currNote && <p className="curr-note">{t.pricing.currNote}</p>}
-            <div className="price-cards">
+            <div className="price-cards" data-reveal-group>
               <div className="price-card">
                 <div className="price-name">{t.pricing.single.name}</div>
                 <div className="price-value">{t.pricing.single.price}</div>
@@ -282,7 +284,7 @@ export function Landing({ lang }: { lang: Lang }) {
               </div>
             </div>
 
-            <div className="delivery-note">
+            <div className="delivery-note" data-reveal-group>
               {t.pricing.delivery.map((item) => (
                 <div className="delivery-item" key={item.title}>
                   <div className="delivery-icon">{item.icon}</div>
@@ -300,11 +302,11 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 9 — FAQ ===== */}
         <section className="faq">
           <div className="wrap">
-            <div className="section-head">
+            <div className="section-head" data-reveal>
               <div className="kicker">{t.faq.kicker}</div>
               <h2>{t.faq.title}</h2>
             </div>
-            <div className="faq-list">
+            <div className="faq-list" data-reveal-group>
               {t.faq.items.map((item) => (
                 <details className="faq-item" key={item.q} open={item.open}>
                   <summary>{item.q}</summary>
@@ -318,12 +320,12 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== CONTACT ===== */}
         <section className="contact-cta">
           <div className="wrap">
-            <div className="section-head">
+            <div className="section-head" data-reveal>
               <div className="kicker">{t.contact.kicker}</div>
               <h2>{t.contact.title}</h2>
               <p className="contact-lead">{t.contact.lead}</p>
             </div>
-            <div className="contact-links">
+            <div className="contact-links" data-reveal-group>
               <a href={`mailto:${t.contact.email}`} className="contact-link">
                 {mailIcon}
                 <span>{t.contact.email}</span>
@@ -345,7 +347,7 @@ export function Landing({ lang }: { lang: Lang }) {
           <div className="ph">
             <img src="/carlebach/finale.webp" alt={t.finale.imgAlt} loading="lazy" />
           </div>
-          <div className="finale-content">
+          <div className="finale-content" data-reveal>
             <h2>{t.finale.title}</h2>
             <p>
               {t.finale.p1Lines[0]}
