@@ -1,7 +1,18 @@
 # Schoschana Dror – Webseite
 
-Persönliche Webseite, gebaut mit [Next.js](https://nextjs.org) (App Router) und TypeScript.
-Ohne Tracking, ohne Cookies, ohne externe Schriftarten.
+Landingpage der **Carlebach-Kollektion** (Metall-Porträtserie von Rabbi Schlomo
+Carlebach), gebaut mit [Next.js](https://nextjs.org) (App Router) und TypeScript.
+
+Zweisprachig nach der Design-Vorlage `carlebach-landing-v3_16`:
+
+| Route | Sprache | Richtung |
+| --- | --- | --- |
+| `/` | Hebräisch | RTL |
+| `/en` | Englisch | LTR |
+
+Ohne Tracking, ohne Cookies. Die Schriften (Heebo, Frank Ruhl Libre) werden
+beim Build von `next/font` heruntergeladen und von der eigenen Domain
+ausgeliefert – zur Laufzeit geht keine Anfrage an Google.
 
 ## Schnellstart
 
@@ -10,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Die Seite läuft dann unter http://localhost:3000
+Die Seite läuft dann unter http://localhost:3000 (Englisch: /en)
 
 ## Befehle
 
@@ -25,66 +36,40 @@ Die Seite läuft dann unter http://localhost:3000
 
 ```
 app/
-  layout.tsx          Grundgerüst, Metadaten, Kopf- und Fußzeile
-  page.tsx            Startseite
+  layout.tsx          Grundgerüst (he/RTL), Schriften, Metadaten, hreflang
+  page.tsx            Startseite Hebräisch
+  en/page.tsx         Englische Seite (stellt lang/dir auf en/ltr um)
   not-found.tsx       404-Seite
-  globals.css         Design-Tokens und alle Stile
+  globals.css         1:1-Port der Vorlagen-Stile (mit logischen
+                      CSS-Eigenschaften, damit RTL und LTR beide stimmen)
   icon.svg            Favicon
   robots.ts           erzeugt /robots.txt
-  sitemap.ts          erzeugt /sitemap.xml
-  impressum/          Pflichtangaben nach § 5 DDG
-  datenschutz/        Datenschutzerklärung
+  sitemap.ts          erzeugt /sitemap.xml (/ und /en)
 components/
-  SiteHeader.tsx      Kopfzeile mit Navigation (Client)
-  SiteFooter.tsx      Fußzeile
-  ThemeToggle.tsx     Umschalter hell/dunkel
-  ThemeScript.tsx     verhindert das Aufblitzen des falschen Farbschemas
+  Landing.tsx         die komplette Landingpage, sprachneutral aufgebaut
 lib/
-  site.ts             zentrale Konfiguration – hier zuerst anpassen
+  content.ts          sämtliche Texte in he + en – Inhalte hier pflegen
+  site.ts             Basis-URL (NEXT_PUBLIC_SITE_URL)
+public/carlebach/     alle Bilder der Vorlage (aus den Base64-Daten extrahiert)
 ```
+
+## Inhalte ändern
+
+Alle Texte beider Sprachen liegen zentral in `lib/content.ts` – unverändert
+übernommen aus den finalen Vorlagen (`carlebach-landing-he-final.html` /
+`carlebach-landing-en-final.html`). Kauf- und Kontakt-Buttons öffnen WhatsApp
+(053-314-2341) mit vorbefüllter Nachricht; dazu gibt es eine Kontakt-Sektion
+mit E-Mail (ssdror@gmail.com), Telefon und WhatsApp.
 
 ## Vor dem Livegang
 
-Alle Platzhalter sind im Browser orange als `TODO` markiert und im Code mit
-`TODO` kommentiert. Diese Punkte müssen erledigt sein:
-
-- [ ] `lib/site.ts`: Name, Beschreibung und **echte E-Mail-Adresse** eintragen
 - [ ] `NEXT_PUBLIC_SITE_URL` auf die echte Domain setzen (siehe `.env.example`)
-- [ ] `app/impressum/page.tsx`: vollständige Anschrift ergänzen — **rechtlich verpflichtend**
-- [ ] `app/datenschutz/page.tsx`: Hosting-Anbieter eintragen
-- [ ] `app/page.tsx`: Platzhaltertexte durch echte Inhalte ersetzen
-- [ ] `app/icon.svg`: Monogramm anpassen oder ersetzen
-
-> Impressum und Datenschutzerklärung sind Vorlagen und **keine Rechtsberatung**.
-> Ein unvollständiges Impressum ist in Deutschland abmahnfähig.
-
-## Was bereits gelöst ist
-
-**Recht:** Impressum- und Datenschutz-Seite angelegt. Keine Google Fonts – die
-würden bei jedem Aufruf die IP-Adresse an Google übertragen (LG München,
-Az. 3 O 17493/20).
-
-**SEO:** Titel-Template, Beschreibung, Open Graph, Twitter Cards, canonical-URLs,
-`robots.txt`, `sitemap.xml` und JSON-LD nach schema.org.
-
-**Barrierefreiheit:** Sprungmarke zum Inhalt, semantische Landmarken
-(`header`/`nav`/`main`/`footer`), sichtbarer Tastaturfokus über `:focus-visible`,
-`aria-label` an allen Symbol-Schaltflächen, Escape schließt das Menü.
-
-**Darstellung:** helles und dunkles Farbschema mit gespeicherter Auswahl,
-`100dvh` statt `100vh` gegen abgeschnittene Inhalte auf dem Handy, fließende
-Schriftgrößen per `clamp()`, `prefers-reduced-motion`, eigene Druckansicht.
-
-**Sicherheit:** Sicherheits-Kopfzeilen in `next.config.ts`
-(HSTS, `nosniff`, Referrer-Policy, Permissions-Policy, Clickjacking-Schutz),
-`X-Powered-By` abgeschaltet.
 
 ## Veröffentlichen
 
-**Vercel** (empfohlen, Standardfall): Repository verbinden, `NEXT_PUBLIC_SITE_URL`
-als Umgebungsvariable setzen, fertig.
+**Vercel** (empfohlen): Repository verbinden, `NEXT_PUBLIC_SITE_URL` als
+Umgebungsvariable setzen, fertig.
 
-**Statischer Export** (z. B. GitHub Pages, klassisches Webhosting): in
-`next.config.ts` `output: "export"` ergänzen, dann erzeugt `npm run build` den
-Ordner `out/`. Achtung: Die Sicherheits-Kopfzeilen aus `next.config.ts` greifen
-dann nicht mehr und müssen beim Hoster konfiguriert werden.
+**Statischer Export**: in `next.config.ts` `output: "export"` ergänzen, dann
+erzeugt `npm run build` den Ordner `out/`. Die Sicherheits-Kopfzeilen aus
+`next.config.ts` greifen dann nicht mehr und müssen beim Hoster gesetzt werden.

@@ -22,6 +22,10 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
+  // Projektwurzel festnageln - im Nutzerverzeichnis liegen fremde Lockfiles,
+  // die Turbopack sonst als Workspace-Wurzel deuten koennte
+  turbopack: { root: __dirname },
+
   // Versteckt die Kopfzeile "X-Powered-By: Next.js"
   poweredByHeader: false,
 
