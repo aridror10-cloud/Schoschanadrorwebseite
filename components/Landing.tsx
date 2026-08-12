@@ -154,8 +154,11 @@ export function Landing({ lang }: { lang: Lang }) {
               ))}
             </div>
 
-            <div className="ph set-photo" data-reveal>
-              <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
+            <div className="set-frame" data-reveal data-frame>
+              <div className="ph set-photo">
+                <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
+              </div>
+              <div className="set-plaque">{t.choose.setCaption}</div>
             </div>
             <div className="buy-all" data-reveal>
               <div className="bundle-price">{t.choose.bundle.price}</div>

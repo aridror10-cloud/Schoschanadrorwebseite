@@ -14,11 +14,17 @@ export function ScrollFx() {
 
     document.documentElement.classList.add("fx");
 
+    const timers: number[] = [];
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
+            // Galerie-Moment: kurz nach dem Erscheinen entpuppt sich das
+            // Set-Foto als gerahmtes Bild an der Wand
+            if (entry.target.hasAttribute("data-frame")) {
+              timers.push(window.setTimeout(() => entry.target.classList.add("framed"), 1200));
+            }
             io.unobserve(entry.target);
           }
         }
@@ -35,6 +41,7 @@ export function ScrollFx() {
 
     return () => {
       io.disconnect();
+      timers.forEach((t) => window.clearTimeout(t));
       window.removeEventListener("scroll", onScroll);
     };
   }, []);

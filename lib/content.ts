@@ -82,6 +82,7 @@ export interface LandingContent {
     };
     pieces: Piece[];
     setAlt: string;
+    setCaption: string;
     bundle: {
       price: string;
       usd?: string;
@@ -243,6 +244,7 @@ export const content: Record<Lang, LandingContent> = {
         },
       ],
       setAlt: "שלושת דגמי הקולקציה יחד על קיר",
+      setCaption: "כך זה ייראה אצלכם בבית",
       bundle: {
         price: "₪1300",
         save: "חיסכון של 350 ₪ לעומת רכישה נפרדת",
@@ -464,6 +466,7 @@ export const content: Record<Lang, LandingContent> = {
         },
       ],
       setAlt: "All three collection designs together on a wall",
+      setCaption: "How it will look in your home",
       bundle: {
         price: "₪1300",
         usd: "≈ $435 USD",
