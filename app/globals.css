@@ -100,7 +100,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   border-radius: 2px;
   font-size: 0.85rem;
   font-weight: 500;
-  transition: background 0.25s;
+  transition: background 0.45s ease;
 }
 .nav-cta:hover { background: var(--gold); }
 .nav-right { display: flex; align-items: center; gap: 14px; }
@@ -111,7 +111,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   border: 1px solid var(--line);
   padding: 8px 14px;
   border-radius: 2px;
-  transition: border-color 0.25s ease, color 0.25s ease;
+  transition: border-color 0.4s ease, color 0.4s ease;
 }
 .lang-switch:hover { border-color: var(--gold); color: var(--gold); }
 
@@ -181,7 +181,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   border-radius: 2px;
   letter-spacing: 0.3px;
   box-shadow: 0 16px 30px -12px rgba(0, 0, 0, 0.5);
-  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.5s ease, background 0.5s ease, box-shadow 0.5s ease;
 }
 .btn-primary-lg:hover {
   transform: translateY(-2px);
@@ -189,7 +189,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   box-shadow: 0 22px 38px -14px rgba(0, 0, 0, 0.55);
 }
 .btn-inline { display: inline-block; }
-.scroll-link { font-size: 0.85rem; color: #d9d5cb; border-bottom: 1px solid rgba(255, 255, 255, 0.4); padding-bottom: 2px; }
+.scroll-link { transition: color 0.4s ease, border-color 0.4s ease; font-size: 0.85rem; color: #d9d5cb; border-bottom: 1px solid rgba(255, 255, 255, 0.4); padding-bottom: 2px; }
 .scroll-link:hover { border-color: var(--gold-soft); color: var(--gold-soft); }
 
 /* ================= SCREEN 2 — MEETS MEMORY ================= */
@@ -201,9 +201,19 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .meet p { color: #5c5c5c; font-size: 1.02rem; margin-bottom: 16px; max-width: 460px; }
 
 /* ================= SCREEN 3 — CHOOSE YOUR PORTRAIT ================= */
-.choose { padding: 120px 0 100px; background: var(--cream); }
+.choose {
+  padding: 120px 0 100px;
+  background:
+    radial-gradient(900px 420px at 50% -80px, #fffdf7 0%, rgba(255, 253, 247, 0) 62%),
+    var(--cream);
+}
 .section-head { max-width: 640px; margin: 0 auto 30px; text-align: center; }
 .section-head h2 { font-family: var(--font-frank), serif; font-size: clamp(1.8rem, 3.4vw, 2.4rem); margin-bottom: 14px; }
+.section-head .kicker { display: inline-flex; align-items: center; gap: 12px; }
+.section-head .kicker::before,
+.section-head .kicker::after { content: ""; width: 26px; height: 1px; }
+.section-head .kicker::before { background: linear-gradient(90deg, transparent, rgba(171, 145, 73, 0.65)); }
+.section-head .kicker::after { background: linear-gradient(90deg, rgba(171, 145, 73, 0.65), transparent); }
 /* Feine Goldlinie unter zentrierten Ueberschriften */
 .section-head h2::after,
 .process h2::after,
@@ -237,12 +247,12 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   border: 1px solid var(--line);
   border-radius: 4px;
   overflow: hidden;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
 }
-.piece:hover { box-shadow: 0 24px 44px -20px rgba(74, 74, 74, 0.28); transform: translateY(-6px); }
+.piece:hover { box-shadow: 0 30px 54px -30px rgba(74, 74, 74, 0.33); transform: translateY(-4px); }
 .piece .ph { aspect-ratio: 3 / 4; }
-.piece .ph img { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-.piece:hover .ph img { transform: scale(1.04); }
+.piece .ph img { transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.05s; }
+.piece:hover .ph img { transform: scale(1.025); }
 .piece-body { padding: 26px 24px 30px; }
 .piece-name { font-family: var(--font-frank), serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
 .piece-desc { color: #5c5c5c; font-size: 0.92rem; margin-bottom: 10px; }
@@ -255,7 +265,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   border-radius: 2px;
   font-size: 0.88rem;
   font-weight: 600;
-  transition: all 0.25s ease;
+  transition: all 0.45s ease;
 }
 .btn-outline:hover { background: var(--charcoal-deep); color: #fff; }
 .mini-price { font-family: var(--font-frank), serif; font-size: 1.15rem; font-weight: 700; color: var(--gold); margin-bottom: 14px; }
@@ -268,54 +278,63 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .buy-all { text-align: center; }
 
 /* ---------- Set-Foto als gerahmtes Bild ("Galerie-Moment") ----------
-   Das Foto bleibt jederzeit scharf und unbewegt. Kurz nach dem Einblenden
-   legt sich langsam ein Goldrahmen mit Passepartout darum (reines
-   Aufblenden, nichts verschiebt sich), danach laeuft in ruhigem Abstand
-   ein feiner Lichtglanz ueber das Gold. Ohne JavaScript ist der fertige
-   Rahmen sofort sichtbar, der Glanz entfaellt. */
-.set-frame { position: relative; max-width: 760px; margin: 26px auto 46px; text-align: center; }
-/* Goldrahmen (aeussere Leiste) inkl. Glanz-Ebene */
-.set-frame::before {
+   Das Foto bleibt jederzeit scharf und unbewegt; der Rahmen umschliesst
+   nur das Bild (.set-art), nicht das Schild darunter. Goldleiste mit
+   Gehrungsecken (conic-gradient) und Profilstufen, Passepartout mit
+   Falzlinie, Facette an der Bildoeffnung. Nach dem Aufbau laeuft alle
+   7 s ein feiner Lichtglanz ueber das Gold; ohne JavaScript ist der
+   fertige Rahmen sofort da. */
+.set-frame { max-width: 760px; margin: 26px auto 46px; text-align: center; }
+.set-art { position: relative; }
+.set-art::before {
   content: "";
   position: absolute;
-  inset: -30px;
+  inset: -28px;
   z-index: 0;
-  border-radius: 3px;
+  border-radius: 2px;
   background-image:
-    linear-gradient(115deg, rgba(255, 248, 228, 0) 44%, rgba(255, 248, 228, 0.55) 50%, rgba(255, 248, 228, 0) 56%),
-    linear-gradient(135deg, #e2cf9a 0%, #c7b074 22%, #ab9149 45%, #8a7238 62%, #caa95c 85%, #e2cf9a 100%);
+    linear-gradient(115deg, rgba(255, 248, 228, 0) 44%, rgba(255, 248, 228, 0.5) 50%, rgba(255, 248, 228, 0) 56%),
+    conic-gradient(from 0deg,
+      #e8d7a2 0deg 56deg,
+      #b2975a 62deg 118deg,
+      #8f7740 124deg 236deg,
+      #cdb377 242deg 298deg,
+      #e8d7a2 304deg 360deg);
   background-size: 260% 100%, 100% 100%;
   background-position: 180% 0, 0 0;
   background-repeat: no-repeat;
   box-shadow:
     0 46px 80px -38px rgba(46, 46, 46, 0.6),
     0 18px 34px -24px rgba(46, 46, 46, 0.4),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
-    inset 0 0 0 3px rgba(120, 97, 45, 0.35),
-    inset 0 0 0 4px rgba(255, 255, 255, 0.12);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 2px rgba(112, 90, 42, 0.4),
+    inset 0 0 0 6px rgba(255, 255, 255, 0.16),
+    inset 0 0 0 7px rgba(112, 90, 42, 0.28);
   transition: opacity 1.7s ease, transform 1.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-/* Passepartout (cremefarbene Flaeche zwischen Rahmen und Foto) */
-.set-frame::after {
+.set-art::after {
   content: "";
   position: absolute;
-  inset: -13px;
+  inset: -12px;
   z-index: 0;
-  background: var(--cream);
-  box-shadow: inset 0 1px 3px rgba(46, 46, 46, 0.14);
+  background: linear-gradient(180deg, #fbf9f4, #f5f2ea);
+  box-shadow:
+    0 0 0 1px rgba(90, 72, 30, 0.5),
+    inset 0 1px 4px rgba(46, 46, 46, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
   transition: opacity 1.7s ease;
 }
-.set-photo { position: relative; z-index: 1; aspect-ratio: 16 / 9; border-radius: 2px; }
+.set-photo { position: relative; z-index: 1; aspect-ratio: 16 / 9; border-radius: 1px; }
 .set-photo::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  box-shadow: inset 0 2px 10px rgba(46, 46, 46, 0.18);
+  box-shadow: inset 0 2px 8px rgba(46, 46, 46, 0.2), 0 0 0 1px rgba(90, 72, 30, 0.25);
 }
 .set-plaque {
   display: inline-block;
-  margin-top: 50px;
+  margin-top: 52px;
   padding: 9px 22px;
   background: #fff;
   border: 1px solid rgba(171, 145, 73, 0.45);
@@ -327,22 +346,19 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   box-shadow: 0 10px 22px -14px rgba(46, 46, 46, 0.35);
   transition: opacity 1s ease 0.6s, transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
 }
-/* Vor dem Galerie-Moment: Rahmen, Passepartout und Schild unsichtbar -
-   das Foto selbst bleibt unveraendert scharf */
-.fx [data-frame]:not(.framed)::before { opacity: 0; transform: scale(1.012); }
-.fx [data-frame]:not(.framed)::after { opacity: 0; }
+.fx [data-frame]:not(.framed) .set-art::before { opacity: 0; transform: scale(1.012); }
+.fx [data-frame]:not(.framed) .set-art::after { opacity: 0; }
 .fx [data-frame]:not(.framed) .set-plaque { opacity: 0; transform: translateY(10px); }
-/* Lichtglanz: laeuft nach dem Aufbau alle 7 s einmal ruhig ueber das Gold */
 @keyframes frameSheen {
   0% { background-position: 180% 0, 0 0; }
   32% { background-position: -80% 0, 0 0; }
   100% { background-position: -80% 0, 0 0; }
 }
-.fx [data-frame].framed::before { animation: frameSheen 7s ease-in-out 1.9s infinite; }
+.fx [data-frame].framed .set-art::before { animation: frameSheen 7s ease-in-out 1.9s infinite; }
 @media (max-width: 600px) {
-  .set-frame::before { inset: -18px; }
-  .set-frame::after { inset: -8px; }
-  .set-plaque { margin-top: 36px; font-size: 0.76rem; padding: 8px 16px; }
+  .set-art::before { inset: -16px; }
+  .set-art::after { inset: -7px; }
+  .set-plaque { margin-top: 34px; font-size: 0.76rem; padding: 8px 16px; }
 }
 .btn-wide {
   display: inline-block;
@@ -352,7 +368,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   border-radius: 2px;
   font-weight: 600;
   font-size: 1rem;
-  transition: background 0.25s ease;
+  transition: background 0.45s ease;
 }
 .btn-wide:hover { background: var(--gold); }
 
@@ -410,7 +426,33 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .process-note { margin-top: 44px; font-size: 0.8rem; color: #918d84; max-width: 520px; margin-inline: auto; line-height: 1.7; }
 
 /* ================= SCREEN 5 — WHAT YOU GET ================= */
-.getgrid { padding: 100px 0; background: var(--grey-bg); }
+.getgrid { padding: 100px 0; background: var(--grey-bg); position: relative; overflow: hidden; }
+/* Hauchzarter goldener Schleier hinter den Icons, treibt ganz langsam */
+.getgrid::before,
+.getgrid::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  width: min(58vw, 860px);
+  height: min(58vw, 860px);
+  border-radius: 50%;
+}
+.getgrid::before {
+  top: -22%;
+  inset-inline-start: -14%;
+  background: radial-gradient(closest-side, rgba(199, 176, 116, 0.17), rgba(199, 176, 116, 0) 70%);
+}
+.getgrid::after {
+  bottom: -26%;
+  inset-inline-end: -12%;
+  background: radial-gradient(closest-side, rgba(171, 145, 73, 0.13), rgba(171, 145, 73, 0) 70%);
+}
+@keyframes drift1 { from { transform: translate(0, 0) scale(1); } to { transform: translate(6%, 5%) scale(1.08); } }
+@keyframes drift2 { from { transform: translate(0, 0) scale(1.06); } to { transform: translate(-5%, -4%) scale(1); } }
+.fx .getgrid::before { animation: drift1 26s ease-in-out infinite alternate; }
+.fx .getgrid::after { animation: drift2 34s ease-in-out infinite alternate; }
+.getgrid .wrap { position: relative; z-index: 1; }
 .getgrid h2 { text-align: center; font-family: var(--font-frank), serif; font-size: clamp(1.7rem, 3.2vw, 2.2rem); margin-bottom: 56px; }
 .get-icons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px 30px; max-width: 760px; margin: 0 auto; }
 .get-item { text-align: center; }
@@ -422,10 +464,10 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   margin: 0 auto 16px;
   background: #fff;
   box-shadow: 0 18px 34px -20px rgba(74, 74, 74, 0.5), 0 0 0 1px rgba(74, 74, 74, 0.07);
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s, box-shadow 0.9s ease 0.05s;
 }
 .get-item:hover .get-photo {
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-3px) scale(1.02);
   box-shadow: 0 24px 40px -20px rgba(74, 74, 74, 0.55), 0 0 0 1px rgba(171, 145, 73, 0.25);
 }
 .get-item p { font-size: 0.9rem; color: #555; font-weight: 500; }
@@ -483,7 +525,12 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .final-cta p { color: #c9c6c0; margin-bottom: 32px; }
 
 /* ================= SCREEN 8 — PRICING ================= */
-.pricing { padding: 110px 0; background: var(--white); }
+.pricing {
+  padding: 110px 0;
+  background:
+    radial-gradient(900px 420px at 50% -80px, #fdfbf5 0%, rgba(253, 251, 245, 0) 62%),
+    var(--white);
+}
 .price-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 760px; margin: 0 auto; }
 .price-card {
   border: 1px solid var(--line);
@@ -492,9 +539,9 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   text-align: center;
   background: #fff;
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s, box-shadow 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
 }
-.price-card:hover { transform: translateY(-6px); box-shadow: 0 26px 44px -22px rgba(74, 74, 74, 0.28); }
+.price-card:hover { transform: translateY(-4px); box-shadow: 0 30px 52px -30px rgba(74, 74, 74, 0.3); }
 .price-card.featured { border-color: var(--gold); box-shadow: 0 20px 40px -20px rgba(171, 145, 73, 0.35); }
 .price-badge {
   position: absolute;
@@ -522,7 +569,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   border-radius: 2px;
   font-weight: 600;
   font-size: 0.92rem;
-  transition: background 0.25s ease;
+  transition: background 0.45s ease;
 }
 .btn-price:hover { background: var(--gold); }
 .btn-price-lg { padding: 16px; font-size: 0.98rem; }
@@ -565,7 +612,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 /* ================= SCREEN 9 — FAQ ================= */
 .faq { padding: 100px 0 120px; background: var(--grey-bg); }
 .faq-list { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-.faq-item { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 20px 24px; transition: border-color 0.25s ease; }
+.faq-item { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 20px 24px; transition: border-color 0.45s ease; }
 .faq-item:hover { border-color: rgba(171, 145, 73, 0.45); }
 .faq-item summary {
   cursor: pointer;
@@ -597,7 +644,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--charcoal-deep);
-  transition: all 0.25s ease;
+  transition: all 0.45s ease;
 }
 .contact-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(199, 176, 116, 0.06); }
 .contact-link svg { width: 19px; height: 19px; flex: 0 0 auto; color: var(--gold); }
