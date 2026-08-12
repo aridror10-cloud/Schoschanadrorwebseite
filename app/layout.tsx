@@ -46,14 +46,14 @@ export const metadata: Metadata = {
     siteName: "Shoshana Dror",
     title: he.title,
     description: he.ogDescription,
-    images: [{ url: "/carlebach/hero.jpg" }],
+    images: [{ url: "/carlebach/og.jpg" }],
   },
 
   twitter: {
     card: "summary_large_image",
     title: he.title,
     description: he.ogDescription,
-    images: ["/carlebach/hero.jpg"],
+    images: ["/carlebach/og.jpg"],
   },
 
   robots: {

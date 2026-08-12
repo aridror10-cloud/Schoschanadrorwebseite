@@ -212,7 +212,7 @@ export const content: Record<Lang, LandingContent> = {
       },
       pieces: [
         {
-          img: "/carlebach/simcha.jpg",
+          img: "/carlebach/simcha.webp",
           alt: "דגם שמחה - דיוקן רבי שלמה קרליבך מנגן בגיטרה",
           name: "שמחה",
           desc: "רגע של שמחה מרוממת והארת פנים.",
@@ -222,7 +222,7 @@ export const content: Record<Lang, LandingContent> = {
           cta: "רכישת דגם זה",
         },
         {
-          img: "/carlebach/regesh.jpg",
+          img: "/carlebach/regesh.webp",
           alt: "דגם רגש - דיוקן רבי שלמה קרליבך שר עם פסוק משולב בעיצוב",
           name: "רגש",
           desc: "רגע של התבוננות ועומק.",
@@ -232,7 +232,7 @@ export const content: Record<Lang, LandingContent> = {
           cta: "רכישת דגם זה",
         },
         {
-          img: "/carlebach/shrika.jpg",
+          img: "/carlebach/shrika.webp",
           alt: "דגם שריקה - דיוקן פרופיל של רבי שלמה קרליבך",
           name: "שריקה",
           desc: "רגע של התכנסות פנימית.",
@@ -254,12 +254,12 @@ export const content: Record<Lang, LandingContent> = {
       title: "כך נוצרת כל יצירה",
       sub: "התמונות מתעדות דיוקן שיצרתי לזכר אבי ז״ל, באותה שיטת עבודה בדיוק — משלב הרעיון ועד הקיר.",
       steps: [
-        { label: "צילום המקור", img: "/carlebach/process-1.jpg", alt: "תצלום המקור" },
-        { label: "עיצוב במחשב", img: "/carlebach/process-2.jpg", alt: "עיצוב וקטורי במחשב" },
-        { label: "תכנון החיתוך", img: "/carlebach/process-3.jpg", alt: "תכנון נקודות החיתוך" },
+        { label: "צילום המקור", img: "/carlebach/process-1.webp", alt: "תצלום המקור" },
+        { label: "עיצוב במחשב", img: "/carlebach/process-2.webp", alt: "עיצוב וקטורי במחשב" },
+        { label: "תכנון החיתוך", img: "/carlebach/process-3.webp", alt: "תכנון נקודות החיתוך" },
         { label: "חיתוך הלייזר", note: "* לא תועד בזמן אמת" },
-        { label: "צביעה", img: "/carlebach/process-5.jpg", alt: "צביעת אבקה בתנור" },
-        { label: "תלייה על הקיר", img: "/carlebach/process-6.jpg", alt: "הדיוקן תלוי על הקיר" },
+        { label: "צביעה", img: "/carlebach/process-5.webp", alt: "צביעת אבקה בתנור" },
+        { label: "תלייה על הקיר", img: "/carlebach/process-6.webp", alt: "הדיוקן תלוי על הקיר" },
       ],
     },
     get: {
@@ -430,7 +430,7 @@ export const content: Record<Lang, LandingContent> = {
       },
       pieces: [
         {
-          img: "/carlebach/simcha.jpg",
+          img: "/carlebach/simcha.webp",
           alt: "Joy design - Rabbi Shlomo Carlebach portrait playing guitar",
           name: "Joy",
           desc: "A moment of uplifting joy and radiant warmth.",
@@ -441,7 +441,7 @@ export const content: Record<Lang, LandingContent> = {
           cta: "Buy This Piece",
         },
         {
-          img: "/carlebach/regesh.jpg",
+          img: "/carlebach/regesh.webp",
           alt: "Feeling design - Rabbi Shlomo Carlebach portrait singing, with verse integrated into the design",
           name: "Feeling",
           desc: "A moment of reflection and depth.",
@@ -452,7 +452,7 @@ export const content: Record<Lang, LandingContent> = {
           cta: "Buy This Piece",
         },
         {
-          img: "/carlebach/shrika.jpg",
+          img: "/carlebach/shrika.webp",
           alt: "The Whistle design - profile portrait of Rabbi Shlomo Carlebach",
           name: "The Whistle",
           desc: "A moment of quiet, inward stillness.",
@@ -476,12 +476,12 @@ export const content: Record<Lang, LandingContent> = {
       title: "How Each Piece Is Made",
       sub: "These photos document a portrait I created in memory of my late father, using the exact same process — from concept to wall.",
       steps: [
-        { label: "Source Photo", img: "/carlebach/process-1.jpg", alt: "Source photograph" },
-        { label: "Digital Design", img: "/carlebach/process-2.jpg", alt: "Vector design on computer" },
-        { label: "Cut Planning", img: "/carlebach/process-3.jpg", alt: "Planning the cut points" },
+        { label: "Source Photo", img: "/carlebach/process-1.webp", alt: "Source photograph" },
+        { label: "Digital Design", img: "/carlebach/process-2.webp", alt: "Vector design on computer" },
+        { label: "Cut Planning", img: "/carlebach/process-3.webp", alt: "Planning the cut points" },
         { label: "Laser Cutting", note: "* Not documented in real time" },
-        { label: "Powder Coating", img: "/carlebach/process-5.jpg", alt: "Oven-baked powder coating" },
-        { label: "On the Wall", img: "/carlebach/process-6.jpg", alt: "The portrait hanging on the wall" },
+        { label: "Powder Coating", img: "/carlebach/process-5.webp", alt: "Oven-baked powder coating" },
+        { label: "On the Wall", img: "/carlebach/process-6.webp", alt: "The portrait hanging on the wall" },
       ],
     },
     get: {

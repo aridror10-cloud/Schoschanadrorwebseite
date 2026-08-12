@@ -75,7 +75,7 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 1 — HERO ===== */}
         <section className="hero">
           <div className="ph">
-            <img src="/carlebach/hero.jpg" alt={t.hero.imgAlt} />
+            <img src="/carlebach/hero.webp" alt={t.hero.imgAlt} fetchPriority="high" />
           </div>
           <div className="hero-content">
             <div className="hero-badge">{t.hero.badge}</div>
@@ -97,7 +97,7 @@ export function Landing({ lang }: { lang: Lang }) {
         <section className="meet" id="meet">
           <div className="wrap meet-grid">
             <div className="ph">
-              <img src="/carlebach/closeup.jpg" alt={t.meet.imgAlt} loading="lazy" />
+              <img src="/carlebach/closeup.webp" alt={t.meet.imgAlt} loading="lazy" />
             </div>
             <div className="meet-text">
               <div className="kicker">{t.meet.kicker}</div>
@@ -153,7 +153,7 @@ export function Landing({ lang }: { lang: Lang }) {
             </div>
 
             <div className="ph set-photo">
-              <img src="/carlebach/set.jpg" alt={t.choose.setAlt} loading="lazy" />
+              <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
             </div>
             <div className="buy-all">
               <div className="bundle-price">{t.choose.bundle.price}</div>
@@ -210,7 +210,7 @@ export function Landing({ lang }: { lang: Lang }) {
         <section className="whofor">
           <div className="wrap whofor-grid">
             <div className="ph">
-              <img src="/carlebach/livingroom.jpg" alt={t.whofor.imgAlt} loading="lazy" />
+              <img src="/carlebach/livingroom.webp" alt={t.whofor.imgAlt} loading="lazy" />
             </div>
             <div>
               <div className="kicker">{t.whofor.kicker}</div>
@@ -237,7 +237,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="signature">{t.about.signature}</div>
             </div>
             <div className="ph">
-              <img src="/carlebach/artist.jpg" alt={t.about.imgAlt} loading="lazy" />
+              <img src="/carlebach/artist.webp" alt={t.about.imgAlt} loading="lazy" />
             </div>
           </div>
         </section>
@@ -343,7 +343,7 @@ export function Landing({ lang }: { lang: Lang }) {
         {/* ===== SCREEN 10 — FINAL ATMOSPHERE + CTA ===== */}
         <section className="finale" id="contact">
           <div className="ph">
-            <img src="/carlebach/finale.jpg" alt={t.finale.imgAlt} loading="lazy" />
+            <img src="/carlebach/finale.webp" alt={t.finale.imgAlt} loading="lazy" />
           </div>
           <div className="finale-content">
             <h2>{t.finale.title}</h2>
