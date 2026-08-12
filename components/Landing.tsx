@@ -2,14 +2,14 @@ import Link from "next/link";
 import { ScrollFx } from "@/components/ScrollFx";
 import { content, type Lang } from "@/lib/content";
 
-/* Icons der "Was erhalten Sie"-Sektion, 1:1 aus der Design-Vorlage */
-const getIcons = [
-  <svg key="laser" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v4M12 18v4M2 12h4M18 12h4" /></svg>,
-  <svg key="metal" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z" /><path d="M3 13l9 5 9-5" /></svg>,
-  <svg key="oven" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2c1.6 3-1.8 4.7-1.8 8.2a3.8 3.8 0 007.6 0c0-2-1-3.7-2-5.2.3 2-1 3-1.9 2-1-1.1.2-3-1.9-5z" /></svg>,
-  <svg key="hang" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v5" /><path d="M9.2 8a2.8 2.8 0 005.6 0" /><rect x="6.5" y="14" width="11" height="7" rx="1" /></svg>,
-  <svg key="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="8" y="2.5" width="8" height="19" rx="1" /><path d="M8 7h2.5M8 11h2.5M8 15h2.5M8 19h2.5" /></svg>,
-  <svg key="design" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.83 2.83 0 014 4L7.5 20.5 2 22l1.5-5.5L17 3z" /></svg>,
+/* 3D-Gold-Icons der "Was erhalten Sie"-Sektion (Reihenfolge = get.items) */
+const getImages = [
+  "/carlebach/get-laser.webp",
+  "/carlebach/get-metal.webp",
+  "/carlebach/get-oven.webp",
+  "/carlebach/get-hang.webp",
+  "/carlebach/get-size.webp",
+  "/carlebach/get-design.webp",
 ];
 
 const laserIcon = (
@@ -200,7 +200,14 @@ export function Landing({ lang }: { lang: Lang }) {
             <div className="get-icons" data-reveal-group>
               {t.get.items.map((item, i) => (
                 <div className="get-item" key={item}>
-                  <div className="icon">{getIcons[i]}</div>
+                  <img
+                    src={getImages[i]}
+                    alt=""
+                    className="get-photo"
+                    width={110}
+                    height={110}
+                    loading="lazy"
+                  />
                   <p>{item}</p>
                 </div>
               ))}

@@ -337,20 +337,20 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .getgrid h2 { text-align: center; font-family: var(--font-frank), serif; font-size: clamp(1.7rem, 3.2vw, 2.2rem); margin-bottom: 56px; }
 .get-icons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px 30px; max-width: 760px; margin: 0 auto; }
 .get-item { text-align: center; }
-.get-item .icon {
-  width: 56px;
-  height: 56px;
+.get-photo {
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 16px;
   background: #fff;
-  border: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 14px;
-  font-size: 1.3rem;
-  color: var(--gold);
+  box-shadow: 0 18px 34px -20px rgba(74, 74, 74, 0.5), 0 0 0 1px rgba(74, 74, 74, 0.07);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
 }
-.get-item .icon svg { width: 25px; height: 25px; }
+.get-item:hover .get-photo {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 24px 40px -20px rgba(74, 74, 74, 0.55), 0 0 0 1px rgba(171, 145, 73, 0.25);
+}
 .get-item p { font-size: 0.9rem; color: #555; font-weight: 500; }
 
 /* ================= SCREEN 6 — WHO IT'S FOR ================= */
