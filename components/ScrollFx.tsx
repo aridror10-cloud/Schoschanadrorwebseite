@@ -23,7 +23,7 @@ export function ScrollFx() {
             // Galerie-Moment: kurz nach dem Erscheinen entpuppt sich das
             // Set-Foto als gerahmtes Bild an der Wand
             if (entry.target.hasAttribute("data-frame")) {
-              timers.push(window.setTimeout(() => entry.target.classList.add("framed"), 1200));
+              timers.push(window.setTimeout(() => entry.target.classList.add("framed"), 900));
             }
             io.unobserve(entry.target);
           }
