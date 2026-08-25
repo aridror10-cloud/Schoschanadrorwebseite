@@ -182,6 +182,9 @@ export interface LandingContent {
     before: string;
     strong: string;
     after: string;
+    /** Grosse Zahl als Blickfang, plus Bild im dunklen Band */
+    figureLabel: string;
+    photoAlt: string;
   };
   pricing: {
     kicker: string;
@@ -393,6 +396,8 @@ export const content: Record<Lang, LandingContent> = {
       strong:
         "10% מהרווחים על הזמנות שיבוצעו עד ט״ז בחשוון תשפ״ז (27 באוקטובר 2026) יוקדשו לצדקה",
       after: " — ברוח מורשתו של אהבת ישראל, שמחה ודאגה לזולת.",
+      figureLabel: "מהרווחים לצדקה",
+      photoAlt: "תקריב אווירה על דיוקן המתכת של רבי שלמה קרליבך",
     },
     pricing: {
       kicker: "רכישה",
@@ -681,6 +686,8 @@ Please send me the next steps to complete the order.`,
         "10% of the profits from orders placed by 16 Cheshvan 5787 (October 27, 2026) will be donated to tzedakah",
       after:
         " — carrying forward, in a small way, his legacy of ahavat Yisrael, joy, and care for every soul.",
+      figureLabel: "of profits to tzedakah",
+      photoAlt: "Atmospheric close-up of the Rabbi Shlomo Carlebach metal portrait",
     },
     pricing: {
       kicker: "Purchase",

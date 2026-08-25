@@ -5,6 +5,7 @@ import { isTestPhase, siteUrl } from "@/lib/site";
 import "./globals.css";
 import "./order-form.css";
 import "./brand-fx.css";
+import "./charity.css";
 
 /**
  * Schriften wie in der Design-Vorlage (Heebo + Frank Ruhl Libre).

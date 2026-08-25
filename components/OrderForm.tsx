@@ -179,7 +179,7 @@ export function OrderForm({ lang }: { lang: Lang }) {
                         aria-pressed={model === o.value}
                       >
                         <svg aria-hidden="true">
-                          <rect x="1" y="1" width="98%" height="97%" rx="2" />
+                          <rect x="1" y="1" width="98%" height="97%" rx="2" pathLength={1} />
                         </svg>
                         <span className="of-thumb">
                           <img src={TILE_IMAGES[o.value]} alt="" loading="lazy" />

@@ -22,6 +22,20 @@ export function ScrollFx() {
             entry.target.classList.add("is-visible");
             // Galerie-Moment: kurz nach dem Erscheinen entpuppt sich das
             // Set-Foto als gerahmtes Bild an der Wand
+            // Grosse Zahl im Zedaka-Band zaehlt hoch, wenn sie ins Bild kommt
+            entry.target.querySelectorAll<HTMLElement>("[data-count-to]").forEach((el) => {
+              const target = Number(el.dataset.countTo ?? "0");
+              const started = performance.now();
+              const tick = (now: number) => {
+                const p = Math.min(1, (now - started) / 1400);
+                const eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = String(Math.round(target * eased));
+                if (p < 1) requestAnimationFrame(tick);
+              };
+              el.textContent = "0";
+              requestAnimationFrame(tick);
+            });
+
             if (entry.target.hasAttribute("data-frame")) {
               timers.push(window.setTimeout(() => entry.target.classList.add("framed"), 900));
             }

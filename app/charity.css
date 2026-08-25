@@ -1,0 +1,130 @@
+/*
+ * Zedaka-Band: grosse Zahl als Blickfang, Portraet als gerahmtes Bild.
+ *
+ * Dreiteilig und richtungslogisch: die Zahl steht am Textanfang (hebraeisch
+ * rechts), das Bild am Textende (hebraeisch links). Auf der englischen
+ * Seite spiegelt sich das korrekt mit.
+ */
+
+.charity { padding: 78px 0; }
+.charity-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 44px;
+  max-width: 1100px;
+  text-align: start;
+}
+.charity-text p { color: #e6e3db; font-size: 1rem; line-height: 1.8; margin: 0; }
+.charity-text strong { color: var(--gold-soft); font-weight: 700; }
+
+/* ---------- Die grosse Zahl ---------- */
+.charity-figure {
+  position: relative;
+  flex: 0 0 auto;
+  width: 168px;
+  height: 168px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: default;
+}
+/* Ring wird gezogen, nicht eingeblendet - dieselbe Schnittgeste */
+.charity-figure svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.charity-figure circle {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  stroke-dasharray: 478;
+  stroke-dashoffset: 478;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s, stroke 0.6s ease;
+}
+.fx [data-reveal].is-visible .charity-figure circle { stroke-dashoffset: 0; }
+
+.charity-num {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-family: var(--font-frank), serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gold-soft);
+  font-variant-numeric: tabular-nums;
+  /* Lichtglanz laeuft beim Zeigen ueber die Zahl - wie am Bilderrahmen */
+  background-image: linear-gradient(115deg, rgba(255, 248, 228, 0) 42%, rgba(255, 248, 228, 0.95) 50%, rgba(255, 248, 228, 0) 58%);
+  background-size: 260% 100%;
+  background-position: 180% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: color 0.6s ease;
+}
+.charity-pct { font-size: 1.9rem; margin-inline-start: 2px; }
+.charity-fig-label {
+  margin-top: 9px;
+  font-size: 0.72rem;
+  letter-spacing: 1.4px;
+  color: #9e998f;
+  max-width: 120px;
+  line-height: 1.5;
+  transition: color 0.6s ease;
+}
+
+/* Zeigen: Ring wird kraeftiger, Licht faehrt ueber die Zahl */
+.charity-figure:hover circle { stroke: var(--gold-soft); stroke-width: 2; }
+.charity-figure:hover .charity-num { animation: charitySheen 1.2s ease-in-out; }
+.charity-figure:hover .charity-fig-label { color: var(--gold-soft); }
+@keyframes charitySheen {
+  0% { background-position: 180% 0; }
+  100% { background-position: -80% 0; }
+}
+
+/* ---------- Das gerahmte Portraet ---------- */
+.charity-photo {
+  position: relative;
+  flex: 0 0 auto;
+  width: 190px;
+  aspect-ratio: 4 / 5;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 26px 48px -26px rgba(0, 0, 0, 0.75);
+}
+.charity-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(0.25) contrast(1.04);
+  transform: scale(1.02);
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), filter 1.4s ease;
+}
+.charity-inner:hover .charity-photo img { transform: scale(1.07); filter: grayscale(0) contrast(1.06); }
+/* Feine Goldkante, damit das helle Bild auf dem dunklen Band gerahmt wirkt */
+.charity-photo-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(199, 176, 116, 0.45);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 4px rgba(30, 29, 27, 0.55);
+}
+
+@media (max-width: 900px) {
+  .charity-inner { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 26px; }
+  .charity-text p { text-align: center; }
+  .charity-figure { width: 148px; height: 148px; }
+  .charity-num { font-size: 3rem; }
+  .charity-photo { width: 168px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .charity-figure circle { transition-duration: 0.01ms !important; }
+  .charity-figure:hover .charity-num { animation: none; }
+  .charity-photo img { transition-duration: 0.01ms !important; }
+}

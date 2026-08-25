@@ -22,12 +22,6 @@ const laserIcon = (
   </svg>
 );
 
-const charityIcon = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.5 12.5c0 4-8.5 8-8.5 8s-8.5-4-8.5-8a4.5 4.5 0 018-2.8 4.5 4.5 0 018 2.8z" opacity=".55" />
-    <path d="M9 12h2l1-2 2 4 1-2h2" strokeWidth="1.3" />
-  </svg>
-);
 
 const mailIcon = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -286,14 +280,27 @@ export function Landing({ lang }: { lang: Lang }) {
 
         {/* ===== CHARITY BANNER ===== */}
         <section className="charity">
-          <div className="charity-inner" data-reveal>
-            <div className="charity-icon">{charityIcon}</div>
+          <div className="wrap charity-inner" data-reveal>
+            <div className="charity-figure">
+              <svg viewBox="0 0 160 160" aria-hidden="true">
+                <circle cx="80" cy="80" r="76" />
+              </svg>
+              <span className="charity-num">
+                <span data-count-to="10">10</span>
+                <span className="charity-pct">%</span>
+              </span>
+              <span className="charity-fig-label">{t.charity.figureLabel}</span>
+            </div>
             <div className="charity-text">
               <p>
                 {t.charity.before}
                 <strong>{t.charity.strong}</strong>
                 {t.charity.after}
               </p>
+            </div>
+            <div className="charity-photo">
+              <img src="/carlebach/charity-portrait.webp" alt={t.charity.photoAlt} loading="lazy" />
+              <span className="charity-photo-frame" />
             </div>
           </div>
         </section>

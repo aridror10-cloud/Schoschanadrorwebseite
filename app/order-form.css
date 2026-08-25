@@ -122,8 +122,8 @@
   fill: none;
   stroke: var(--gold);
   stroke-width: 2;
-  stroke-dasharray: 460;
-  stroke-dashoffset: 460;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
   transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .of-tile.sel rect { stroke-dashoffset: 0; }
