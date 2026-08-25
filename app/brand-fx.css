@@ -1,0 +1,133 @@
+/*
+ * Marken-Bewegung fuer die uebrige Seite.
+ *
+ * Das Vokabular bleibt eng: Licht, Schnitt, Rahmen - dieselben drei Gesten
+ * wie beim Bilderrahmen und in der Bestellkarte. Nichts Neues erfinden,
+ * sondern dasselbe Motiv konsequent durchziehen.
+ */
+
+/* ---------- Pasuk-Detail: das Herzstueck der Versions-Wahl ----------
+   Zeigt, was "mit Pasuk" ueberhaupt bedeutet - der Vers ist durch das
+   Metall geschnitten. Beim Erscheinen faehrt eine Goldkante am Bildrand
+   entlang, wie der Laser an der Schnittlinie. */
+.verse-block {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 44px;
+  align-items: center;
+  max-width: 980px;
+  margin: 0 auto 62px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 30px;
+}
+.verse-shot { position: relative; border-radius: 3px; overflow: hidden; background: var(--grey-bg); }
+.verse-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.verse-edge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.verse-edge::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--gold), #e8d7a2);
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+}
+.fx [data-cut].is-visible .verse-edge::before { width: 100%; }
+.verse-edge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(171, 145, 73, 0);
+  border-radius: 3px;
+  transition: border-color 0.9s ease 1.2s;
+}
+.fx [data-cut].is-visible .verse-edge::after { border-color: rgba(171, 145, 73, 0.55); }
+
+.verse-caption {
+  font-family: var(--font-frank), serif;
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: var(--charcoal-deep);
+  margin-bottom: 20px;
+  padding-inline-start: 14px;
+  border-inline-start: 2px solid var(--gold);
+}
+.verse-intro { font-size: 0.9rem; color: #666; margin-bottom: 14px; }
+.verse-block .version-options { display: flex; flex-direction: column; gap: 10px; }
+.verse-block .v-note { text-align: start; margin-top: 14px; }
+
+@media (max-width: 860px) {
+  .verse-block { grid-template-columns: 1fr; gap: 26px; padding: 20px; }
+  .verse-caption { font-size: 1rem; }
+}
+
+/* ---------- Goldlinie unter den Ueberschriften zieht sich selbst ----------
+   Nutzt die Linien, die ohnehin da sind: statt einzublenden werden sie
+   gezogen. Dieselbe Schnittgeste, kein zusaetzliches Element. */
+.fx .section-head h2::after,
+.fx .process h2::after,
+.fx .getgrid h2::after {
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+.fx [data-reveal].is-visible h2::after,
+.fx h2[data-reveal].is-visible::after { transform: scaleX(1); }
+
+/* ---------- Prozess-Schritte: die Nummer wird umrissen ----------
+   Derselbe Schnitt wie bei den Modell-Kacheln im Bestellformular. */
+.p-photo .p-num { overflow: visible; }
+.p-photo .p-num::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-soft);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.8s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fx .process-grid.is-visible .p-num::after { opacity: 0.75; transform: scale(1); }
+.fx .process-grid.is-visible > :nth-child(2) .p-num::after { transition-delay: 0.1s; }
+.fx .process-grid.is-visible > :nth-child(3) .p-num::after { transition-delay: 0.2s; }
+.fx .process-grid.is-visible > :nth-child(4) .p-num::after { transition-delay: 0.3s; }
+.fx .process-grid.is-visible > :nth-child(5) .p-num::after { transition-delay: 0.4s; }
+.fx .process-grid.is-visible > :nth-child(6) .p-num::after { transition-delay: 0.5s; }
+
+/* ---------- Zedaka-Band: ruhiger Kerzenschein zum Jahrzeit ---------- */
+.charity { overflow: hidden; }
+.charity::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 50%;
+  width: 520px;
+  height: 520px;
+  margin: -260px 0 0 -260px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(199, 176, 116, 0.16), rgba(199, 176, 116, 0) 70%);
+}
+@keyframes candle {
+  from { opacity: 0.55; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1.06); }
+}
+.fx .charity::before { animation: candle 7s ease-in-out infinite alternate; }
+.charity-inner { position: relative; z-index: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .verse-edge::before, .verse-edge::after, .p-photo .p-num::after,
+  .fx .section-head h2::after, .fx .process h2::after, .fx .getgrid h2::after {
+    transition-duration: 0.01ms !important;
+  }
+  .fx .charity::before { animation: none; }
+}

@@ -144,17 +144,24 @@ export function Landing({ lang }: { lang: Lang }) {
               <h2>{t.choose.title}</h2>
             </div>
 
-            <div className="version-toggle" data-reveal>
-              <p>{t.choose.toggle.intro}</p>
-              <div className="version-options">
-                {t.choose.toggle.options.map((opt) => (
-                  <div className="v-opt" key={opt.slice(0, 20)}>
-                    <span className="dot" />
-                    {opt}
-                  </div>
-                ))}
+            <div className="verse-block" data-reveal data-cut>
+              <div className="verse-shot">
+                <img src="/carlebach/verse-detail.webp" alt={t.choose.verseAlt} loading="lazy" />
+                <span className="verse-edge" />
               </div>
-              <div className="v-note">{t.choose.toggle.note}</div>
+              <div className="verse-text">
+                <p className="verse-caption">{t.choose.verseCaption}</p>
+                <p className="verse-intro">{t.choose.toggle.intro}</p>
+                <div className="version-options">
+                  {t.choose.toggle.options.map((opt) => (
+                    <div className="v-opt" key={opt.slice(0, 20)}>
+                      <span className="dot" />
+                      {opt}
+                    </div>
+                  ))}
+                </div>
+                <div className="v-note">{t.choose.toggle.note}</div>
+              </div>
             </div>
 
             <div className="pieces" data-reveal-group>

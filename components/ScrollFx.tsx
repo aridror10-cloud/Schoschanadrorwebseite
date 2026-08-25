@@ -31,7 +31,7 @@ export function ScrollFx() {
       },
       { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
     );
-    const els = document.querySelectorAll("[data-reveal], [data-reveal-group]");
+    const els = document.querySelectorAll("[data-reveal], [data-reveal-group], [data-cut]");
     els.forEach((el) => io.observe(el));
 
     const nav = document.querySelector("header.nav");
