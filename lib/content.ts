@@ -139,6 +139,7 @@ export interface LandingContent {
     /** Makro des eingeschnittenen Pasuk - macht die Versions-Wahl sichtbar */
     verseAlt: string;
     verseCaption: string;
+    verseTag: string;
     pieces: Piece[];
     setAlt: string;
     setCaption: string;
@@ -297,6 +298,7 @@ export const content: Record<Lang, LandingContent> = {
       },
       verseAlt: "תקריב על הפסוק החתוך בתוך המתכת",
       verseCaption: "הפסוק אינו מודפס — הוא חתוך בתוך המתכת, והקיר נראה מבעד לאותיות.",
+      verseTag: "פרט · דגם שריקה",
       pieces: [
         {
           img: "/carlebach/simcha.webp",
@@ -583,6 +585,7 @@ Please send me the next steps to complete the order.`,
       },
       verseAlt: "Close-up of the verse cut through the metal",
       verseCaption: "The verse isn't printed — it is cut through the metal, so the wall shows through the letters.",
+      verseTag: "Detail · the Whistling design",
       pieces: [
         {
           img: "/carlebach/simcha.webp",

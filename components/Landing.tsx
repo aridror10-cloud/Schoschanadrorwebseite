@@ -139,12 +139,16 @@ export function Landing({ lang }: { lang: Lang }) {
             </div>
 
             <div className="verse-block" data-reveal data-cut>
-              <div className="verse-shot">
-                <img src="/carlebach/verse-detail.webp" alt={t.choose.verseAlt} loading="lazy" />
-                <span className="verse-edge" />
-              </div>
+              <p className="verse-caption">{t.choose.verseCaption}</p>
+              <div className="verse-body">
+                <div className="verse-col">
+                  <div className="verse-shot">
+                    <img src="/carlebach/verse-detail.webp" alt={t.choose.verseAlt} loading="lazy" />
+                    <span className="verse-edge" />
+                  </div>
+                  <span className="verse-tag">{t.choose.verseTag}</span>
+                </div>
               <div className="verse-text">
-                <p className="verse-caption">{t.choose.verseCaption}</p>
                 <p className="verse-intro">{t.choose.toggle.intro}</p>
                 <div className="version-options">
                   {t.choose.toggle.options.map((opt) => (
@@ -155,6 +159,7 @@ export function Landing({ lang }: { lang: Lang }) {
                   ))}
                 </div>
                 <div className="v-note">{t.choose.toggle.note}</div>
+              </div>
               </div>
             </div>
 

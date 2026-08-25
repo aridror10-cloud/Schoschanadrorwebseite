@@ -11,16 +11,18 @@
    Metall geschnitten. Beim Erscheinen faehrt eine Goldkante am Bildrand
    entlang, wie der Laser an der Schnittlinie. */
 .verse-block {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 44px;
-  align-items: center;
   max-width: 980px;
   margin: 0 auto 62px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 6px;
-  padding: 30px;
+  padding: 38px 34px 32px;
+}
+.verse-body {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 40px;
+  align-items: center;
 }
 .verse-shot { position: relative; border-radius: 3px; overflow: hidden; background: var(--grey-bg); }
 .verse-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -53,20 +55,51 @@
 .fx [data-cut].is-visible .verse-edge::after { border-color: rgba(171, 145, 73, 0.55); }
 
 .verse-caption {
+  position: relative;
   font-family: var(--font-frank), serif;
-  font-size: 1.12rem;
-  line-height: 1.6;
+  font-size: clamp(1.15rem, 2.1vw, 1.45rem);
+  line-height: 1.65;
   color: var(--charcoal-deep);
-  margin-bottom: 20px;
-  padding-inline-start: 14px;
-  border-inline-start: 2px solid var(--gold);
+  text-align: center;
+  text-wrap: balance;
+  max-width: 660px;
+  margin: 0 auto 32px;
+  padding-top: 24px;
 }
+/* Feine Goldlinie ueber dem Satz, die sich mitzieht */
+.verse-caption::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline-start: 50%;
+  width: 44px;
+  height: 2px;
+  margin-inline-start: -22px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  transform: scaleX(0);
+  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+.fx [data-cut].is-visible .verse-caption::before { transform: scaleX(1); }
+
+/* Museums-Label unter dem Detailbild */
+.verse-tag {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  color: #a29d92;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.9s ease 1.1s;
+}
+.fx [data-cut].is-visible .verse-tag { opacity: 1; }
 .verse-intro { font-size: 0.9rem; color: #666; margin-bottom: 14px; }
 .verse-block .version-options { display: flex; flex-direction: column; gap: 10px; }
 .verse-block .v-note { text-align: start; margin-top: 14px; }
 
 @media (max-width: 860px) {
-  .verse-block { grid-template-columns: 1fr; gap: 26px; padding: 20px; }
+  .verse-block { padding: 26px 20px 22px; }
+  .verse-body { grid-template-columns: 1fr; gap: 26px; }
   .verse-caption { font-size: 1rem; }
 }
 
@@ -131,3 +164,12 @@
   }
   .fx .charity::before { animation: none; }
 }
+
+/* ---------- Produktfotos vollstaendig zeigen ----------
+   Die Werke sind unterschiedlich hoch; ein fester Ausschnitt hat Koepfe
+   und Gitarren angeschnitten. Jetzt passen sie ganz hinein und stehen
+   mittig auf einer hellen Flaeche - wie aufgezogene Blaetter. */
+.piece .ph { aspect-ratio: 4 / 5; background: #f3f2ef; }
+.piece .ph img { object-fit: contain; }
+.of-thumb { background: #f3f2ef; }
+.of-thumb img { object-fit: contain; }
