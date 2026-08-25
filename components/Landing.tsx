@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ScrollFx } from "@/components/ScrollFx";
-import { content, type Lang } from "@/lib/content";
+import { EMAIL, content, type Lang } from "@/lib/content";
 
 /* 3D-Gold-Icons der "Was erhalten Sie"-Sektion (Reihenfolge = get.items) */
 const getImages = [
@@ -45,6 +45,14 @@ export function Landing({ lang }: { lang: Lang }) {
     </div>
   );
 
+  /* Sichtbare Adresse fuer alle, bei denen kein Mailprogramm aufgeht */
+  const mailFallback = (
+    <p className="mail-fallback">
+      {t.emailFallback}{" "}
+      <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+    </p>
+  );
+
   /* Bestell-Band, erscheint zweimal auf der Seite */
   const orderBand = (
     <section className="order-band">
@@ -55,6 +63,7 @@ export function Landing({ lang }: { lang: Lang }) {
           <a href={t.orderHref} className="btn-wide">{t.orderBand.cta}</a>
           <a href={t.customHref} className="custom-order-button">{t.orderBand.customCta}</a>
         </div>
+        {mailFallback}
       </div>
     </section>
   );
@@ -353,6 +362,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <span>{t.contact.label}</span>
               </a>
             </div>
+            {mailFallback}
           </div>
         </section>
 

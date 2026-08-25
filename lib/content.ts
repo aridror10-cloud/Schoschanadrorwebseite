@@ -12,7 +12,7 @@
 
 export type Lang = "he" | "en";
 
-const EMAIL = "ssdror@gmail.com";
+export const EMAIL = "ssdror@gmail.com";
 
 /** Baut einen mailto-Link mit vorbefuelltem Betreff und Text. */
 const mail = (subject: string, body: string) =>
@@ -64,6 +64,11 @@ export interface LandingContent {
   customHref: string;
   /** Text des kleinen Sonderanfrage-Links unter den Kauf-Buttons */
   customLinkLabel: string;
+  /**
+   * Fallback fuer Besucher, bei denen kein Mailprogramm aufgeht: die
+   * Adresse steht sichtbar da und laesst sich abschreiben oder kopieren.
+   */
+  emailFallback: string;
   nav: {
     logoAlt: string;
     cta: string;
@@ -205,6 +210,7 @@ export const content: Record<Lang, LandingContent> = {
       "שלום שושנה,\n\nההתאמות שהייתי רוצה לבצע הן:\n\n",
     ),
     customLinkLabel: "מעוניינים בגודל אחר, בכמות או בהתאמה מיוחדת? פנו במייל לקבלת הצעת מחיר",
+    emailFallback: "לא נפתחה אצלכם תוכנת מייל? כתבו ישירות אל",
 
     nav: {
       logoAlt: "שושנה דרור | יודאיקה",
@@ -441,6 +447,7 @@ Please send me the next steps to complete the order.`,
       "Hello Shoshana,\n\nThe changes I have in mind are:\n\n",
     ),
     customLinkLabel: "Looking for another size or a custom variation? Tell me what you have in mind",
+    emailFallback: "Mail app didn't open? Write directly to",
 
     nav: {
       logoAlt: "Shoshana Dror | Judaica",
