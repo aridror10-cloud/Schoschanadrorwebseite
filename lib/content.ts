@@ -1,12 +1,22 @@
 /**
  * Saemtliche Texte der Landingpage in beiden Sprachen.
  * he = Hebraeisch (RTL, Startseite "/"), en = Englisch (LTR, "/en").
- * Quelle: die finalen Design-Vorlagen carlebach-landing-he-final.html /
- * carlebach-landing-en-final.html - Texte und WhatsApp-Links unveraendert
- * uebernommen.
+ *
+ * Quelle: carlebach-landing-he-updated.html / carlebach-landing-en-updated.html
+ * (Stand 25.08.2026). Bestellung laeuft ausschliesslich per E-Mail - die
+ * frueheren WhatsApp-Links sind entfallen. Die Nachbesserungen, die in den
+ * Vorlagen per Inline-Skript nachtraeglich gesetzt wurden (Betreff/Text der
+ * Sonderanfrage, Text der Bestell-Baender, Entfernen von WhatsApp-Button und
+ * Kuenstlerinnen-Foto), sind hier direkt eingearbeitet.
  */
 
 export type Lang = "he" | "en";
+
+const EMAIL = "ssdror@gmail.com";
+
+/** Baut einen mailto-Link mit vorbefuelltem Betreff und Text. */
+const mail = (subject: string, body: string) =>
+  `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
 export interface Piece {
   img: string;
@@ -17,7 +27,6 @@ export interface Piece {
   price: string;
   /** Nur EN: Zweitzeile "≈ $185 USD" */
   usd?: string;
-  href: string;
   cta: string;
 }
 
@@ -49,6 +58,12 @@ export interface LandingContent {
     ogDescription: string;
     ogLocale: string;
   };
+  /** Bestell-Mail: vorbefuellte Vorlage fuer eine regulaere Bestellung */
+  orderHref: string;
+  /** Sonderanfrage-Mail: andere Groesse, Menge oder Sonderanfertigung */
+  customHref: string;
+  /** Text des kleinen Sonderanfrage-Links unter den Kauf-Buttons */
+  customLinkLabel: string;
   nav: {
     logoAlt: string;
     cta: string;
@@ -87,7 +102,6 @@ export interface LandingContent {
       price: string;
       usd?: string;
       save: string;
-      href: string;
       cta: string;
     };
   };
@@ -95,6 +109,13 @@ export interface LandingContent {
     title: string;
     sub: string;
     steps: ProcessStep[];
+  };
+  /** Bestell-Band, erscheint zweimal: nach dem Prozess und nach "Ueber mich" */
+  orderBand: {
+    title: string;
+    text: string;
+    cta: string;
+    customCta: string;
   };
   get: {
     title: string;
@@ -108,7 +129,6 @@ export interface LandingContent {
     list: string[];
   };
   about: {
-    imgAlt: string;
     kicker: string;
     title: string;
     paras: string[];
@@ -124,8 +144,8 @@ export interface LandingContent {
     title: string;
     /** Nur EN: Hinweis zum Umrechnungskurs oberhalb der Preiskarten */
     currNote?: string;
-    single: { name: string; price: string; usd?: string; desc: string; href: string; cta: string };
-    set: { badge: string; name: string; price: string; usd?: string; desc: string; href: string; cta: string };
+    single: { name: string; price: string; usd?: string; desc: string; cta: string };
+    set: { badge: string; name: string; price: string; usd?: string; desc: string; cta: string };
     delivery: DeliveryItem[];
     disclaimer: string;
   };
@@ -138,18 +158,13 @@ export interface LandingContent {
     kicker: string;
     title: string;
     lead: string;
-    email: string;
-    phoneLabel: string;
-    phoneHref: string;
-    waLabel: string;
-    waHref: string;
+    label: string;
   };
   finale: {
     imgAlt: string;
     title: string;
     p1Lines: [string, string];
     p2: string;
-    href: string;
     cta: string;
     note: string;
   };
@@ -158,8 +173,6 @@ export interface LandingContent {
     copy: string;
   };
 }
-
-const wa = "https://wa.me/972533142341?text=";
 
 export const content: Record<Lang, LandingContent> = {
   /* ================= HEBRAEISCH ================= */
@@ -173,9 +186,29 @@ export const content: Record<Lang, LandingContent> = {
         "יצירות קיר המבקשות לשמר את השמחה, הרגש והנוכחות של רבי שלמה קרליבך. עיצוב מקורי, חיתוך לייזר מדויק.",
       ogLocale: "he_IL",
     },
+
+    orderHref: mail(
+      "הזמנה – סדרת דיוקנאות רבי שלמה קרליבך",
+      `שלום שושנה,
+אני מעוניין/ת לבצע הזמנה מסדרת דיוקנאות רבי שלמה קרליבך.
+
+הדגם המבוקש:
+עם פסוק / בלי פסוק:
+כמות:
+שם:
+כתובת למשלוח / איסוף:
+
+אשמח לקבלת המשך פרטים לביצוע ההזמנה.`,
+    ),
+    customHref: mail(
+      "אהבתי את הדיוקן — מעוניינת לברר אפשרות להתאמה אישית",
+      "שלום שושנה,\n\nההתאמות שהייתי רוצה לבצע הן:\n\n",
+    ),
+    customLinkLabel: "מעוניינים בגודל אחר, בכמות או בהתאמה מיוחדת? פנו במייל לקבלת הצעת מחיר",
+
     nav: {
       logoAlt: "שושנה דרור | יודאיקה",
-      cta: "לרכישה",
+      cta: "לביצוע הזמנה",
       switchLabel: "EN",
       switchHref: "/en",
       switchLang: "en",
@@ -183,11 +216,12 @@ export const content: Record<Lang, LandingContent> = {
     },
     hero: {
       imgAlt: "שלושת דיוקנאות רבי שלמה קרליבך תלויים על קיר בהיר",
-      badge: "✦ מבצע השקה: 10% מהרווחים לתרומה לצדקה, עד ערב סוכות (25.9.26)",
+      badge:
+        "✦ לציון היארצייט של רבי שלמה קרליבך בט״ז בחשוון, 10% מהרווחים על הזמנות שיבוצעו עד יום זה יוקדשו לצדקה",
       kicker: "קולקציית קרליבך",
       titleLines: ["סדרת דיוקנאות המתכת", "של רבי שלמה קרליבך"],
       sub: "יצירות קיר המבקשות לשמר את השמחה, הרגש והנוכחות של רבי שלמה קרליבך.",
-      cta: "רכשו את הסדרה",
+      cta: "לביצוע הזמנה",
       scroll: "גללו להכיר את היצירות ↓",
     },
     meet: {
@@ -197,7 +231,7 @@ export const content: Record<Lang, LandingContent> = {
       paras: [
         "יש דמויות שהשפעתן ממשיכה להאיר גם שנים רבות לאחר לכתן.",
         "מתוך רצון להעניק לדמותו של רבי שלמה קרליבך ביטוי אמנותי מכובד ועל־זמני, נוצרה סדרת דיוקנאות קיר ממתכת, המעוצבת מתוך תצלומי מקור ומיוצרת בחיתוך לייזר מדויק.",
-        "כל יצירה נועדה לשמר לא רק את מראהו, אלא גם את אופייה הייחודי של הדמות.",
+        "כל יצירה מבקשת לשמר לא רק את מראהו, אלא גם משהו מן השמחה, הרגש והנוכחות שאפיינו אותו.",
       ],
     },
     choose: {
@@ -206,7 +240,7 @@ export const content: Record<Lang, LandingContent> = {
       toggle: {
         intro: "כל אחד מן הדיוקנאות זמין בשתי גרסאות לבחירתכם:",
         options: [
-          "דיוקן עם הפסוק המשולב בעיצוב (כמוצג בתמונות)",
+          "דיוקן עם פסוק מתוך אחד מניגוניו של רבי שלמה קרליבך, שנבחר בהתאמה לרוח ולתנועה שבדיוקן ומשולב בעיצוב (כמוצג בתמונות)",
           "דיוקן ללא הפסוק — למראה נקי ומינימליסטי",
         ],
         note: "בחרו את הגרסה המועדפת עליכם בעת ההזמנה",
@@ -219,7 +253,6 @@ export const content: Record<Lang, LandingContent> = {
           desc: "רגע של שמחה מרוממת והארת פנים.",
           size: "גובה כ־60 ס״מ",
           price: "₪550",
-          href: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%A0%D7%AA%20%D7%91%D7%93%D7%99%D7%95%D7%A7%D7%9F%20%D7%A9%D7%9E%D7%97%D7%94%20%28%E2%82%AA550%29.`,
           cta: "רכישת דגם זה",
         },
         {
@@ -229,7 +262,6 @@ export const content: Record<Lang, LandingContent> = {
           desc: "רגע של התבוננות ועומק.",
           size: "גובה כ־60 ס״מ",
           price: "₪550",
-          href: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%A0%D7%AA%20%D7%91%D7%93%D7%99%D7%95%D7%A7%D7%9F%20%D7%A8%D7%92%D7%A9%20%28%E2%82%AA550%29.`,
           cta: "רכישת דגם זה",
         },
         {
@@ -239,16 +271,14 @@ export const content: Record<Lang, LandingContent> = {
           desc: "רגע של התכנסות פנימית.",
           size: "גובה כ־60 ס״מ",
           price: "₪550",
-          href: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%A0%D7%AA%20%D7%91%D7%93%D7%99%D7%95%D7%A7%D7%9F%20%D7%A9%D7%A8%D7%99%D7%A7%D7%94%20%28%E2%82%AA550%29.`,
           cta: "רכישת דגם זה",
         },
       ],
       setAlt: "שלושת דגמי הקולקציה יחד על קיר",
       setCaption: "כך זה ייראה אצלכם בבית",
       bundle: {
-        price: "₪1300",
-        save: "חיסכון של 350 ₪ לעומת רכישה נפרדת",
-        href: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%A0%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%94%D7%A1%D7%93%D7%A8%D7%94%20%D7%94%D7%9E%D7%9C%D7%90%D7%94%20-%20%D7%A9%D7%9C%D7%95%D7%A9%D7%AA%20%D7%94%D7%93%D7%99%D7%95%D7%A7%D7%A0%D7%90%D7%95%D7%AA%20%28%E2%82%AA1300%29.`,
+        price: "₪1350",
+        save: "חיסכון של 300 ₪ לעומת רכישה נפרדת",
         cta: "רכישת הסדרה המלאה",
       },
     },
@@ -264,11 +294,17 @@ export const content: Record<Lang, LandingContent> = {
         { label: "תלייה על הקיר", img: "/carlebach/process-6.webp", alt: "הדיוקן תלוי על הקיר" },
       ],
     },
+    orderBand: {
+      title: "הדיוקן שמתאים לחלל שלכם",
+      text: "בחרו את הדגם שמדבר אליכם, עם הפסוק או בלעדיו. למידה אחרת או להתאמה מיוחדת ניתן לפנות לקבלת הצעת מחיר.",
+      cta: "לביצוע הזמנה",
+      customCta: "בקשה להתאמה אישית",
+    },
     get: {
       title: "מה תקבלו",
       items: [
         "חיתוך לייזר מדויק",
-        "מתכת איכותית",
+        "אלומיניום איכותי, עמיד וקל משקל",
         "צביעה בתנור",
         "מוכן לתלייה",
         "גובה כ־60 ס״מ",
@@ -279,7 +315,7 @@ export const content: Record<Lang, LandingContent> = {
       imgAlt: "דיוקנאות קרליבך תלויים בסלון אמיתי מעל ספה",
       kicker: "התאמה",
       title: "למי מיועדת הסדרה",
-      lead: "לבתים המבקשים לשלב אמנות יהודית בעלת משמעות. מתאימה במיוחד ל:",
+      lead: "לבתים ולמוסדות המבקשים לשלב אמנות יהודית בעלת משמעות. הסדרה מתאימה במיוחד ל:",
       list: [
         "סלון",
         "חדר עבודה",
@@ -292,7 +328,6 @@ export const content: Record<Lang, LandingContent> = {
       ],
     },
     about: {
-      imgAlt: "שושנה בתהליך העיצוב של דיוקן קרליבך",
       kicker: "מי מאחורי היצירה",
       title: "על היוצרת",
       paras: [
@@ -305,11 +340,10 @@ export const content: Record<Lang, LandingContent> = {
       signature: "שושנה דרור",
     },
     charity: {
-      before:
-        "לרגל השקת הקולקציה, ובתוקף עד ערב חג הסוכות (י״ד בתשרי תשפ״ז, 25 בספטמבר 2026), ",
-      strong: "10% מהרווחים יוקדשו לתרומה למוסדות צדקה",
-      after:
-        " — ברוח דרכו של רבי שלמה קרליבך, שפעל רבות לעזרת נזקקים ולמען הזולת.",
+      before: "לציון היארצייט של רבי שלמה קרליבך בט״ז בחשוון, ",
+      strong:
+        "10% מהרווחים על הזמנות שיבוצעו עד ט״ז בחשוון תשפ״ז (27 באוקטובר 2026) יוקדשו לצדקה",
+      after: " — ברוח מורשתו של אהבת ישראל, שמחה ודאגה לזולת.",
     },
     pricing: {
       kicker: "רכישה",
@@ -317,40 +351,41 @@ export const content: Record<Lang, LandingContent> = {
       single: {
         name: "דיוקן בודד",
         price: "₪550",
-        desc: "בחירת דגם אחד מתוך שמחה, רגש או שריקה — עם או בלי הפסוק המשולב.",
-        href: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%A0%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%93%D7%99%D7%95%D7%A7%D7%9F%20%D7%91%D7%95%D7%93%D7%93%20%28%E2%82%AA550%29.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%9C%D7%92%D7%91%D7%99%20%D7%91%D7%97%D7%99%D7%A8%D7%AA%20%D7%94%D7%93%D7%92%D7%9D.`,
-        cta: "רכשו עכשיו",
+        desc: "בחירת דגם אחד מתוך שמחה, רגש או שריקה — עם או בלי הפסוק התואם מתוך אחד מניגוניו של רבי שלמה קרליבך.",
+        cta: "לביצוע הזמנה",
       },
       set: {
         badge: "הכי משתלם",
         name: "סט שלושת הדיוקנאות",
-        price: "₪1300",
+        price: "₪1350",
         desc: "הסדרה המלאה — שמחה, רגש ושריקה יחד, לקיר אחד שמספר סיפור שלם.",
-        href: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%A0%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%94%D7%A1%D7%93%D7%A8%D7%94%20%D7%94%D7%9E%D7%9C%D7%90%D7%94%20-%20%D7%A9%D7%9C%D7%95%D7%A9%D7%AA%20%D7%94%D7%93%D7%99%D7%95%D7%A7%D7%A0%D7%90%D7%95%D7%AA%20%28%E2%82%AA1300%29.`,
-        cta: "רכשו עכשיו",
+        cta: "לביצוע הזמנה",
       },
       delivery: [
         { icon: "1", title: "איסוף עצמי ממודיעין עילית", sub: "ללא עלות, בתיאום מראש." },
         { icon: "2", title: "משלוח עד הבית", sub: "בעלות של 50 ₪, לכל רחבי הארץ." },
-        { icon: "✓", title: "הזמינו עד י׳ באלול", sub: "קבלה מובטחת לפני ראש השנה." },
-        { icon: "✓", title: "הזמינו עד י״ז באלול", sub: "קבלה מובטחת לפני סוכות." },
         {
           icon: "○",
-          title: "הזמנות עד ערב סוכות (25.9.26)",
-          sub: "נהנות מ-10% התרומה לצדקה, ותסופקנה במהלך חודש חשוון.",
+          title: "הזמנות עד יום היארצייט — ט״ז בחשוון (27.10.26)",
+          sub: "10% מהרווחים עליהן יוקדשו לצדקה. מועד האספקה יימסר בעת ההזמנה.",
         },
       ],
-      disclaimer: "* במקרים של עומס קיצוני יתכן עיכוב של עד 30 ימי עסקים באספקה.",
+      disclaimer:
+        "* הייצור נעשה לפי הזמנה. זמן האספקה הרגיל הוא עד 20 ימי עסקים; בתקופות עומס ייתכן זמן אספקה ארוך יותר, שיימסר בעת ההזמנה.",
     },
     faq: {
       kicker: "שאלות ותשובות",
       title: "שאלות נפוצות",
       items: [
-        { q: "מאיזה חומר עשוי הדיוקן?", a: "מתכת איכותית בחיתוך לייזר, בצביעת אבקה בתנור.", open: true },
+        {
+          q: "מאיזה חומר עשוי הדיוקן?",
+          a: "אלומיניום איכותי בחיתוך לייזר ובצביעת אבקה בתנור — עמיד, קל משקל ונוח לתלייה.",
+          open: true,
+        },
         { q: "האם הוא מגיע מוכן לתלייה?", a: "כן." },
         {
           q: "תוך כמה זמן מתקבלת ההזמנה?",
-          a: "עד 20 ימי עסקים. במקרים של עומס קיצוני יתכן עיכוב של עד 30 ימי עסקים.",
+          a: "הייצור נעשה לפי הזמנה. זמן האספקה הרגיל הוא עד 20 ימי עסקים; בתקופות עומס ייתכן זמן אספקה ארוך יותר, שיימסר בעת ההזמנה.",
         },
         { q: "אפשר להזמין מידה אחרת?", a: "כן, בתיאום מראש." },
         { q: "בעתיד יהיו דמויות נוספות?", a: "כן. הסדרה צפויה להתרחב." },
@@ -359,21 +394,16 @@ export const content: Record<Lang, LandingContent> = {
     contact: {
       kicker: "יצירת קשר",
       title: "יש לכם שאלה?",
-      lead: "אולי תרצו לברר על מחיר להזמנה בכמות גדולה, גודל אחר מ-60 ס״מ, או כל שאלה אחרת שיש לכם - אשמח ליצירת קשר.",
-      email: "ssdror@gmail.com",
-      phoneLabel: "053-314-2341",
-      phoneHref: "tel:+972533142341",
-      waLabel: "וואטסאפ",
-      waHref: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%92%D7%91%D7%99%20%D7%A1%D7%93%D7%A8%D7%AA%20%D7%93%D7%99%D7%95%D7%A7%D7%A0%D7%90%D7%95%D7%AA%20%D7%A7%D7%A8%D7%9C%D7%99%D7%91%D7%9A.`,
+      lead: "לשאלות, הזמנות בכמות, מידה שאינה 60 ס״מ או התאמה מיוחדת — השירות ניתן במייל. לחיצה על הכפתור תפתח הודעה חדשה אליי.",
+      label: "שליחת מייל",
     },
     finale: {
       imgAlt: "שלושת הדיוקנאות יחד על הקיר, צילום אווירה",
       title: "יצירה שנשארת",
       p1Lines: ["יש יצירות שמוסיפות יופי לחלל.", "ויש יצירות המוסיפות גם זיכרון, השראה ונוכחות."],
       p2: "אם דמותו של רבי שלמה קרליבך יקרה ללבכם, נשמח להעניק לה מקום של כבוד בביתכם, בסטודיו או במוסד הקרוב ללבכם.",
-      href: `${wa}%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%A0%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%A1%D7%93%D7%A8%D7%AA%20%D7%94%D7%93%D7%99%D7%95%D7%A7%D7%A0%D7%90%D7%95%D7%AA%20%D7%A9%D7%9C%20%D7%A8%D7%91%D7%99%20%D7%A9%D7%9C%D7%9E%D7%94%20%D7%A7%D7%A8%D7%9C%D7%99%D7%91%D7%9A.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%9D.`,
-      cta: "רכישת הסדרה",
-      note: "משלוח לכל רחבי הארץ · מיוצר לפי הזמנה · תשלום מאובטח",
+      cta: "לביצוע הזמנה",
+      note: "משלוח לכל רחבי הארץ · מיוצר לפי הזמנה · הזמנה ישירה",
     },
     footer: {
       logoAlt: "שושנה דרור — Where Meaning Takes Form",
@@ -389,12 +419,32 @@ export const content: Record<Lang, LandingContent> = {
       description:
         "A series of laser-cut metal wall portraits inspired by Rabbi Shlomo Carlebach. Original design by Shoshana Dror.",
       ogDescription:
-        "Wall art crafted to preserve the joy, the feeling, and the presence of Rabbi Shlomo Carlebach. Original design, precision laser-cut.",
+        "Original metal wall art inspired by the joy, soul, and enduring presence of Rabbi Shlomo Carlebach. Precision laser-cut, made to order.",
       ogLocale: "en_US",
     },
+
+    orderHref: mail(
+      "Order – Rabbi Shlomo Carlebach Portrait Collection",
+      `Hello Shoshana,
+I'd like to place an order from the Rabbi Shlomo Carlebach portrait collection.
+
+Requested design:
+With verse / without verse:
+Quantity:
+Name:
+Shipping address / pickup:
+
+Please send me the next steps to complete the order.`,
+    ),
+    customHref: mail(
+      "I love the portrait — I'd like to explore a custom version",
+      "Hello Shoshana,\n\nThe changes I have in mind are:\n\n",
+    ),
+    customLinkLabel: "Looking for another size or a custom variation? Tell me what you have in mind",
+
     nav: {
       logoAlt: "Shoshana Dror | Judaica",
-      cta: "Shop Now",
+      cta: "Place an Order",
       switchLabel: "עברית",
       switchHref: "/",
       switchLang: "he",
@@ -402,31 +452,32 @@ export const content: Record<Lang, LandingContent> = {
     },
     hero: {
       imgAlt: "Three Rabbi Shlomo Carlebach portraits hanging on a bright wall",
-      badge: "✦ Launch Special: 10% of Proceeds to Charity, Through the Eve of Sukkot (Sept 25, 2026)",
+      badge:
+        "✦ In honor of Rabbi Shlomo Carlebach’s yahrzeit on the 16th of Cheshvan, 10% of the profits from orders placed by that date will be given to tzedakah",
       kicker: "The Carlebach Collection",
       titleLines: ["The Metal Portrait Series", "of Rabbi Shlomo Carlebach"],
-      sub: "Wall art crafted to preserve the joy, the feeling, and the presence of Rabbi Shlomo Carlebach.",
-      cta: "Shop the Collection",
+      sub: "Original metal wall art inspired by the joy, soul, and enduring presence of Rabbi Shlomo Carlebach.",
+      cta: "Place an Order",
       scroll: "Scroll to explore the collection ↓",
     },
     meet: {
       imgAlt: "Close-up of a laser-cut Carlebach portrait",
-      kicker: "The Idea",
-      titleLines: ["Where Art Meets", "Memory"],
+      kicker: "The Story Behind the Collection",
+      titleLines: ["Art That Keeps", "a Presence Alive"],
       paras: [
-        "Some figures keep shining long after they are gone.",
-        "Out of a desire to give Rabbi Shlomo Carlebach a dignified, timeless artistic tribute, this series of metal wall portraits was created — designed from original photographs and produced with precision laser cutting.",
-        "Each piece is designed to preserve not only his likeness, but the unique character behind it.",
+        "Some people continue to light up our lives long after they are gone.",
+        "This collection was created as a timeless tribute to Rabbi Shlomo Carlebach — known to so many simply as Reb Shlomo. Each portrait begins with an original photograph, is carefully translated into line and form, and is precision-cut in metal.",
+        "The goal is not only to capture his likeness, but to bring something of his warmth, joy, and spiritual depth into the spaces where Jewish life is lived.",
       ],
     },
     choose: {
       kicker: "Three Designs",
-      title: "Choose the Portrait That’s Right for You",
+      title: "Find the Portrait That Speaks to You",
       toggle: {
         intro: "Each portrait is available in two versions:",
         options: [
-          "Portrait with the verse integrated into the design (as shown)",
-          "Portrait without the verse — for a clean, minimalist look",
+          "With a Hebrew verse set to one of Reb Shlomo’s melodies, chosen to echo the mood and gesture of the portrait and woven into the design, as shown",
+          "Without the verse, for a clean and understated look",
         ],
         note: "Choose your preferred version when ordering",
       },
@@ -435,43 +486,39 @@ export const content: Record<Lang, LandingContent> = {
           img: "/carlebach/simcha.webp",
           alt: "Joy design - Rabbi Shlomo Carlebach portrait playing guitar",
           name: "Joy",
-          desc: "A moment of uplifting joy and radiant warmth.",
+          desc: "Music, warmth, and the joy that lifted a room.",
           size: "Height approx. 60 cm (24 in)",
           price: "₪550",
           usd: "≈ $185 USD",
-          href: `${wa}Hi%2C%20I%27m%20interested%20in%20the%20Joy%20portrait%20%28%E2%82%AA550%29.`,
           cta: "Buy This Piece",
         },
         {
           img: "/carlebach/regesh.webp",
-          alt: "Feeling design - Rabbi Shlomo Carlebach portrait singing, with verse integrated into the design",
-          name: "Feeling",
-          desc: "A moment of reflection and depth.",
+          alt: "Soul design - Rabbi Shlomo Carlebach singing, with verse woven into the design",
+          name: "Soul",
+          desc: "A quiet moment of prayer, feeling, and depth.",
           size: "Height approx. 60 cm (24 in)",
           price: "₪550",
           usd: "≈ $185 USD",
-          href: `${wa}Hi%2C%20I%27m%20interested%20in%20the%20Feeling%20portrait%20%28%E2%82%AA550%29.`,
           cta: "Buy This Piece",
         },
         {
           img: "/carlebach/shrika.webp",
-          alt: "The Whistle design - profile portrait of Rabbi Shlomo Carlebach",
-          name: "The Whistle",
-          desc: "A moment of quiet, inward stillness.",
+          alt: "Whistling design - profile portrait of Rabbi Shlomo Carlebach",
+          name: "Whistling",
+          desc: "An intimate gesture, filled with focus and spirit.",
           size: "Height approx. 60 cm (24 in)",
           price: "₪550",
           usd: "≈ $185 USD",
-          href: `${wa}Hi%2C%20I%27m%20interested%20in%20the%20Whistle%20portrait%20%28%E2%82%AA550%29.`,
           cta: "Buy This Piece",
         },
       ],
       setAlt: "All three collection designs together on a wall",
       setCaption: "How it will look in your home",
       bundle: {
-        price: "₪1300",
-        usd: "≈ $435 USD",
-        save: "Save ₪350 compared to buying separately",
-        href: `${wa}Hi%2C%20I%27m%20interested%20in%20the%20full%20collection%20-%20all%20three%20portraits%20%28%E2%82%AA1300%29.`,
+        price: "₪1350",
+        usd: "≈ $450 USD",
+        save: "Save ₪300 with the complete collection",
         cta: "Buy the Full Collection",
       },
     },
@@ -487,11 +534,17 @@ export const content: Record<Lang, LandingContent> = {
         { label: "On the Wall", img: "/carlebach/process-6.webp", alt: "The portrait hanging on the wall" },
       ],
     },
+    orderBand: {
+      title: "Bring the Right Portrait into Your Space",
+      text: "Choose the design that speaks to you, with or without the verse. If you have another size or a custom version in mind, I would be glad to explore it with you.",
+      cta: "Place an Order",
+      customCta: "Ask About a Custom Version",
+    },
     get: {
       title: "What You’ll Receive",
       items: [
         "Precision laser cutting",
-        "Premium-grade metal",
+        "Durable, lightweight aluminum",
         "Oven-baked coating",
         "Ready to hang",
         "Approx. 60 cm (24 in) tall",
@@ -501,37 +554,36 @@ export const content: Record<Lang, LandingContent> = {
     whofor: {
       imgAlt: "Carlebach portraits hanging above a sofa in a real living room",
       kicker: "A Perfect Fit",
-      title: "Who This Collection Is For",
-      lead: "For homes seeking to bring in meaningful Jewish art. Especially well suited to:",
+      title: "Made for Spaces with Soul",
+      lead: "For homes and Jewish spaces that value art with meaning, memory, and spiritual presence:",
       list: [
         "Living room",
         "Home office",
         "Library",
         "Studio",
         "Educational institution",
-        "A distinguished gift for donors",
-        "Anyone who feels a connection to Rabbi Shlomo Carlebach",
+        "A meaningful gift for a donor or someone special",
+        "Anyone whose heart has been touched by Reb Shlomo’s music and message",
       ],
     },
     about: {
-      imgAlt: "Shoshana at work designing a Carlebach portrait",
-      kicker: "The Person Behind the Work",
+      kicker: "Meet the Artist",
       title: "About the Artist",
       paras: [
         "My name is Shoshana Dror.",
-        "For many years, I have worked designing Judaica products for industrial production.",
-        "I believe a Jewish object is never just something functional or decorative. It can carry an idea, a memory, a value.",
-        "In every piece, I strive to combine engineering precision, artistic language, and respect for the content it expresses.",
-        "The Carlebach series is the first in a line of metal portraits, planned to expand to additional figures in the future.",
+        "For more than two decades, I have designed Judaica for professional and industrial production.",
+        "I believe Jewish art can do more than beautify a room. It can hold a memory, express a value, and make something meaningful present in everyday life.",
+        "My work brings together technical precision, an original artistic language, and deep respect for the story each piece carries.",
+        "The Carlebach Collection is the first in a growing series of metal portraits honoring figures who have shaped Jewish life.",
       ],
       signature: "Shoshana Dror",
     },
     charity: {
-      before:
-        "In honor of the collection’s launch, running through the eve of Sukkot (14 Tishrei 5787 / September 25, 2026), ",
-      strong: "10% of proceeds will be donated to charitable organizations",
+      before: "To mark Rabbi Shlomo Carlebach’s yahrzeit on the 16th of Cheshvan, ",
+      strong:
+        "10% of the profits from orders placed by 16 Cheshvan 5787 (October 27, 2026) will be donated to tzedakah",
       after:
-        " — in the spirit of Rabbi Shlomo Carlebach, who dedicated so much of his life to helping those in need.",
+        " — carrying forward, in a small way, his legacy of ahavat Yisrael, joy, and care for every soul.",
     },
     pricing: {
       kicker: "Purchase",
@@ -542,31 +594,33 @@ export const content: Record<Lang, LandingContent> = {
         name: "Single Portrait",
         price: "₪550",
         usd: "≈ $185 USD",
-        desc: "Choose one design — Joy, Feeling, or The Whistle — with or without the integrated verse.",
-        href: `${wa}Hi%2C%20I%27m%20interested%20in%20a%20single%20portrait%20%28%E2%82%AA550%29.%20I%27d%20love%20details%20on%20choosing%20a%20design.`,
-        cta: "Buy Now",
+        desc: "Choose Joy, Soul, or Whistling — with or without its corresponding Hebrew verse set to one of Reb Shlomo’s melodies.",
+        cta: "Place an Order",
       },
       set: {
         badge: "Best Value",
         name: "Full Set of Three Portraits",
-        price: "₪1300",
-        usd: "≈ $435 USD",
-        desc: "The complete collection — Joy, Feeling, and The Whistle together, for one wall that tells a whole story.",
-        href: `${wa}Hi%2C%20I%27m%20interested%20in%20the%20full%20collection%20-%20all%20three%20portraits%20%28%E2%82%AA1300%29.`,
-        cta: "Buy Now",
+        price: "₪1350",
+        usd: "≈ $450 USD",
+        desc: "Joy, Soul, and Whistling together — three portraits that bring the full spirit of the collection to one wall.",
+        cta: "Place an Order",
       },
       delivery: [
         { icon: "1", title: "Self-pickup from Modi'in Illit", sub: "Free of charge, by prior arrangement." },
         { icon: "2", title: "Home delivery", sub: "₪50, nationwide." },
-        { icon: "✓", title: "Order by the 10th of Elul", sub: "Guaranteed delivery before Rosh Hashanah." },
-        { icon: "✓", title: "Order by the 17th of Elul", sub: "Guaranteed delivery before Sukkot." },
         {
           icon: "○",
-          title: "Orders through the eve of Sukkot (Sept 25, 2026)",
-          sub: "Still benefit from the 10% charity donation, delivered during the month of Cheshvan.",
+          title: "Orders placed by the yahrzeit — October 27, 2026",
+          sub: "Ten percent of the profits will be given to tzedakah. Delivery timing will be confirmed when you order.",
+        },
+        {
+          icon: "3",
+          title: "Orders outside Israel",
+          sub: "Please email for availability, shipping, and fulfillment pricing.",
         },
       ],
-      disclaimer: "* In cases of extreme demand, delivery may be delayed by up to 30 business days.",
+      disclaimer:
+        "* Each piece is made to order. Standard lead time is up to 20 business days; during peak periods, a longer lead time may apply and will be confirmed when you order.",
     },
     faq: {
       kicker: "Q&A",
@@ -574,13 +628,13 @@ export const content: Record<Lang, LandingContent> = {
       items: [
         {
           q: "What material is the portrait made of?",
-          a: "Premium laser-cut metal with oven-baked powder coating.",
+          a: "High-quality laser-cut aluminum with an oven-baked powder coating — durable, lightweight, and easy to hang.",
           open: true,
         },
         { q: "Does it arrive ready to hang?", a: "Yes." },
         {
           q: "How long until my order arrives?",
-          a: "Up to 20 business days. In cases of extreme demand, this may extend to up to 30 business days.",
+          a: "Each piece is made to order. Standard lead time is up to 20 business days; during peak periods, a longer lead time may apply and will be confirmed when you order.",
         },
         { q: "Can I order a different size?", a: "Yes, by prior arrangement." },
         { q: "Will there be more figures in the future?", a: "Yes — the series is expected to grow." },
@@ -589,24 +643,19 @@ export const content: Record<Lang, LandingContent> = {
     contact: {
       kicker: "Get in Touch",
       title: "Have a Question?",
-      lead: "Wondering about bulk-order pricing, a size other than 60 cm, or anything else? I'd be happy to hear from you.",
-      email: "ssdror@gmail.com",
-      phoneLabel: "+972 53-314-2341",
-      phoneHref: "tel:+972533142341",
-      waLabel: "WhatsApp",
-      waHref: `${wa}Hi%2C%20I%20have%20a%20question%20about%20the%20Carlebach%20portrait%20series.`,
+      lead: "Have a question, need a larger quantity, or envision a different size? Send me a note and tell me what you have in mind.",
+      label: "Email Me",
     },
     finale: {
       imgAlt: "All three portraits together on the wall, mood photograph",
-      title: "A Piece That Stays",
+      title: "More Than Something Beautiful",
       p1Lines: [
-        "Some pieces add beauty to a space.",
-        "Others also add memory, inspiration, and presence.",
+        "Some art transforms a wall.",
+        "Some also carries memory, inspiration, and soul.",
       ],
-      p2: "If Rabbi Shlomo Carlebach’s memory is dear to your heart, we would be honored to give it a place of respect in your home, studio, or the institution closest to your heart.",
-      href: `${wa}Hi%2C%20I%27m%20interested%20in%20the%20Rabbi%20Shlomo%20Carlebach%20portrait%20series.%20I%27d%20love%20more%20details.`,
-      cta: "Shop the Collection",
-      note: "Nationwide shipping · Made to order · Secure payment",
+      p2: "If Reb Shlomo’s music and message have a place in your heart, this collection offers a meaningful way to give that connection a place in your home, studio, or Jewish community.",
+      cta: "Place an Order",
+      note: "Israel-wide shipping · Made to order · Direct ordering",
     },
     footer: {
       logoAlt: "Shoshana Dror — Where Meaning Takes Form",

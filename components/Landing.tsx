@@ -35,21 +35,29 @@ const mailIcon = (
   </svg>
 );
 
-const phoneIcon = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 4h4l2 5-2.5 1.5a11 11 0 005 5L14 13l5 2v4a2 2 0 01-2 2C9.5 21 3 14.5 3 6a2 2 0 011-2z" />
-  </svg>
-);
-
-const whatsappIcon = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.5 7.8 9.3 7.3c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 2-1.4.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4z" />
-    <path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.5A10 10 0 1012 2z" />
-  </svg>
-);
-
 export function Landing({ lang }: { lang: Lang }) {
   const t = content[lang];
+
+  /* Kleiner Sonderanfrage-Link, steht unter mehreren Kauf-Buttons */
+  const customLink = (
+    <div className="custom-order-link">
+      <a href={t.customHref}>{t.customLinkLabel}</a>
+    </div>
+  );
+
+  /* Bestell-Band, erscheint zweimal auf der Seite */
+  const orderBand = (
+    <section className="order-band">
+      <div className="wrap order-band-inner" data-reveal>
+        <h2>{t.orderBand.title}</h2>
+        <p>{t.orderBand.text}</p>
+        <div className="order-band-actions">
+          <a href={t.orderHref} className="btn-wide">{t.orderBand.cta}</a>
+          <a href={t.customHref} className="custom-order-button">{t.orderBand.customCta}</a>
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <div className="page" lang={lang} dir={t.dir}>
@@ -68,7 +76,7 @@ export function Landing({ lang }: { lang: Lang }) {
             >
               {t.nav.switchLabel}
             </Link>
-            <a href="#choose" className="nav-cta">{t.nav.cta}</a>
+            <a href={t.orderHref} className="nav-cta">{t.nav.cta}</a>
           </div>
         </div>
       </header>
@@ -89,7 +97,7 @@ export function Landing({ lang }: { lang: Lang }) {
             </h1>
             <p>{t.hero.sub}</p>
             <div className="hero-actions">
-              <a href="#choose" className="btn-primary-lg">{t.hero.cta}</a>
+              <a href={t.orderHref} className="btn-primary-lg">{t.hero.cta}</a>
               <a href="#meet" className="scroll-link">{t.hero.scroll}</a>
             </div>
           </div>
@@ -148,7 +156,7 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="piece-size">{piece.size}</span>
                     <div className="mini-price">{piece.price}</div>
                     {piece.usd && <div className="mini-price-usd">{piece.usd}</div>}
-                    <a href={piece.href} target="_blank" rel="noopener" className="btn-outline">{piece.cta}</a>
+                    <a href={t.orderHref} className="btn-outline">{piece.cta}</a>
                   </div>
                 </div>
               ))}
@@ -166,7 +174,8 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
-              <a href={t.choose.bundle.href} target="_blank" rel="noopener" className="btn-wide">{t.choose.bundle.cta}</a>
+              <a href={t.orderHref} className="btn-wide">{t.choose.bundle.cta}</a>
+              {customLink}
             </div>
           </div>
         </section>
@@ -197,6 +206,8 @@ export function Landing({ lang }: { lang: Lang }) {
             </div>
           </div>
         </section>
+
+        {orderBand}
 
         {/* ===== SCREEN 5 — WHAT YOU GET ===== */}
         <section className="getgrid">
@@ -241,20 +252,17 @@ export function Landing({ lang }: { lang: Lang }) {
 
         {/* ===== SCREEN 7 — ABOUT THE ARTIST ===== */}
         <section className="about">
-          <div className="wrap about-grid">
-            <div data-reveal>
-              <div className="kicker">{t.about.kicker}</div>
-              <h2>{t.about.title}</h2>
-              {t.about.paras.map((p) => (
-                <p key={p.slice(0, 20)}>{p}</p>
-              ))}
-              <div className="signature">{t.about.signature}</div>
-            </div>
-            <div className="ph" data-reveal>
-              <img src="/carlebach/artist.webp" alt={t.about.imgAlt} loading="lazy" />
-            </div>
+          <div className="wrap about-solo" data-reveal>
+            <div className="kicker">{t.about.kicker}</div>
+            <h2>{t.about.title}</h2>
+            {t.about.paras.map((p) => (
+              <p key={p.slice(0, 20)}>{p}</p>
+            ))}
+            <div className="signature">{t.about.signature}</div>
           </div>
         </section>
+
+        {orderBand}
 
         {/* ===== CHARITY BANNER ===== */}
         <section className="charity">
@@ -284,7 +292,8 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="price-value">{t.pricing.single.price}</div>
                 {t.pricing.single.usd && <div className="price-usd">{t.pricing.single.usd}</div>}
                 <p className="price-desc">{t.pricing.single.desc}</p>
-                <a href={t.pricing.single.href} target="_blank" rel="noopener" className="btn-price">{t.pricing.single.cta}</a>
+                <a href={t.orderHref} className="btn-price">{t.pricing.single.cta}</a>
+                {customLink}
               </div>
               <div className="price-card featured">
                 <div className="price-badge">{t.pricing.set.badge}</div>
@@ -292,7 +301,8 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="price-value">{t.pricing.set.price}</div>
                 {t.pricing.set.usd && <div className="price-usd">{t.pricing.set.usd}</div>}
                 <p className="price-desc">{t.pricing.set.desc}</p>
-                <a href={t.pricing.set.href} target="_blank" rel="noopener" className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
+                <a href={t.orderHref} className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
+                {customLink}
               </div>
             </div>
 
@@ -338,17 +348,9 @@ export function Landing({ lang }: { lang: Lang }) {
               <p className="contact-lead">{t.contact.lead}</p>
             </div>
             <div className="contact-links" data-reveal-group>
-              <a href={`mailto:${t.contact.email}`} className="contact-link">
+              <a href={t.customHref} className="contact-link">
                 {mailIcon}
-                <span>{t.contact.email}</span>
-              </a>
-              <a href={t.contact.phoneHref} className="contact-link">
-                {phoneIcon}
-                <span>{t.contact.phoneLabel}</span>
-              </a>
-              <a href={t.contact.waHref} target="_blank" rel="noopener" className="contact-link">
-                {whatsappIcon}
-                <span>{t.contact.waLabel}</span>
+                <span>{t.contact.label}</span>
               </a>
             </div>
           </div>
@@ -367,7 +369,8 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.finale.p1Lines[1]}
             </p>
             <p>{t.finale.p2}</p>
-            <a href={t.finale.href} target="_blank" rel="noopener" className="btn-primary-lg btn-inline">{t.finale.cta}</a>
+            <a href={t.orderHref} className="btn-primary-lg btn-inline">{t.finale.cta}</a>
+            {customLink}
             <div className="finale-note">{t.finale.note}</div>
           </div>
         </section>

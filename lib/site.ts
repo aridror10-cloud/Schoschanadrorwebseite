@@ -17,3 +17,11 @@ export const site = {
   name: "שושנה דרור",
   nameLatin: "Shoshana Dror",
 } as const;
+
+/**
+ * Testphase: solange NEXT_PUBLIC_LAUNCH nicht auf "public" steht, wird die
+ * Seite fuer Suchmaschinen gesperrt (noindex + leere sitemap + robots.txt
+ * Disallow). Sicherer Standard - der Schalter muss zum Livegang bewusst
+ * gesetzt werden, versehentlich indexiert wird also nichts.
+ */
+export const isTestPhase = process.env.NEXT_PUBLIC_LAUNCH !== "public";

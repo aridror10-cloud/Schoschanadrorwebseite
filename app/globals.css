@@ -712,3 +712,70 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* ================= BESTELL-BAND (zweimal auf der Seite) ================= */
+.order-band {
+  padding: 68px 0;
+  background: var(--cream);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.order-band-inner { text-align: center; max-width: 760px; }
+.order-band h2 {
+  font-family: var(--font-frank), serif;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  margin-bottom: 10px;
+}
+.order-band p { color: #666; max-width: 620px; margin: 0 auto 24px; }
+.order-band-actions { display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.custom-order-button {
+  display: inline-block;
+  border: 1px solid var(--charcoal-deep);
+  padding: 15px 28px;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: all 0.45s ease;
+}
+.custom-order-button:hover { background: var(--charcoal-deep); color: #fff; }
+
+/* Kleiner Sonderanfrage-Link unter den Kauf-Buttons */
+.custom-order-link { margin-top: 12px; text-align: center; }
+.custom-order-link a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--gold);
+  padding: 11px 20px;
+  border-radius: 2px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--charcoal-deep);
+  transition: all 0.45s ease;
+}
+.custom-order-link a:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+/* Auf dunklem Grund (Abschluss-Sektion) heller Rand statt dunkler Schrift */
+.finale .custom-order-link a {
+  color: #fff;
+  border-color: var(--gold-soft);
+  background: rgba(199, 176, 116, 0.18);
+}
+.finale .custom-order-link a:hover {
+  color: var(--charcoal-deep);
+  background: var(--gold-soft);
+  border-color: var(--gold-soft);
+}
+
+/* "Ueber die Kuenstlerin" ohne Foto: einspaltig und zentriert */
+.about-solo { max-width: 720px; text-align: center; }
+.about-solo .kicker { display: inline-block; }
+.about-solo p { max-width: 620px; margin-inline: auto; }
+
+@media (max-width: 600px) {
+  .order-band { padding: 52px 0; }
+  .order-band-actions { flex-direction: column; }
+  .order-band-actions a { width: 100%; max-width: 330px; }
+  .custom-order-link a { width: 100%; max-width: 330px; }
+}

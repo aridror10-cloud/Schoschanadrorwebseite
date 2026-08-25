@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
 import { content } from "@/lib/content";
-import { siteUrl } from "@/lib/site";
+import { isTestPhase, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 /**
@@ -56,16 +56,19 @@ export const metadata: Metadata = {
     images: ["/carlebach/og.jpg"],
   },
 
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  // In der Testphase fuer alle Suchmaschinen gesperrt (siehe lib/site.ts)
+  robots: isTestPhase
+    ? { index: false, follow: false, nocache: true }
+    : {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+        },
+      },
 };
 
 export const viewport: Viewport = {
