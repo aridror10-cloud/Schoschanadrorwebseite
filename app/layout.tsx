@@ -3,6 +3,7 @@ import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
 import { content } from "@/lib/content";
 import { isTestPhase, siteUrl } from "@/lib/site";
 import "./globals.css";
+import "./order-form.css";
 
 /**
  * Schriften wie in der Design-Vorlage (Heebo + Frank Ruhl Libre).

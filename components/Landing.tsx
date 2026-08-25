@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OrderForm } from "@/components/OrderForm";
 import { ScrollFx } from "@/components/ScrollFx";
 import { EMAIL, content, type Lang } from "@/lib/content";
 
@@ -38,6 +39,9 @@ const mailIcon = (
 export function Landing({ lang }: { lang: Lang }) {
   const t = content[lang];
 
+  /** /carlebach/simcha.webp -> "simcha", fuer die Vorauswahl im Formular */
+  const modelOf = (img: string) => img.split("/").pop()!.replace(/\.\w+$/, "");
+
   /* Kleiner Sonderanfrage-Link, steht unter mehreren Kauf-Buttons */
   const customLink = (
     <div className="custom-order-link">
@@ -60,7 +64,7 @@ export function Landing({ lang }: { lang: Lang }) {
         <h2>{t.orderBand.title}</h2>
         <p>{t.orderBand.text}</p>
         <div className="order-band-actions">
-          <a href={t.orderHref} className="btn-wide">{t.orderBand.cta}</a>
+          <a href="#order" className="btn-wide">{t.orderBand.cta}</a>
           <a href={t.customHref} className="custom-order-button">{t.orderBand.customCta}</a>
         </div>
         {mailFallback}
@@ -85,7 +89,7 @@ export function Landing({ lang }: { lang: Lang }) {
             >
               {t.nav.switchLabel}
             </Link>
-            <a href={t.orderHref} className="nav-cta">{t.nav.cta}</a>
+            <a href="#order" className="nav-cta">{t.nav.cta}</a>
           </div>
         </div>
       </header>
@@ -106,7 +110,7 @@ export function Landing({ lang }: { lang: Lang }) {
             </h1>
             <p>{t.hero.sub}</p>
             <div className="hero-actions">
-              <a href={t.orderHref} className="btn-primary-lg">{t.hero.cta}</a>
+              <a href="#order" className="btn-primary-lg">{t.hero.cta}</a>
               <a href="#meet" className="scroll-link">{t.hero.scroll}</a>
             </div>
           </div>
@@ -165,7 +169,7 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="piece-size">{piece.size}</span>
                     <div className="mini-price">{piece.price}</div>
                     {piece.usd && <div className="mini-price-usd">{piece.usd}</div>}
-                    <a href={t.orderHref} className="btn-outline">{piece.cta}</a>
+                    <a href="#order" data-model={modelOf(piece.img)} className="btn-outline">{piece.cta}</a>
                   </div>
                 </div>
               ))}
@@ -183,7 +187,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
-              <a href={t.orderHref} className="btn-wide">{t.choose.bundle.cta}</a>
+              <a href="#order" data-model="set" className="btn-wide">{t.choose.bundle.cta}</a>
               {customLink}
             </div>
           </div>
@@ -301,7 +305,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="price-value">{t.pricing.single.price}</div>
                 {t.pricing.single.usd && <div className="price-usd">{t.pricing.single.usd}</div>}
                 <p className="price-desc">{t.pricing.single.desc}</p>
-                <a href={t.orderHref} className="btn-price">{t.pricing.single.cta}</a>
+                <a href="#order" className="btn-price">{t.pricing.single.cta}</a>
                 {customLink}
               </div>
               <div className="price-card featured">
@@ -310,7 +314,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="price-value">{t.pricing.set.price}</div>
                 {t.pricing.set.usd && <div className="price-usd">{t.pricing.set.usd}</div>}
                 <p className="price-desc">{t.pricing.set.desc}</p>
-                <a href={t.orderHref} className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
+                <a href="#order" data-model="set" className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
                 {customLink}
               </div>
             </div>
@@ -348,6 +352,8 @@ export function Landing({ lang }: { lang: Lang }) {
           </div>
         </section>
 
+        <OrderForm lang={lang} />
+
         {/* ===== CONTACT ===== */}
         <section className="contact-cta">
           <div className="wrap">
@@ -379,7 +385,7 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.finale.p1Lines[1]}
             </p>
             <p>{t.finale.p2}</p>
-            <a href={t.orderHref} className="btn-primary-lg btn-inline">{t.finale.cta}</a>
+            <a href="#order" className="btn-primary-lg btn-inline">{t.finale.cta}</a>
             {customLink}
             <div className="finale-note">{t.finale.note}</div>
           </div>

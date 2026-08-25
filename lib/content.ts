@@ -50,6 +50,42 @@ export interface FaqItem {
   open?: boolean;
 }
 
+export interface FormContent {
+  kicker: string;
+  title: string;
+  lead: string;
+  labels: {
+    model: string;
+    version: string;
+    versionWith: string;
+    versionWithout: string;
+    qty: string;
+    name: string;
+    phone: string;
+    email: string;
+    delivery: string;
+    deliveryShip: string;
+    deliveryPickup: string;
+    address: string;
+    notes: string;
+  };
+  placeholders: { name: string; phone: string; email: string; address: string; notes: string };
+  /** Auswahl im Modell-Feld; value landet auch in der Mail */
+  modelOptions: { value: string; label: string }[];
+  optional: string;
+  submit: string;
+  sending: string;
+  successTitle: string;
+  successText: string;
+  errorRequired: string;
+  errorEmail: string;
+  errorSend: string;
+  /** Alternative fuer alle, die lieber selbst schreiben */
+  mailAltLead: string;
+  mailAltLink: string;
+  privacyNote: string;
+}
+
 export interface LandingContent {
   dir: "rtl" | "ltr";
   meta: {
@@ -165,6 +201,8 @@ export interface LandingContent {
     lead: string;
     label: string;
   };
+  /** Bestellformular auf der Seite */
+  form: FormContent;
   finale: {
     imgAlt: string;
     title: string;
@@ -402,6 +440,51 @@ export const content: Record<Lang, LandingContent> = {
       title: "יש לכם שאלה?",
       lead: "לשאלות, הזמנות בכמות, מידה שאינה 60 ס״מ או התאמה מיוחדת — השירות ניתן במייל. לחיצה על הכפתור תפתח הודעה חדשה אליי.",
       label: "שליחת מייל",
+    },
+    form: {
+      kicker: "הזמנה",
+      title: "פרטי ההזמנה",
+      lead: "מלאו את הפרטים ואחזור אליכם בהקדם לתיאום התשלום והאספקה. יש שאלה או בקשה מיוחדת? כתבו לי בשדה ההערות.",
+      labels: {
+        model: "הדגם המבוקש",
+        version: "גרסה",
+        versionWith: "עם פסוק",
+        versionWithout: "בלי פסוק",
+        qty: "כמות",
+        name: "שם מלא",
+        phone: "טלפון",
+        email: "אימייל",
+        delivery: "אופן קבלה",
+        deliveryShip: "משלוח עד הבית (₪50)",
+        deliveryPickup: "איסוף עצמי ממודיעין עילית",
+        address: "כתובת למשלוח",
+        notes: "הערות או שאלה",
+      },
+      placeholders: {
+        name: "שרה כהן",
+        phone: "050-0000000",
+        email: "name@mail.com",
+        address: "רחוב ומספר, עיר, מיקוד",
+        notes: "מידה אחרת, הזמנה בכמות, מתנה, או כל שאלה שיש לכם",
+      },
+      modelOptions: [
+        { value: "simcha", label: "שמחה — ₪550" },
+        { value: "regesh", label: "רגש — ₪550" },
+        { value: "shrika", label: "שריקה — ₪550" },
+        { value: "set", label: "סט שלושת הדיוקנאות — ₪1350" },
+        { value: "other", label: "עדיין לא החלטתי / התאמה מיוחדת" },
+      ],
+      optional: "לא חובה",
+      submit: "שליחת הזמנה",
+      sending: "שולח…",
+      successTitle: "ההזמנה התקבלה, תודה!",
+      successText: "העתק נשלח לאימייל שלכם. אחזור אליכם בהקדם לתיאום התשלום והאספקה.",
+      errorRequired: "נא למלא את השדה",
+      errorEmail: "כתובת אימייל לא תקינה",
+      errorSend: "השליחה נכשלה. נסו שוב, או כתבו ישירות אל",
+      mailAltLead: "מעדיפים לכתוב בעצמכם?",
+      mailAltLink: "שלחו מייל ישירות",
+      privacyNote: "הפרטים משמשים לטיפול בהזמנה בלבד ואינם מועברים לגורם שלישי.",
     },
     finale: {
       imgAlt: "שלושת הדיוקנאות יחד על הקיר, צילום אווירה",
@@ -652,6 +735,51 @@ Please send me the next steps to complete the order.`,
       title: "Have a Question?",
       lead: "Have a question, need a larger quantity, or envision a different size? Send me a note and tell me what you have in mind.",
       label: "Email Me",
+    },
+    form: {
+      kicker: "Order",
+      title: "Your order details",
+      lead: "Fill in your details and I'll get back to you shortly to arrange payment and delivery. Have a question or a special request? Write it in the notes field.",
+      labels: {
+        model: "Which design",
+        version: "Version",
+        versionWith: "With the verse",
+        versionWithout: "Without the verse",
+        qty: "Quantity",
+        name: "Full name",
+        phone: "Phone",
+        email: "Email",
+        delivery: "How would you like to receive it",
+        deliveryShip: "Home delivery (₪50)",
+        deliveryPickup: "Self-pickup from Modi'in Illit",
+        address: "Shipping address",
+        notes: "Notes or a question",
+      },
+      placeholders: {
+        name: "Sarah Cohen",
+        phone: "+972 50-000-0000",
+        email: "name@mail.com",
+        address: "Street and number, city, postal code, country",
+        notes: "A different size, a larger quantity, a gift — or any question you have",
+      },
+      modelOptions: [
+        { value: "simcha", label: "Joy — ₪550" },
+        { value: "regesh", label: "Soul — ₪550" },
+        { value: "shrika", label: "Whistling — ₪550" },
+        { value: "set", label: "Full set of three — ₪1350" },
+        { value: "other", label: "Not decided yet / custom piece" },
+      ],
+      optional: "optional",
+      submit: "Send order",
+      sending: "Sending…",
+      successTitle: "Thank you, your order came through!",
+      successText: "A copy is on its way to your inbox. I'll be in touch shortly to arrange payment and delivery.",
+      errorRequired: "Please fill in this field",
+      errorEmail: "That email address doesn't look right",
+      errorSend: "Sending failed. Please try again, or write directly to",
+      mailAltLead: "Prefer to write it yourself?",
+      mailAltLink: "Send an email instead",
+      privacyNote: "Your details are used only to handle this order and are never passed to a third party.",
     },
     finale: {
       imgAlt: "All three portraits together on the wall, mood photograph",
