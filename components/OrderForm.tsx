@@ -11,8 +11,10 @@ import { EMAIL, content, type Lang } from "@/lib/content";
  * die Modellwahl zeichnet einen Rahmen um die Kachel. Nach dem Absenden
  * wird die Karte selbst gerahmt - dieselbe Geste wie beim Set-Foto.
  *
- * Beide Bestellwege bleiben erhalten: Wer lieber selbst schreibt, findet
- * unter dem Formular den direkten E-Mail-Weg.
+ * Rolle seit Anbindung der Zahlseiten: Kaufen laeuft ueber SUMIT, dieses
+ * Formular ist nur noch fuer Sonderwuensche (andere Groesse, Menge,
+ * Geschenk) und Fragen. Lieferart und Adresse entfallen deshalb - die
+ * klaert Shoshana im Angebot, nicht vorab.
  */
 
 /** Bilder der Modell-Kacheln, in der Reihenfolge von form.modelOptions */
@@ -31,12 +33,10 @@ export function OrderForm({ lang }: { lang: Lang }) {
 
   const [model, setModel] = useState("set");
   const [version, setVersion] = useState<"with" | "without">("with");
-  const [delivery, setDelivery] = useState<"ship" | "pickup">("ship");
   const [qty, setQty] = useState("1");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [company, setComapny] = useState(""); // Honigtopf, bleibt fuer Menschen unsichtbar
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -65,7 +65,7 @@ export function OrderForm({ lang }: { lang: Lang }) {
     if (!name.trim()) next.name = f.errorRequired;
     if (!email.trim()) next.email = f.errorRequired;
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) next.email = f.errorEmail;
-    if (delivery === "ship" && !address.trim()) next.address = f.errorRequired;
+    if (!notes.trim()) next.notes = f.errorRequired;
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -84,12 +84,10 @@ export function OrderForm({ lang }: { lang: Lang }) {
           lang,
           model: f.modelOptions.find((o) => o.value === model)?.label ?? model,
           version: version === "with" ? f.labels.versionWith : f.labels.versionWithout,
-          delivery: delivery === "ship" ? f.labels.deliveryShip : f.labels.deliveryPickup,
           qty,
           name,
           phone,
           email,
-          address,
           notes,
           company,
         }),
@@ -235,30 +233,8 @@ export function OrderForm({ lang }: { lang: Lang }) {
                   })}
                 </div>
 
-                <fieldset className="of-fieldset">
-                  <legend className="of-label">{f.labels.delivery}</legend>
-                  <div className="of-opts">
-                    {(["ship", "pickup"] as const).map((d) => (
-                      <button
-                        type="button"
-                        key={d}
-                        className={`of-opt${delivery === d ? " sel" : ""}`}
-                        onClick={() => setDelivery(d)}
-                        aria-pressed={delivery === d}
-                      >
-                        <span className="of-dot" />
-                        {d === "ship" ? f.labels.deliveryShip : f.labels.deliveryPickup}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
-
-                {delivery === "ship" &&
-                  field("address", f.labels.address, address, setAddress, f.placeholders.address)}
-
                 {field("notes", f.labels.notes, notes, setNotes, f.placeholders.notes, {
                   area: true,
-                  optional: true,
                 })}
 
                 {/* Honigtopf gegen Spam-Roboter: fuer Menschen unsichtbar */}

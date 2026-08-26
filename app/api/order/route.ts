@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 
 /**
- * Nimmt eine Bestellung aus der Bestellkarte entgegen und schickt sie per
- * E-Mail an Shoshana; die Kundin bekommt eine Kopie als Bestaetigung.
+ * Nimmt eine Anfrage aus dem Formular entgegen (Sonderwunsch oder Frage)
+ * und schickt sie per E-Mail an Shoshana; die Absenderin bekommt eine
+ * Kopie als Bestaetigung. Regulaere Kaeufe laufen ueber die Zahlseiten
+ * und beruehren diese Route nicht.
  *
  * Konfiguration ueber Umgebungsvariablen in Vercel:
  *   RESEND_API_KEY  Pflicht - ohne den Schluessel antwortet die Route mit
@@ -73,9 +75,7 @@ export async function POST(request: Request) {
     [isHebrew ? "שם" : "Name", name],
     [isHebrew ? "טלפון" : "Phone", clamp(data.phone, 60)],
     [isHebrew ? "אימייל" : "Email", email],
-    [isHebrew ? "אופן קבלה" : "Delivery", clamp(data.delivery, 160)],
-    [isHebrew ? "כתובת" : "Address", clamp(data.address, 400)],
-    [isHebrew ? "הערות" : "Notes", clamp(data.notes)],
+    [isHebrew ? "הבקשה" : "Request", clamp(data.notes)],
   ];
 
   const dir = isHebrew ? "rtl" : "ltr";
@@ -107,11 +107,11 @@ export async function POST(request: Request) {
       to: [TO],
       reply_to: email,
       subject: isHebrew
-        ? `הזמנה חדשה מהאתר – ${name}`
-        : `New order from the website – ${name}`,
+        ? `בקשה חדשה מהאתר – ${name}`
+        : `New enquiry from the website – ${name}`,
       html: shell(
-        isHebrew ? "הזמנה חדשה" : "New order",
-        isHebrew ? "התקבלה הזמנה דרך טופס האתר." : "An order came in through the website form.",
+        isHebrew ? "בקשה חדשה" : "New enquiry",
+        isHebrew ? "התקבלה פנייה דרך טופס האתר." : "An enquiry came in through the website form.",
       ),
     });
   } catch {
@@ -126,13 +126,13 @@ export async function POST(request: Request) {
       to: [email],
       reply_to: TO,
       subject: isHebrew
-        ? "ההזמנה שלך התקבלה – סדרת דיוקנאות קרליבך"
-        : "We received your order – Carlebach Portrait Collection",
+        ? "הפנייה שלך התקבלה – סדרת דיוקנאות קרליבך"
+        : "We received your enquiry – Carlebach Portrait Collection",
       html: shell(
-        isHebrew ? "ההזמנה התקבלה, תודה!" : "Thank you, your order came through!",
+        isHebrew ? "הפנייה התקבלה, תודה!" : "Thank you, your enquiry came through!",
         isHebrew
-          ? "אחזור אלייך בהקדם לתיאום התשלום והאספקה. אלה הפרטים שהתקבלו:"
-          : "I'll be in touch shortly to arrange payment and delivery. Here is what we received:",
+          ? "אחזור אלייך בהקדם עם תשובה או הצעת מחיר. אלה הפרטים שהתקבלו:"
+          : "I'll get back to you shortly with an answer or a quote. Here is what we received:",
       ),
     });
   } catch {

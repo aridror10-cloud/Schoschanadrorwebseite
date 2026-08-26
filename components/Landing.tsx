@@ -55,7 +55,7 @@ export function Landing({ lang }: { lang: Lang }) {
           {t.orderBand.textLines[1]}
         </p>
         <div className="order-band-actions">
-          <a href="#order" className="btn-wide">{t.orderBand.cta}</a>
+          <a href="#choose" className="btn-wide">{t.orderBand.cta}</a>
           <a href={t.customHref} className="custom-order-button">{t.orderBand.customCta}</a>
         </div>
       </div>
@@ -79,7 +79,7 @@ export function Landing({ lang }: { lang: Lang }) {
             >
               {t.nav.switchLabel}
             </Link>
-            <a href="#order" className="nav-cta">{t.nav.cta}</a>
+            <a href="#choose" className="nav-cta">{t.nav.cta}</a>
           </div>
         </div>
       </header>
@@ -100,7 +100,7 @@ export function Landing({ lang }: { lang: Lang }) {
             </h1>
             <p>{t.hero.sub}</p>
             <div className="hero-actions">
-              <a href="#order" className="btn-primary-lg">{t.hero.cta}</a>
+              <a href="#choose" className="btn-primary-lg">{t.hero.cta}</a>
               <a href="#meet" className="scroll-link">{t.hero.scroll}</a>
             </div>
           </div>
@@ -394,7 +394,7 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.finale.p1Lines[1]}
             </p>
             <p>{t.finale.p2}</p>
-            <a href="#order" className="btn-primary-lg btn-inline">{t.finale.cta}</a>
+            <a href="#choose" className="btn-primary-lg btn-inline">{t.finale.cta}</a>
             {customLink}
             <div className="finale-note">{t.finale.note}</div>
           </div>
