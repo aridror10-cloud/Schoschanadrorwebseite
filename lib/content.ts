@@ -98,6 +98,8 @@ export interface LandingContent {
   orderHref: string;
   /** Sonderanfrage-Mail: andere Groesse, Menge oder Sonderanfertigung */
   customHref: string;
+  /** Allgemeine Anfrage aus der Kontakt-Sektion, ohne Bestell-Betreff */
+  contactHref: string;
   /** Text des kleinen Sonderanfrage-Links unter den Kauf-Buttons */
   customLinkLabel: string;
   nav: {
@@ -248,6 +250,7 @@ export const content: Record<Lang, LandingContent> = {
       "בקשה להתאמה אישית – סדרת קרליבך",
       "שלום שושנה,\n\nההתאמות שהייתי רוצה לבצע הן:\n\n",
     ),
+    contactHref: mail("פנייה מהאתר – סדרת קרליבך", "שלום שושנה,\n\n"),
     customLinkLabel: "מעוניינים בגודל אחר, בכמות או בהתאמה מיוחדת? פנו במייל לקבלת הצעת מחיר",
 
     nav: {
@@ -536,6 +539,7 @@ Please send me the next steps to complete the order.`,
       "Custom Order Inquiry – Rabbi Shlomo Carlebach Portrait Collection",
       "Hello Shoshana,\n\nThe changes I have in mind are:\n\n",
     ),
+    contactHref: mail("Website enquiry – Carlebach Collection", "Hello Shoshana,\n\n"),
     customLinkLabel: "Looking for another size or a custom variation? Tell me what you have in mind",
 
     nav: {

@@ -373,7 +373,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <p className="contact-lead">{t.contact.lead}</p>
             </div>
             <div className="contact-links" data-reveal-group>
-              <a href={t.customHref} className="contact-link">
+              <a href={t.contactHref} className="contact-link">
                 {mailIcon}
                 <span>{t.contact.label}</span>
               </a>
