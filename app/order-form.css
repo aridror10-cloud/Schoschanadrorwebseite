@@ -243,3 +243,17 @@
   .of-check circle, .of-check path { animation-duration: 0.01ms !important; }
   .of-submit.go { animation: none; }
 }
+
+/* ---------- Set-Kachel im Formular ----------
+   Das Set-Foto ist ein Panorama mit drei Werken nebeneinander. In einem
+   hochformatigen Feld waeren zwei davon abgeschnitten, deshalb bekommt
+   diese Kachel die doppelte Breite und ihr eigenes Bildformat. Die Hoehe
+   bleibt dabei fast gleich wie bei den Einzelkacheln. */
+.of-tiles { grid-template-columns: repeat(5, 1fr); }
+.of-tile-wide { grid-column: span 2; }
+.of-tile-wide .of-thumb { aspect-ratio: 16 / 9; }
+
+@media (max-width: 700px) {
+  .of-tiles { grid-template-columns: repeat(2, 1fr); }
+  .of-tile-wide { grid-column: span 2; }
+}

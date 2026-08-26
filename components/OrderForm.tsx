@@ -172,7 +172,9 @@ export function OrderForm({ lang }: { lang: Lang }) {
                       <button
                         type="button"
                         key={o.value}
-                        className={`of-tile${model === o.value ? " sel" : ""}`}
+                        className={`of-tile${o.value === "set" ? " of-tile-wide" : ""}${
+                          model === o.value ? " sel" : ""
+                        }`}
                         onClick={() => setModel(o.value)}
                         aria-pressed={model === o.value}
                       >
