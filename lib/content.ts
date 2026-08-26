@@ -142,7 +142,6 @@ export interface LandingContent {
     verseTag: string;
     pieces: Piece[];
     setAlt: string;
-    setCaption: string;
     bundle: {
       price: string;
       usd?: string;
@@ -297,7 +296,7 @@ export const content: Record<Lang, LandingContent> = {
         note: "בחרו את הגרסה המועדפת עליכם בעת ההזמנה",
       },
       verseAlt: "תקריב על הפסוק החתוך בתוך המתכת",
-      verseCaption: "הפסוק אינו מודפס — הוא חתוך בתוך המתכת, והקיר נראה מבעד לאותיות.",
+      verseCaption: "הפסוק נחתך בלייזר מתוך גוף המתכת עצמו — לא מודפס ולא מודבק — ומשתלב כחלק בלתי נפרד מהיצירה.",
       verseTag: "פרט · דגם שריקה",
       pieces: [
         {
@@ -329,7 +328,6 @@ export const content: Record<Lang, LandingContent> = {
         },
       ],
       setAlt: "שלושת דגמי הקולקציה יחד על קיר",
-      setCaption: "כך זה ייראה אצלכם בבית",
       bundle: {
         price: "₪1350",
         save: "חיסכון של 300 ₪ לעומת רכישה נפרדת",
@@ -584,7 +582,7 @@ Please send me the next steps to complete the order.`,
         note: "Choose your preferred version when ordering",
       },
       verseAlt: "Close-up of the verse cut through the metal",
-      verseCaption: "The verse isn't printed — it is cut through the metal, so the wall shows through the letters.",
+      verseCaption: "The verse is precision laser-cut directly into the metal itself — not printed or applied — making it an integral part of the artwork.",
       verseTag: "Detail · the Whistling design",
       pieces: [
         {
@@ -619,7 +617,6 @@ Please send me the next steps to complete the order.`,
         },
       ],
       setAlt: "All three collection designs together on a wall",
-      setCaption: "How it will look in your home",
       bundle: {
         price: "₪1350",
         usd: "≈ $450 USD",
