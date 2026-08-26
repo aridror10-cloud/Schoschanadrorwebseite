@@ -1,0 +1,66 @@
+/*
+ * Dankesseite nach der Zahlung. Ruhig und kurz - der Beleg kommt von
+ * SUMIT, hier zaehlt nur die Gewissheit, dass alles angekommen ist.
+ */
+
+.toda {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  background:
+    radial-gradient(760px 520px at 50% 20%, rgba(223, 203, 152, 0.28), rgba(223, 203, 152, 0) 66%),
+    linear-gradient(180deg, #fbf9f5, var(--cream));
+}
+.toda-card {
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 52px 38px 44px;
+  box-shadow: 0 34px 64px -44px rgba(46, 46, 46, 0.4);
+}
+.toda-card .kicker { display: block; margin-bottom: 10px; }
+.toda-card h1 {
+  font-family: var(--font-frank), serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1.35;
+  margin-bottom: 14px;
+  text-wrap: balance;
+}
+.toda-card p {
+  color: #5c5c5c;
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.toda-back {
+  display: inline-block;
+  margin-top: 26px;
+  padding: 13px 34px;
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--charcoal-deep);
+  transition: all 0.45s ease;
+}
+.toda-back:hover { background: var(--gold); color: #fff; }
+
+/* Englischer Teil darunter, klar abgesetzt */
+.toda-en {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.toda-en h2 {
+  font-family: var(--font-frank), serif;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+.toda-en p { font-size: 0.94rem; }

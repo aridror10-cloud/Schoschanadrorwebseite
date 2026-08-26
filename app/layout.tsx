@@ -6,6 +6,7 @@ import "./globals.css";
 import "./order-form.css";
 import "./brand-fx.css";
 import "./charity.css";
+import "./toda.css";
 
 /**
  * Schriften wie in der Design-Vorlage (Heebo + Frank Ruhl Libre).

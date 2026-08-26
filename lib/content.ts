@@ -14,12 +14,26 @@ export type Lang = "he" | "en";
 
 export const EMAIL = "ssdror@gmail.com";
 
+/**
+ * Zahlseiten bei SUMIT, eine je Produkt. Dort waehlt die Kundin die
+ * Versandart, zahlt mit Karte und bekommt die Kabala automatisch -
+ * Shoshana muss dafuer nichts tun.
+ */
+export const PAY = {
+  simcha: "https://pay.sumit.co.il/11yegzt/11yj466/11yj467/payment/",
+  regesh: "https://pay.sumit.co.il/11yegzt/11yjc2q/11yjc2r/payment/",
+  shrika: "https://pay.sumit.co.il/11yegzt/11yj83a/11yj83b/payment/",
+  set: "https://pay.sumit.co.il/11yegzt/11yhltq/11yhltr/payment/",
+} as const;
+
 /** Baut einen mailto-Link mit vorbefuelltem Betreff und Text. */
 const mail = (subject: string, body: string) =>
   `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
 export interface Piece {
   img: string;
+  /** Zahlseite dieses Modells bei SUMIT */
+  payHref: string;
   alt: string;
   name: string;
   desc: string;
@@ -144,6 +158,7 @@ export interface LandingContent {
       usd?: string;
       save: string;
       cta: string;
+      payHref: string;
     };
   };
   process: {
@@ -298,6 +313,7 @@ export const content: Record<Lang, LandingContent> = {
       pieces: [
         {
           img: "/carlebach/simcha.webp",
+          payHref: PAY.simcha,
           alt: "דגם שמחה - דיוקן רבי שלמה קרליבך מנגן בגיטרה",
           name: "שמחה",
           desc: "רגע של שמחה מרוממת והארת פנים.",
@@ -307,6 +323,7 @@ export const content: Record<Lang, LandingContent> = {
         },
         {
           img: "/carlebach/regesh.webp",
+          payHref: PAY.regesh,
           alt: "דגם רגש - דיוקן רבי שלמה קרליבך שר עם פסוק משולב בעיצוב",
           name: "רגש",
           desc: "רגע של התבוננות ועומק.",
@@ -316,6 +333,7 @@ export const content: Record<Lang, LandingContent> = {
         },
         {
           img: "/carlebach/shrika.webp",
+          payHref: PAY.shrika,
           alt: "דגם שריקה - דיוקן פרופיל של רבי שלמה קרליבך",
           name: "שריקה",
           desc: "רגע של התכנסות פנימית.",
@@ -326,6 +344,7 @@ export const content: Record<Lang, LandingContent> = {
       ],
       setAlt: "שלושת דגמי הקולקציה יחד על קיר",
       bundle: {
+        payHref: PAY.set,
         price: "₪1350",
         save: "חיסכון של 300 ₪ לעומת רכישה נפרדת",
         cta: "רכישת הסדרה המלאה",
@@ -587,6 +606,7 @@ Please send me the next steps to complete the order.`,
       pieces: [
         {
           img: "/carlebach/simcha.webp",
+          payHref: PAY.simcha,
           alt: "Joy design - Rabbi Shlomo Carlebach portrait playing guitar",
           name: "Joy",
           desc: "Music, warmth, and the joy that lifted a room.",
@@ -597,6 +617,7 @@ Please send me the next steps to complete the order.`,
         },
         {
           img: "/carlebach/regesh.webp",
+          payHref: PAY.regesh,
           alt: "Soul design - Rabbi Shlomo Carlebach singing, with verse woven into the design",
           name: "Soul",
           desc: "A quiet moment of prayer, feeling, and depth.",
@@ -607,6 +628,7 @@ Please send me the next steps to complete the order.`,
         },
         {
           img: "/carlebach/shrika.webp",
+          payHref: PAY.shrika,
           alt: "Whistling design - profile portrait of Rabbi Shlomo Carlebach",
           name: "Whistling",
           desc: "An intimate gesture, filled with focus and spirit.",
@@ -618,6 +640,7 @@ Please send me the next steps to complete the order.`,
       ],
       setAlt: "All three collection designs together on a wall",
       bundle: {
+        payHref: PAY.set,
         price: "₪1350",
         usd: "≈ $450 USD",
         save: "Save ₪300 with the complete collection",

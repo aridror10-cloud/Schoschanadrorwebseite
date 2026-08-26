@@ -171,7 +171,7 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="piece-size">{piece.size}</span>
                     <div className="mini-price">{piece.price}</div>
                     {piece.usd && <div className="mini-price-usd">{piece.usd}</div>}
-                    <a href="#order" data-model={modelOf(piece.img)} className="btn-outline">{piece.cta}</a>
+                    <a href={piece.payHref} className="btn-outline">{piece.cta}</a>
                   </div>
                 </div>
               ))}
@@ -184,7 +184,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
-              <a href="#order" data-model="set" className="btn-wide">{t.choose.bundle.cta}</a>
+              <a href={t.choose.bundle.payHref} className="btn-wide">{t.choose.bundle.cta}</a>
               {customLink}
             </div>
           </div>
@@ -315,7 +315,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="price-value">{t.pricing.single.price}</div>
                 {t.pricing.single.usd && <div className="price-usd">{t.pricing.single.usd}</div>}
                 <p className="price-desc">{t.pricing.single.desc}</p>
-                <a href="#order" className="btn-price">{t.pricing.single.cta}</a>
+                <a href="#choose" className="btn-price">{t.pricing.single.cta}</a>
                 {customLink}
               </div>
               <div className="price-card featured">
@@ -324,7 +324,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="price-value">{t.pricing.set.price}</div>
                 {t.pricing.set.usd && <div className="price-usd">{t.pricing.set.usd}</div>}
                 <p className="price-desc">{t.pricing.set.desc}</p>
-                <a href="#order" data-model="set" className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
+                <a href={t.choose.bundle.payHref} className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
                 {customLink}
               </div>
             </div>
