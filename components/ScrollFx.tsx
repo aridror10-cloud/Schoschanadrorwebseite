@@ -20,8 +20,6 @@ export function ScrollFx() {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-            // Galerie-Moment: kurz nach dem Erscheinen entpuppt sich das
-            // Set-Foto als gerahmtes Bild an der Wand
             // Grosse Zahl im Zedaka-Band zaehlt hoch, wenn sie ins Bild kommt
             entry.target.querySelectorAll<HTMLElement>("[data-count-to]").forEach((el) => {
               const target = Number(el.dataset.countTo ?? "0");
@@ -36,9 +34,6 @@ export function ScrollFx() {
               requestAnimationFrame(tick);
             });
 
-            if (entry.target.hasAttribute("data-frame")) {
-              timers.push(window.setTimeout(() => entry.target.classList.add("framed"), 900));
-            }
             io.unobserve(entry.target);
           }
         }

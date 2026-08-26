@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { OrderForm } from "@/components/OrderForm";
 import { ScrollFx } from "@/components/ScrollFx";
-import { EMAIL, content, type Lang } from "@/lib/content";
+import { content, type Lang } from "@/lib/content";
 
 /* 3D-Gold-Icons der "Was erhalten Sie"-Sektion (Reihenfolge = get.items) */
 const getImages = [
@@ -43,25 +43,21 @@ export function Landing({ lang }: { lang: Lang }) {
     </div>
   );
 
-  /* Sichtbare Adresse fuer alle, bei denen kein Mailprogramm aufgeht */
-  const mailFallback = (
-    <p className="mail-fallback">
-      {t.emailFallback}{" "}
-      <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-    </p>
-  );
 
   /* Bestell-Band, erscheint zweimal auf der Seite */
   const orderBand = (
     <section className="order-band">
       <div className="wrap order-band-inner" data-reveal>
         <h2>{t.orderBand.title}</h2>
-        <p>{t.orderBand.text}</p>
+        <p>
+          {t.orderBand.textLines[0]}
+          <br />
+          {t.orderBand.textLines[1]}
+        </p>
         <div className="order-band-actions">
           <a href="#order" className="btn-wide">{t.orderBand.cta}</a>
           <a href={t.customHref} className="custom-order-button">{t.orderBand.customCta}</a>
         </div>
-        {mailFallback}
       </div>
     </section>
   );
@@ -181,12 +177,8 @@ export function Landing({ lang }: { lang: Lang }) {
               ))}
             </div>
 
-            <div className="set-frame" data-reveal data-frame>
-              <div className="set-art">
-                <div className="ph set-photo">
-                  <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
-                </div>
-              </div>
+            <div className="ph set-photo" data-reveal>
+              <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
             </div>
             <div className="buy-all" data-reveal>
               <div className="bundle-price">{t.choose.bundle.price}</div>
@@ -386,7 +378,6 @@ export function Landing({ lang }: { lang: Lang }) {
                 <span>{t.contact.label}</span>
               </a>
             </div>
-            {mailFallback}
           </div>
         </section>
 

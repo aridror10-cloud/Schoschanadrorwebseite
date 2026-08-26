@@ -100,11 +100,6 @@ export interface LandingContent {
   customHref: string;
   /** Text des kleinen Sonderanfrage-Links unter den Kauf-Buttons */
   customLinkLabel: string;
-  /**
-   * Fallback fuer Besucher, bei denen kein Mailprogramm aufgeht: die
-   * Adresse steht sichtbar da und laesst sich abschreiben oder kopieren.
-   */
-  emailFallback: string;
   nav: {
     logoAlt: string;
     cta: string;
@@ -157,7 +152,7 @@ export interface LandingContent {
   /** Bestell-Band, erscheint zweimal: nach dem Prozess und nach "Ueber mich" */
   orderBand: {
     title: string;
-    text: string;
+    textLines: [string, string];
     cta: string;
     customCta: string;
   };
@@ -250,11 +245,10 @@ export const content: Record<Lang, LandingContent> = {
 אשמח לקבלת המשך פרטים לביצוע ההזמנה.`,
     ),
     customHref: mail(
-      "אהבתי את הדיוקן — מעוניינת לברר אפשרות להתאמה אישית",
+      "בקשה להתאמה אישית – סדרת קרליבך",
       "שלום שושנה,\n\nההתאמות שהייתי רוצה לבצע הן:\n\n",
     ),
     customLinkLabel: "מעוניינים בגודל אחר, בכמות או בהתאמה מיוחדת? פנו במייל לקבלת הצעת מחיר",
-    emailFallback: "לא נפתחה אצלכם תוכנת מייל? כתבו ישירות אל",
 
     nav: {
       logoAlt: "שושנה דרור | יודאיקה",
@@ -341,14 +335,17 @@ export const content: Record<Lang, LandingContent> = {
         { label: "צילום המקור", img: "/carlebach/process-1.webp", alt: "תצלום המקור" },
         { label: "עיצוב במחשב", img: "/carlebach/process-2.webp", alt: "עיצוב וקטורי במחשב" },
         { label: "תכנון החיתוך", img: "/carlebach/process-3.webp", alt: "תכנון נקודות החיתוך" },
-        { label: "חיתוך הלייזר", note: "* לא תועד בזמן אמת" },
+        { label: "חיתוך הלייזר", img: "/carlebach/process-4.webp", alt: "חיתוך לייזר של לוח מתכת" },
         { label: "צביעה", img: "/carlebach/process-5.webp", alt: "צביעת אבקה בתנור" },
         { label: "תלייה על הקיר", img: "/carlebach/process-6.webp", alt: "הדיוקן תלוי על הקיר" },
       ],
     },
     orderBand: {
       title: "הדיוקן שמתאים לחלל שלכם",
-      text: "בחרו את הדגם שמדבר אליכם, עם הפסוק או בלעדיו. למידה אחרת או להתאמה מיוחדת ניתן לפנות לקבלת הצעת מחיר.",
+      textLines: [
+        "בחרו את הדגם שמדבר אליכם, עם הפסוק או בלעדיו.",
+        "למידה אחרת או להתאמה מיוחדת ניתן לפנות לקבלת הצעת מחיר.",
+      ],
       cta: "לביצוע הזמנה",
       customCta: "בקשה להתאמה אישית",
     },
@@ -536,11 +533,10 @@ Shipping address / pickup:
 Please send me the next steps to complete the order.`,
     ),
     customHref: mail(
-      "I love the portrait — I'd like to explore a custom version",
+      "Custom Order Inquiry – Rabbi Shlomo Carlebach Portrait Collection",
       "Hello Shoshana,\n\nThe changes I have in mind are:\n\n",
     ),
     customLinkLabel: "Looking for another size or a custom variation? Tell me what you have in mind",
-    emailFallback: "Mail app didn't open? Write directly to",
 
     nav: {
       logoAlt: "Shoshana Dror | Judaica",
@@ -631,14 +627,17 @@ Please send me the next steps to complete the order.`,
         { label: "Source Photo", img: "/carlebach/process-1.webp", alt: "Source photograph" },
         { label: "Digital Design", img: "/carlebach/process-2.webp", alt: "Vector design on computer" },
         { label: "Cut Planning", img: "/carlebach/process-3.webp", alt: "Planning the cut points" },
-        { label: "Laser Cutting", note: "* Not documented in real time" },
+        { label: "Laser Cutting", img: "/carlebach/process-4.webp", alt: "Laser cutting a metal sheet" },
         { label: "Powder Coating", img: "/carlebach/process-5.webp", alt: "Oven-baked powder coating" },
         { label: "On the Wall", img: "/carlebach/process-6.webp", alt: "The portrait hanging on the wall" },
       ],
     },
     orderBand: {
       title: "Bring the Right Portrait into Your Space",
-      text: "Choose the design that speaks to you, with or without the verse. If you have another size or a custom version in mind, I would be glad to explore it with you.",
+      textLines: [
+        "Choose the design that speaks to you, with or without the verse.",
+        "If you have another size or a custom version in mind, I would be glad to explore it with you.",
+      ],
       cta: "Place an Order",
       customCta: "Ask About a Custom Version",
     },
