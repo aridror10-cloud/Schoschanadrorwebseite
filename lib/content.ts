@@ -39,7 +39,7 @@ export interface Piece {
   desc: string;
   size: string;
   price: string;
-  /** Nur EN: Zweitzeile "≈ $185 USD" */
+  /** Nur EN: Zweitzeile "~$185 USD" */
   usd?: string;
   cta: string;
 }
@@ -612,7 +612,7 @@ Please send me the next steps to complete the order.`,
           desc: "Music, warmth, and the joy that lifted a room.",
           size: "Height approx. 60 cm (24 in)",
           price: "₪550",
-          usd: "≈ $185 USD",
+          usd: "~$185 USD",
           cta: "Buy This Piece",
         },
         {
@@ -623,7 +623,7 @@ Please send me the next steps to complete the order.`,
           desc: "A quiet moment of prayer, feeling, and depth.",
           size: "Height approx. 60 cm (24 in)",
           price: "₪550",
-          usd: "≈ $185 USD",
+          usd: "~$185 USD",
           cta: "Buy This Piece",
         },
         {
@@ -634,7 +634,7 @@ Please send me the next steps to complete the order.`,
           desc: "An intimate gesture, filled with focus and spirit.",
           size: "Height approx. 60 cm (24 in)",
           price: "₪550",
-          usd: "≈ $185 USD",
+          usd: "~$185 USD",
           cta: "Buy This Piece",
         },
       ],
@@ -642,7 +642,7 @@ Please send me the next steps to complete the order.`,
       bundle: {
         payHref: PAY.set,
         price: "₪1350",
-        usd: "≈ $450 USD",
+        usd: "~$450 USD",
         save: "Save ₪300 with the complete collection",
         cta: "Buy the Full Collection",
       },
@@ -723,7 +723,7 @@ Please send me the next steps to complete the order.`,
       single: {
         name: "Single Portrait",
         price: "₪550",
-        usd: "≈ $185 USD",
+        usd: "~$185 USD",
         desc: "Choose Joy, Soul, or Whistling — with or without its corresponding Hebrew verse set to one of Reb Shlomo’s melodies.",
         cta: "Place an Order",
       },
@@ -731,7 +731,7 @@ Please send me the next steps to complete the order.`,
         badge: "Best Value",
         name: "Full Set of Three Portraits",
         price: "₪1350",
-        usd: "≈ $450 USD",
+        usd: "~$450 USD",
         desc: "Joy, Soul, and Whistling together — three portraits that bring the full spirit of the collection to one wall.",
         cta: "Place an Order",
       },

@@ -18,6 +18,10 @@ const heebo = Heebo({
   weight: ["300", "400", "500", "700", "900"],
   variable: "--font-heebo",
   display: "swap",
+  // Kein Vorabladen: sonst holt jede Sprachfassung beide Zeichensaetze und
+  // draengelt sich im <head> vor das Hero-Bild. Die unicode-range in der
+  // erzeugten CSS entscheidet dann selbst, was wirklich gebraucht wird.
+  preload: false,
 });
 
 const frankRuhl = Frank_Ruhl_Libre({
@@ -25,6 +29,7 @@ const frankRuhl = Frank_Ruhl_Libre({
   weight: ["400", "500", "700"],
   variable: "--font-frank",
   display: "swap",
+  preload: false,
 });
 
 const he = content.he.meta;

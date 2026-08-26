@@ -17,6 +17,31 @@ import { NextResponse } from "next/server";
  */
 
 const TO = process.env.ORDER_TO ?? "ssdror@gmail.com";
+
+/**
+ * Einfache Ratenbegrenzung je Absender-IP.
+ *
+ * Ohne sie koennte jemand die Route missbrauchen, um beliebigen Adressen
+ * Bestaetigungsmails zu schicken - auf Kosten des Rufs unserer Domain.
+ * Der Speicher gilt nur je laufender Instanz und ist damit kein
+ * vollstaendiger Schutz, nimmt dem einfachen Missbrauch aber den Reiz.
+ */
+const RECENT = new Map<string, number[]>();
+const LIMIT = 3;
+const WINDOW = 60 * 60 * 1000;
+
+function tooMany(ip: string) {
+  const now = Date.now();
+  const hits = (RECENT.get(ip) ?? []).filter((t) => now - t < WINDOW);
+  if (hits.length >= LIMIT) {
+    RECENT.set(ip, hits);
+    return true;
+  }
+  hits.push(now);
+  RECENT.set(ip, hits);
+  if (RECENT.size > 5000) RECENT.clear(); // Notbremse gegen Speicherwachstum
+  return false;
+}
 const FROM = process.env.ORDER_FROM ?? "Carlebach Collection <onboarding@resend.dev>";
 
 /** Schuetzt vor HTML-Einschleusung in der Bestellmail. */
@@ -55,6 +80,11 @@ export async function POST(request: Request) {
 
   // Roboter fuellen das unsichtbare Feld aus: still schlucken, nicht melden
   if (clamp(data.company)) return NextResponse.json({ ok: true });
+
+  const ip = (request.headers.get("x-forwarded-for") ?? "unbekannt").split(",")[0]?.trim() ?? "unbekannt";
+  if (tooMany(ip)) {
+    return NextResponse.json({ error: "too_many" }, { status: 429 });
+  }
 
   const name = clamp(data.name, 120);
   const email = clamp(data.email, 160);

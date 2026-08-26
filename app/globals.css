@@ -10,6 +10,9 @@
   --charcoal: #4a4a4a;
   --charcoal-deep: #2e2e2e;
   --gold: #ab9149;
+  /* Dunklere Stufe fuer kleine Schrift - #ab9149 erreicht in Textgroesse
+     keinen ausreichenden Kontrast (WCAG AA 1.4.3) */
+  --gold-text: #806a2b;
   --gold-soft: #c7b074;
   --cream: #faf8f4;
   --grey-bg: #f2f1ee;
@@ -31,7 +34,7 @@ img, svg { display: block; max-width: 100%; }
 .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
 section { position: relative; }
 .kicker {
-  color: var(--gold);
+  color: var(--gold-text);
   font-weight: 700;
   letter-spacing: 2px;
   font-size: 0.78rem;
@@ -39,7 +42,7 @@ section { position: relative; }
   margin-bottom: 16px;
 }
 
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--gold-text); outline-offset: 3px; }
 ::selection { background: var(--gold); color: #241f16; }
 h1, h2 { text-wrap: balance; }
 
@@ -239,7 +242,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .v-opt { display: flex; align-items: center; gap: 12px; font-size: 0.94rem; color: var(--charcoal-deep); }
 .v-opt .dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--gold); flex: 0 0 16px; }
 .v-opt small { display: block; color: #888; font-weight: 400; font-size: 0.82rem; margin-top: 2px; }
-.v-note { text-align: center; color: #999; font-size: 0.8rem; margin-top: 14px; }
+.v-note { text-align: center; color: #6b6b6b; font-size: 0.8rem; margin-top: 14px; }
 
 .pieces { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px; }
 .piece {
@@ -256,7 +259,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .piece-body { padding: 26px 24px 30px; }
 .piece-name { font-family: var(--font-frank), serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
 .piece-desc { color: #5c5c5c; font-size: 0.92rem; margin-bottom: 10px; }
-.piece-size { display: block; color: #999; font-size: 0.8rem; margin-bottom: 18px; }
+.piece-size { display: block; color: #6b6b6b; font-size: 0.8rem; margin-bottom: 18px; }
 .btn-outline {
   display: block;
   text-align: center;
@@ -269,7 +272,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 }
 .btn-outline:hover { background: var(--charcoal-deep); color: #fff; }
 .mini-price { font-family: var(--font-frank), serif; font-size: 1.15rem; font-weight: 700; color: var(--gold); margin-bottom: 14px; }
-.mini-price-usd { font-size: 0.82rem; font-weight: 500; color: #999; margin-bottom: 14px; }
+.mini-price-usd { font-size: 0.82rem; font-weight: 500; color: #6b6b6b; margin-bottom: 14px; }
 .bundle-price { font-family: var(--font-frank), serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
 /* EN-Seite: engere Abstaende, weil darunter die ≈-USD-Zeile folgt */
 .page[lang="en"] .mini-price { margin-bottom: 4px; }
@@ -479,7 +482,7 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 }
 .price-name { font-family: var(--font-frank), serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
 .price-value { font-family: var(--font-frank), serif; font-size: 2.4rem; color: var(--gold); font-weight: 700; margin-bottom: 16px; }
-.price-usd { font-size: 0.92rem; color: #999; margin-bottom: 22px; }
+.price-usd { font-size: 0.92rem; color: #6b6b6b; margin-bottom: 22px; }
 .page[lang="en"] .price-value { margin-bottom: 2px; }
 .price-desc { color: #666; font-size: 0.9rem; margin-bottom: 26px; min-height: 44px; }
 .btn-price {
@@ -522,13 +525,13 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .delivery-item div:last-child { display: flex; flex-direction: column; gap: 2px; }
 .delivery-item strong { font-size: 0.94rem; color: var(--charcoal-deep); }
 .delivery-item span { font-size: 0.85rem; color: #666; }
-.delivery-disclaimer { margin-top: 18px; text-align: center; font-size: 0.8rem; color: #999; line-height: 1.6; }
+.delivery-disclaimer { margin-top: 18px; text-align: center; font-size: 0.8rem; color: #6b6b6b; line-height: 1.6; }
 
 /* Waehrungshinweis + (in der Vorlage vorbereiteter) Umschalter */
 .currency-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 16px; }
 .curr-btn { border: 1px solid var(--line); background: #fff; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; transition: all 0.2s ease; font-family: var(--font-heebo), sans-serif; }
 .curr-btn.active { background: var(--charcoal-deep); color: #fff; border-color: var(--charcoal-deep); }
-.curr-note { text-align: center; font-size: 0.78rem; color: #999; margin-bottom: 36px; }
+.curr-note { text-align: center; font-size: 0.78rem; color: #6b6b6b; margin-bottom: 36px; }
 
 /* ================= SCREEN 9 — FAQ ================= */
 .faq { padding: 100px 0 120px; background: var(--grey-bg); }

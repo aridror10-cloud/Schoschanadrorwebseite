@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EMAIL, content, type Lang } from "@/lib/content";
 
 /**
@@ -41,6 +41,16 @@ export function OrderForm({ lang }: { lang: Lang }) {
   const [company, setComapny] = useState(""); // Honigtopf, bleibt fuer Menschen unsichtbar
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const doneRef = useRef<HTMLDivElement>(null);
+
+  /*
+   * Nach dem Absenden wechselt der Karteninhalt komplett. Ohne den Fokus
+   * mitzunehmen steht er im Nichts - Tastatur- und Vorlesenutzung
+   * bemerkten den Erfolg sonst gar nicht.
+   */
+  useEffect(() => {
+    if (status === "sent") doneRef.current?.focus();
+  }, [status]);
 
   /*
    * Die Kauf-Buttons auf der Seite verlinken auf #order und tragen
@@ -67,7 +77,13 @@ export function OrderForm({ lang }: { lang: Lang }) {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) next.email = f.errorEmail;
     if (!notes.trim()) next.notes = f.errorRequired;
     setErrors(next);
-    return Object.keys(next).length === 0;
+    const first = Object.keys(next)[0];
+    if (first) {
+      // Zum ersten beanstandeten Feld springen, statt es nur rot zu faerben
+      requestAnimationFrame(() => document.getElementById(`of-${first}`)?.focus());
+      return false;
+    }
+    return true;
   }
 
   async function submit(e: React.FormEvent) {
@@ -149,7 +165,7 @@ export function OrderForm({ lang }: { lang: Lang }) {
         <div className={`of-card${status === "sent" ? " is-done" : ""}`} data-reveal>
           <div className="of-inner">
             {status === "sent" ? (
-              <div className="of-done">
+              <div className="of-done" role="status" tabIndex={-1} ref={doneRef}>
                 <svg className="of-check" width="58" height="58" viewBox="0 0 58 58" aria-hidden="true">
                   <circle cx="29" cy="29" r="27" />
                   <path d="M18 30l8 8 15-17" />

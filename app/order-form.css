@@ -46,11 +46,11 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 1.4px;
-  color: var(--gold);
+  color: var(--gold-text);
   margin-bottom: 8px;
   text-transform: uppercase;
 }
-.of-optional { color: #a29d92; font-weight: 500; letter-spacing: 0.4px; text-transform: none; }
+.of-optional { color: #6f6a60; font-weight: 500; letter-spacing: 0.4px; text-transform: none; }
 .of-fieldset { border: 0; margin: 0 0 22px; padding: 0; }
 .of-group { margin-bottom: 22px; }
 .of-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
@@ -66,11 +66,17 @@
   font-size: 0.95rem;
   color: var(--charcoal-deep);
   padding: 3px 0;
-  outline: none;
   resize: vertical;
 }
+/* Die Laserlinie bleibt als Geste, ersetzt aber keinen sichtbaren Fokus */
+.of-field input:focus-visible,
+.of-field textarea:focus-visible {
+  outline: 3px solid var(--gold-text);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
 .of-field input::placeholder,
-.of-field textarea::placeholder { color: #b4afa4; }
+.of-field textarea::placeholder { color: #6f6a60; }
 .of-base { position: absolute; bottom: 0; inset-inline: 0; height: 1px; background: rgba(74, 74, 74, 0.22); }
 .of-cut {
   position: absolute;
@@ -198,9 +204,9 @@
 }
 .of-submit.go { animation: frameSheen 1.1s ease-in-out infinite; }
 
-.of-alt { text-align: center; font-size: 0.85rem; color: #7d7970; margin-top: 16px; }
+.of-alt { text-align: center; font-size: 0.85rem; color: #64605a; margin-top: 16px; }
 .of-alt a { color: var(--gold); font-weight: 600; border-bottom: 1px solid rgba(171, 145, 73, 0.45); }
-.of-privacy { text-align: center; font-size: 0.76rem; color: #a29d92; margin-top: 10px; line-height: 1.6; }
+.of-privacy { text-align: center; font-size: 0.76rem; color: #6f6a60; margin-top: 10px; line-height: 1.6; }
 
 /* Honigtopf gegen Spam-Roboter: fuer Menschen unsichtbar */
 .of-hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

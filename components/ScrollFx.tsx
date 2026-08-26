@@ -8,7 +8,17 @@ import { useEffect } from "react";
  * Ohne JavaScript (oder bei reduzierter Bewegung) wird die Klasse "fx" nie
  * gesetzt - dann ist alles sofort sichtbar und nichts animiert.
  */
-export function ScrollFx() {
+export function ScrollFx({ lang, dir }: { lang: string; dir: string }) {
+  /*
+   * Der Sprachumschalter wechselt die Route ohne Neuladen; das
+   * <html>-Element behaelt dabei sonst die Sprache der zuerst geladenen
+   * Seite. Vorlesesoftware laege damit in der falschen Sprache.
+   */
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dir;
+  }, [lang, dir]);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 

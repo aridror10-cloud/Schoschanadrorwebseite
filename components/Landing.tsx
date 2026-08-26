@@ -64,7 +64,7 @@ export function Landing({ lang }: { lang: Lang }) {
 
   return (
     <div className="page" lang={lang} dir={t.dir}>
-      <ScrollFx />
+      <ScrollFx lang={lang} dir={t.dir} />
       <header className="nav">
         <div className="nav-inner">
           <div className="brand">
