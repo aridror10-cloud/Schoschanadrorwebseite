@@ -44,14 +44,6 @@ export interface Piece {
   cta: string;
 }
 
-export interface ProcessStep {
-  label: string;
-  img?: string;
-  alt?: string;
-  /** Schritt ohne Foto (Laserschnitt) traegt stattdessen eine Fussnote */
-  note?: string;
-}
-
 export interface DeliveryItem {
   icon: string;
   title: string;
@@ -147,10 +139,6 @@ export interface LandingContent {
       options: [string, string];
       note: string;
     };
-    /** Makro des eingeschnittenen Pasuk - macht die Versions-Wahl sichtbar */
-    verseAlt: string;
-    verseCaption: string;
-    verseTag: string;
     pieces: Piece[];
     setAlt: string;
     bundle: {
@@ -161,28 +149,25 @@ export interface LandingContent {
       payHref: string;
     };
   };
-  process: {
+  /**
+   * "Die Details, die den Unterschied machen" - ersetzt auf Anweisung des
+   * Unternehmensberaters (Mail 27.08.26) die Sektionen Prozess, "Was
+   * erhalten Sie" und "Fuer wen". Kurz, visuell, nutzenorientiert:
+   * ein Hauptbild (Pasuk-Nahaufnahme) und zwei Nebenkarten.
+   */
+  details: {
     title: string;
-    sub: string;
-    steps: ProcessStep[];
+    mainAlt: string;
+    mainHeading: string;
+    mainText: string;
+    cards: { img: string; alt: string; heading: string; text: string }[];
   };
-  /** Bestell-Band, erscheint zweimal: nach dem Prozess und nach "Ueber mich" */
+  /** Bestell-Band, erscheint zweimal: nach den Details und nach "Ueber mich" */
   orderBand: {
     title: string;
     textLines: [string, string];
     cta: string;
     customCta: string;
-  };
-  get: {
-    title: string;
-    items: string[];
-  };
-  whofor: {
-    imgAlt: string;
-    kicker: string;
-    title: string;
-    lead: string;
-    list: string[];
   };
   about: {
     kicker: string;
@@ -307,9 +292,6 @@ export const content: Record<Lang, LandingContent> = {
         ],
         note: "בחרו את הגרסה המועדפת עליכם בעת ההזמנה",
       },
-      verseAlt: "תקריב על הפסוק החתוך בתוך המתכת",
-      verseCaption: "הפסוק נחתך בלייזר מתוך גוף המתכת עצמו — לא מודפס ולא מודבק — ומשתלב כחלק בלתי נפרד מהיצירה.",
-      verseTag: "פרט · דגם שריקה",
       pieces: [
         {
           img: "/carlebach/simcha.webp",
@@ -350,16 +332,24 @@ export const content: Record<Lang, LandingContent> = {
         cta: "רכישת הסדרה המלאה",
       },
     },
-    process: {
-      title: "כך נוצרת כל יצירה",
-      sub: "התמונות מתעדות דיוקן שיצרתי לזכר אבי ז״ל, באותה שיטת עבודה בדיוק — משלב הרעיון ועד הקיר.",
-      steps: [
-        { label: "צילום המקור", img: "/carlebach/process-1.webp", alt: "תצלום המקור" },
-        { label: "עיצוב במחשב", img: "/carlebach/process-2.webp", alt: "עיצוב וקטורי במחשב" },
-        { label: "תכנון החיתוך", img: "/carlebach/process-3.webp", alt: "תכנון נקודות החיתוך" },
-        { label: "חיתוך הלייזר", img: "/carlebach/process-4.webp", alt: "חיתוך לייזר של לוח מתכת" },
-        { label: "צביעה", img: "/carlebach/process-5.webp", alt: "צביעת אבקה בתנור" },
-        { label: "תלייה על הקיר", img: "/carlebach/process-6.webp", alt: "הדיוקן תלוי על הקיר" },
+    details: {
+      title: "הפרטים שעושים את ההבדל",
+      mainAlt: "תקריב הפסוק — האותיות חתוכות ממש מתוך המתכת",
+      mainHeading: "חתוך במתכת. חלק מהעיצוב.",
+      mainText: "הפסוק נחתך בלייזר מתוך המתכת עצמה — לא מודפס ולא מודבק.",
+      cards: [
+        {
+          img: "/carlebach/detail-depth.webp",
+          alt: "הדיוקן בזווית מהקיר — המרחק מהקיר והצל שנוצר מאחוריו",
+          heading: "עומק ונוכחות",
+          text: "ההרחקה מהקיר יוצרת עומק ומשחקי אור וצל.",
+        },
+        {
+          img: "/carlebach/detail-hang.webp",
+          alt: "תקריב המתלה המכופף עם חור התלייה",
+          heading: "מוכן לתלייה",
+          text: "מתלים מובנים בגוף המתכת לתלייה פשוטה ומדויקת.",
+        },
       ],
     },
     orderBand: {
@@ -370,33 +360,6 @@ export const content: Record<Lang, LandingContent> = {
       ],
       cta: "לביצוע הזמנה",
       customCta: "בקשה להתאמה אישית",
-    },
-    get: {
-      title: "מה תקבלו",
-      items: [
-        "חיתוך לייזר מדויק",
-        "אלומיניום איכותי, עמיד וקל משקל",
-        "צביעה בתנור",
-        "מוכן לתלייה",
-        "גובה כ־60 ס״מ",
-        "עיצוב מקורי",
-      ],
-    },
-    whofor: {
-      imgAlt: "דיוקנאות קרליבך תלויים בסלון אמיתי מעל ספה",
-      kicker: "התאמה",
-      title: "למי מיועדת הסדרה",
-      lead: "לבתים ולמוסדות המבקשים לשלב אמנות יהודית בעלת משמעות. הסדרה מתאימה במיוחד ל:",
-      list: [
-        "סלון",
-        "חדר עבודה",
-        "ספרייה",
-        "סטודיו",
-        "אולפן הקלטות",
-        "מוסד חינוכי",
-        "מתנה מכובדת לתורמים",
-        "לכל מי שחש חיבור לדמותו של רבי שלמה קרליבך",
-      ],
     },
     about: {
       kicker: "מי מאחורי היצירה",
@@ -600,9 +563,6 @@ Please send me the next steps to complete the order.`,
         ],
         note: "Choose your preferred version when ordering",
       },
-      verseAlt: "Close-up of the verse cut through the metal",
-      verseCaption: "The verse is precision laser-cut directly into the metal itself — not printed or applied — making it an integral part of the artwork.",
-      verseTag: "Detail · the Whistling design",
       pieces: [
         {
           img: "/carlebach/simcha.webp",
@@ -647,16 +607,24 @@ Please send me the next steps to complete the order.`,
         cta: "Buy the Full Collection",
       },
     },
-    process: {
-      title: "How Each Piece Is Made",
-      sub: "These photos document a portrait I created in memory of my late father, using the exact same process — from concept to wall.",
-      steps: [
-        { label: "Source Photo", img: "/carlebach/process-1.webp", alt: "Source photograph" },
-        { label: "Digital Design", img: "/carlebach/process-2.webp", alt: "Vector design on computer" },
-        { label: "Cut Planning", img: "/carlebach/process-3.webp", alt: "Planning the cut points" },
-        { label: "Laser Cutting", img: "/carlebach/process-4.webp", alt: "Laser cutting a metal sheet" },
-        { label: "Powder Coating", img: "/carlebach/process-5.webp", alt: "Oven-baked powder coating" },
-        { label: "On the Wall", img: "/carlebach/process-6.webp", alt: "The portrait hanging on the wall" },
+    details: {
+      title: "Details That Make the Difference",
+      mainAlt: "Close-up of the verse — the letters are cut directly from the metal",
+      mainHeading: "Cut into the metal. Part of the design.",
+      mainText: "The verse is laser-cut directly from the metal — not printed or applied.",
+      cards: [
+        {
+          img: "/carlebach/detail-depth.webp",
+          alt: "The portrait seen at an angle — the space from the wall and the shadow behind it",
+          heading: "Depth and presence",
+          text: "The space from the wall creates depth and a play of light and shadow.",
+        },
+        {
+          img: "/carlebach/detail-hang.webp",
+          alt: "Close-up of the folded hanging tab with its mounting hole",
+          heading: "Ready to hang",
+          text: "Integrated metal tabs for simple, precise installation.",
+        },
       ],
     },
     orderBand: {
@@ -667,32 +635,6 @@ Please send me the next steps to complete the order.`,
       ],
       cta: "Place an Order",
       customCta: "Ask About a Custom Version",
-    },
-    get: {
-      title: "What You’ll Receive",
-      items: [
-        "Precision laser cutting",
-        "Durable, lightweight aluminum",
-        "Oven-baked coating",
-        "Ready to hang",
-        "Approx. 60 cm (24 in) tall",
-        "Original design",
-      ],
-    },
-    whofor: {
-      imgAlt: "Carlebach portraits hanging above a sofa in a real living room",
-      kicker: "A Perfect Fit",
-      title: "Made for Spaces with Soul",
-      lead: "For homes and Jewish spaces that value art with meaning, memory, and spiritual presence:",
-      list: [
-        "Living room",
-        "Home office",
-        "Library",
-        "Studio",
-        "Educational institution",
-        "A meaningful gift for a donor or someone special",
-        "Anyone whose heart has been touched by Reb Shlomo’s music and message",
-      ],
     },
     about: {
       kicker: "Meet the Artist",

@@ -3,26 +3,6 @@ import { OrderForm } from "@/components/OrderForm";
 import { ScrollFx } from "@/components/ScrollFx";
 import { content, type Lang } from "@/lib/content";
 
-/* 3D-Gold-Icons der "Was erhalten Sie"-Sektion (Reihenfolge = get.items) */
-const getImages = [
-  "/carlebach/get-laser.webp",
-  "/carlebach/get-metal.webp",
-  "/carlebach/get-oven.webp",
-  "/carlebach/get-hang.webp",
-  "/carlebach/get-size.webp",
-  "/carlebach/get-design.webp",
-];
-
-const laserIcon = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 3l8 8" />
-    <path d="M15.5 8.3l1.8-1.8M17.6 12.4l2.3.4M13.3 15.9l.4 2.3M9.6 13.6l-1.8 1.8" />
-    <circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none" />
-    <path d="M2 20h20" strokeWidth="1.1" opacity=".5" />
-  </svg>
-);
-
-
 const mailIcon = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -134,29 +114,17 @@ export function Landing({ lang }: { lang: Lang }) {
               <h2>{t.choose.title}</h2>
             </div>
 
-            <div className="verse-block" data-reveal data-cut>
-              <p className="verse-caption">{t.choose.verseCaption}</p>
-              <div className="verse-body">
-                <div className="verse-col">
-                  <div className="verse-shot">
-                    <img src="/carlebach/verse-detail.webp" alt={t.choose.verseAlt} loading="lazy" />
-                    <span className="verse-edge" />
+            <div className="version-toggle" data-reveal>
+              <p>{t.choose.toggle.intro}</p>
+              <div className="version-options">
+                {t.choose.toggle.options.map((opt) => (
+                  <div className="v-opt" key={opt.slice(0, 20)}>
+                    <span className="dot" />
+                    {opt}
                   </div>
-                  <span className="verse-tag">{t.choose.verseTag}</span>
-                </div>
-              <div className="verse-text">
-                <p className="verse-intro">{t.choose.toggle.intro}</p>
-                <div className="version-options">
-                  {t.choose.toggle.options.map((opt) => (
-                    <div className="v-opt" key={opt.slice(0, 20)}>
-                      <span className="dot" />
-                      {opt}
-                    </div>
-                  ))}
-                </div>
-                <div className="v-note">{t.choose.toggle.note}</div>
+                ))}
               </div>
-              </div>
+              <div className="v-note">{t.choose.toggle.note}</div>
             </div>
 
             <div className="pieces" data-reveal-group>
@@ -190,27 +158,28 @@ export function Landing({ lang }: { lang: Lang }) {
           </div>
         </section>
 
-        {/* ===== SCREEN 4 — PROCESS ===== */}
-        <section className="process">
+        {/* ===== SCREEN 4 — DETAILS THAT MAKE THE DIFFERENCE ===== */}
+        <section className="details">
           <div className="wrap">
-            <h2 data-reveal>{t.process.title}</h2>
-            <p className="process-sub" data-reveal>{t.process.sub}</p>
-            <div className="process-grid" data-reveal-group>
-              {t.process.steps.map((step, i) => (
-                <div className="p-card" key={step.label}>
-                  {step.img ? (
-                    <div className="p-photo">
-                      <div className="p-num">{i + 1}</div>
-                      <img src={step.img} alt={step.alt} loading="lazy" />
-                    </div>
-                  ) : (
-                    <div className="p-photo icon-only">
-                      <div className="p-num">{i + 1}</div>
-                      {laserIcon}
-                      <span className="p-note">{step.note}</span>
-                    </div>
-                  )}
-                  <span>{step.label}</span>
+            <h2 data-reveal>{t.details.title}</h2>
+            <div className="details-main" data-reveal data-cut>
+              <div className="d-shot d-shot-main">
+                <img src="/carlebach/detail-verse.webp" alt={t.details.mainAlt} loading="lazy" />
+                <span className="verse-edge" />
+              </div>
+              <div className="d-main-text">
+                <h3>{t.details.mainHeading}</h3>
+                <p>{t.details.mainText}</p>
+              </div>
+            </div>
+            <div className="details-minor" data-reveal-group>
+              {t.details.cards.map((card) => (
+                <div className="d-card" key={card.img}>
+                  <div className="d-shot">
+                    <img src={card.img} alt={card.alt} loading="lazy" />
+                  </div>
+                  <h3>{card.heading}</h3>
+                  <p>{card.text}</p>
                 </div>
               ))}
             </div>
@@ -218,47 +187,6 @@ export function Landing({ lang }: { lang: Lang }) {
         </section>
 
         {orderBand}
-
-        {/* ===== SCREEN 5 — WHAT YOU GET ===== */}
-        <section className="getgrid">
-          <div className="wrap">
-            <h2 data-reveal>{t.get.title}</h2>
-            <div className="get-icons" data-reveal-group>
-              {t.get.items.map((item, i) => (
-                <div className="get-item" key={item}>
-                  <img
-                    src={getImages[i]}
-                    alt=""
-                    className="get-photo"
-                    width={110}
-                    height={110}
-                    loading="lazy"
-                  />
-                  <p>{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ===== SCREEN 6 — WHO IT'S FOR ===== */}
-        <section className="whofor">
-          <div className="wrap whofor-grid">
-            <div className="ph" data-reveal>
-              <img src="/carlebach/livingroom.webp" alt={t.whofor.imgAlt} loading="lazy" />
-            </div>
-            <div data-reveal>
-              <div className="kicker">{t.whofor.kicker}</div>
-              <h2>{t.whofor.title}</h2>
-              <p className="lead">{t.whofor.lead}</p>
-              <ul className="who-list">
-                {t.whofor.list.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
 
         {/* ===== SCREEN 7 — ABOUT THE ARTIST ===== */}
         <section className="about">
