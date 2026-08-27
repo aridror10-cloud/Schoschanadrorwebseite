@@ -153,6 +153,9 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
               <a href={t.choose.bundle.payHref} className="btn-wide">{t.choose.bundle.cta}</a>
+              <div className="custom-order-link">
+                <a href={t.choose.combine.href}>{t.choose.combine.label}</a>
+              </div>
               {customLink}
             </div>
           </div>

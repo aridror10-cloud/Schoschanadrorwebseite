@@ -15,15 +15,19 @@ export type Lang = "he" | "en";
 export const EMAIL = "ssdror@gmail.com";
 
 /**
- * Zahlseiten bei SUMIT, eine je Produkt. Dort waehlt die Kundin die
- * Versandart, zahlt mit Karte und bekommt die Kabala automatisch -
- * Shoshana muss dafuer nichts tun.
+ * Zahlseiten bei SUMIT. Alle Produkte liegen seit 27.08.26 im gemeinsamen
+ * Katalog "sidrat Carlebach" (122fbi4): die Direktlinks laden ein Produkt
+ * vor (und ERSETZEN einen bestehenden Warenkorb), auf der Katalogseite
+ * lassen sich mehrere Modelle in einen Warenkorb legen und in einer
+ * Zahlung kaufen. Versandart, Kartenzahlung und Kabala macht SUMIT.
  */
 export const PAY = {
-  simcha: "https://pay.sumit.co.il/11yegzt/11yj466/11yj467/payment/",
-  regesh: "https://pay.sumit.co.il/11yegzt/11yjc2q/11yjc2r/payment/",
-  shrika: "https://pay.sumit.co.il/11yegzt/11yj83a/11yj83b/payment/",
-  set: "https://pay.sumit.co.il/11yegzt/11yhltq/11yhltr/payment/",
+  simcha: "https://pay.sumit.co.il/11yegzt/122fbi4/11yj467/payment/",
+  regesh: "https://pay.sumit.co.il/11yegzt/122fbi4/11yjc2r/payment/",
+  shrika: "https://pay.sumit.co.il/11yegzt/122fbi4/11yj83b/payment/",
+  set: "https://pay.sumit.co.il/11yegzt/122fbi4/11yhltr/payment/",
+  /** Katalogseite mit allen Modellen - fuer Bestellungen mehrerer Designs */
+  catalog: "https://pay.sumit.co.il/11yegzt/122fbi4/",
 } as const;
 
 /** Baut einen mailto-Link mit vorbefuelltem Betreff und Text. */
@@ -147,6 +151,11 @@ export interface LandingContent {
       save: string;
       cta: string;
       payHref: string;
+    };
+    /** Link auf die SUMIT-Katalogseite: mehrere Modelle in einer Bestellung */
+    combine: {
+      label: string;
+      href: string;
     };
   };
   /**
@@ -330,6 +339,10 @@ export const content: Record<Lang, LandingContent> = {
         price: "₪1350",
         save: "חיסכון של 300 ₪ לעומת רכישה נפרדת",
         cta: "רכישת הסדרה המלאה",
+      },
+      combine: {
+        label: "רוצים לשלב כמה דגמים בהזמנה אחת? לקטלוג המלא",
+        href: PAY.catalog,
       },
     },
     details: {
@@ -605,6 +618,10 @@ Please send me the next steps to complete the order.`,
         usd: "~$450 USD",
         save: "Save ₪300 with the complete collection",
         cta: "Buy the Full Collection",
+      },
+      combine: {
+        label: "Want to combine several designs in one order? Open the full catalog",
+        href: PAY.catalog,
       },
     },
     details: {
