@@ -425,7 +425,7 @@ export const content: Record<Lang, LandingContent> = {
         name: "דיוקן בודד",
         price: "₪550",
         desc: "בחירת דגם אחד מתוך שמחה, רגש או שריקה — עם או בלי הפסוק התואם מתוך אחד מניגוניו של רבי שלמה קרליבך.",
-        cta: "לביצוע הזמנה",
+        cta: "לבחירת דגם",
       },
       set: {
         badge: "הכי משתלם",
@@ -725,7 +725,7 @@ Please send me the next steps to complete the order.`,
         price: "₪550",
         usd: "~$185 USD",
         desc: "Choose Joy, Soul, or Whistling — with or without its corresponding Hebrew verse set to one of Reb Shlomo’s melodies.",
-        cta: "Place an Order",
+        cta: "Choose your design",
       },
       set: {
         badge: "Best Value",
