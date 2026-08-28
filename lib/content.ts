@@ -152,11 +152,20 @@ export interface LandingContent {
       cta: string;
       payHref: string;
     };
-    /** Link auf die SUMIT-Katalogseite: mehrere Modelle in einer Bestellung */
-    combine: {
-      label: string;
-      href: string;
-    };
+  };
+  /**
+   * Sammel-Bestellung direkt auf der Website: "In den Korb"-Knoepfe an den
+   * Modellkarten plus Korb-Leiste. Beim Bezahlen baut /api/cart den
+   * SUMIT-Warenkorb auf und leitet zur Zahlseite weiter.
+   */
+  cart: {
+    add: string;
+    inCart: string;
+    names: Record<"simcha" | "regesh" | "shrika" | "set", string>;
+    checkout: string;
+    clear: string;
+    sending: string;
+    error: string;
   };
   /**
    * "Die Details, die den Unterschied machen" - ersetzt auf Anweisung des
@@ -340,10 +349,15 @@ export const content: Record<Lang, LandingContent> = {
         save: "חיסכון של 300 ₪ לעומת רכישה נפרדת",
         cta: "רכישת הסדרה המלאה",
       },
-      combine: {
-        label: "רוצים לשלב כמה דגמים בהזמנה אחת? לקטלוג המלא",
-        href: PAY.catalog,
-      },
+    },
+    cart: {
+      add: "הוספה לסל",
+      inCart: "בסל ✓",
+      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא" },
+      checkout: "מעבר לתשלום",
+      clear: "ריקון הסל",
+      sending: "רגע…",
+      error: "משהו השתבש — נסו שוב או השתמשו בכפתורי הרכישה.",
     },
     details: {
       title: "הפרטים שעושים את ההבדל",
@@ -619,10 +633,15 @@ Please send me the next steps to complete the order.`,
         save: "Save ₪300 with the complete collection",
         cta: "Buy the Full Collection",
       },
-      combine: {
-        label: "Want to combine several designs in one order? Open the full catalog",
-        href: PAY.catalog,
-      },
+    },
+    cart: {
+      add: "Add to basket",
+      inCart: "In basket ✓",
+      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set" },
+      checkout: "Checkout",
+      clear: "Clear basket",
+      sending: "One moment…",
+      error: "Something went wrong — please try again or use the buy buttons.",
     },
     details: {
       title: "Details That Make the Difference",

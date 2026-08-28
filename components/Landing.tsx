@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CartBar } from "@/components/CartBar";
 import { OrderForm } from "@/components/OrderForm";
 import { ScrollFx } from "@/components/ScrollFx";
 import { content, type Lang } from "@/lib/content";
@@ -45,6 +46,7 @@ export function Landing({ lang }: { lang: Lang }) {
   return (
     <div className="page" lang={lang} dir={t.dir}>
       <ScrollFx lang={lang} dir={t.dir} />
+      <CartBar lang={lang} />
       <header className="nav">
         <div className="nav-inner">
           <div className="brand">
@@ -140,6 +142,15 @@ export function Landing({ lang }: { lang: Lang }) {
                     <div className="mini-price">{piece.price}</div>
                     {piece.usd && <div className="mini-price-usd">{piece.usd}</div>}
                     <a href={piece.payHref} className="btn-outline">{piece.cta}</a>
+                    <button
+                      type="button"
+                      className="cart-add"
+                      data-cart-add={modelOf(piece.img)}
+                      aria-pressed="false"
+                    >
+                      <span className="cart-add-dot" aria-hidden="true" />
+                      <span className="cart-add-label">{t.cart.add}</span>
+                    </button>
                   </div>
                 </div>
               ))}
@@ -153,9 +164,15 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
               <a href={t.choose.bundle.payHref} className="btn-wide">{t.choose.bundle.cta}</a>
-              <div className="custom-order-link">
-                <a href={t.choose.combine.href}>{t.choose.combine.label}</a>
-              </div>
+              <button
+                type="button"
+                className="cart-add"
+                data-cart-add="set"
+                aria-pressed="false"
+              >
+                <span className="cart-add-dot" aria-hidden="true" />
+                <span className="cart-add-label">{t.cart.add}</span>
+              </button>
               {customLink}
             </div>
           </div>

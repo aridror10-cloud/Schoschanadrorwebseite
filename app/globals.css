@@ -634,3 +634,98 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   .custom-order-link a { width: 100%; max-width: 330px; }
 }
 
+
+/* ================= SAMMEL-BESTELLUNG (Korb auf der Seite) =================
+   "In den Korb"-Knoepfe an den Modellkarten fuellen eine Auswahl, die
+   CartBar unten zeigt sie und laesst /api/cart den SUMIT-Warenkorb bauen.
+   Gestaltung in der Laserlinien-Sprache: der Knopf ist eine Linie, der
+   Punkt wird beim Auswaehlen zum Gold-Punkt. */
+.cart-add {
+  margin-top: 12px;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--gold-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(171, 145, 73, 0.45);
+  transition: color 0.4s ease, border-color 0.4s ease;
+}
+.cart-add:hover { border-color: var(--gold); }
+.cart-add-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(128, 106, 43, 0.55);
+  flex: 0 0 13px;
+  transition: border-color 0.4s ease, background 0.4s ease;
+}
+.cart-add.in-cart { color: var(--charcoal-deep); }
+.cart-add.in-cart .cart-add-dot {
+  border-color: var(--gold);
+  background: radial-gradient(var(--gold) 44%, transparent 46%);
+}
+.buy-all .cart-add { margin-top: 14px; }
+
+.cart-bar {
+  position: fixed;
+  bottom: 18px;
+  inset-inline: 0;
+  margin-inline: auto;
+  width: fit-content;
+  max-width: calc(100vw - 24px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--charcoal-deep);
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  padding-inline-start: 22px;
+  box-shadow: 0 22px 44px -18px rgba(0, 0, 0, 0.55);
+  z-index: 60;
+  animation: cartBarIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes cartBarIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.cart-bar-info { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-size: 0.88rem; }
+.cart-bar-names { color: #e6e2d9; }
+.cart-bar-total { font-weight: 700; color: var(--gold-soft); font-variant-numeric: tabular-nums; }
+.cart-bar-error { flex-basis: 100%; font-size: 0.76rem; color: #e8b5a8; }
+.cart-bar-go {
+  border: none;
+  border-radius: 999px;
+  padding: 11px 24px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #241f16;
+  background: linear-gradient(150deg, #c4ab6c, var(--gold));
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  white-space: nowrap;
+}
+.cart-bar-go:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -10px rgba(0, 0, 0, 0.6); }
+.cart-bar-clear {
+  background: none;
+  border: none;
+  color: #b7b3ab;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+}
+.cart-bar-clear:hover { color: #fff; }
+
+@media (max-width: 700px) {
+  .cart-bar { bottom: 10px; gap: 10px; padding-inline-start: 16px; }
+  .cart-bar-info { font-size: 0.8rem; }
+}
