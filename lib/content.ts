@@ -30,13 +30,11 @@ export const PAY = {
   catalog: "https://pay.sumit.co.il/11yegzt/122fbi4/",
 } as const;
 
-/**
- * Zahlseiten der Fassung ohne Pasuk. Jede Fassung ist bei SUMIT ein
- * eigenes Produkt, damit auf der Bestellung steht, was gefertigt werden
- * soll. Solange ein Eintrag fehlt, zeigen die Werkkarten gar keine
- * Fassungswahl an - die Seite bleibt also jederzeit stimmig.
+/*
+ * Fuer die Fassung ohne Pasuk gibt es bewusst keine eigenen Kurzadressen:
+ * sie laeuft ueber /api/cart, denselben geprueften Weg wie der Korb.
+ * Welche Werke sie ueberhaupt anbieten, steht in lib/cart.ts (HAS_PLAIN).
  */
-export const PAY_PLAIN: Partial<Record<"simcha" | "regesh" | "shrika" | "set", string>> = {};
 
 /** Baut einen mailto-Link mit vorbefuelltem Betreff und Text. */
 const mail = (subject: string, body: string) =>

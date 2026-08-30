@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { cartTotal } from "@/lib/cart";
+import { HAS_PLAIN, cartTotal } from "@/lib/cart";
 import { cartStore, useCart } from "@/lib/cart-store";
-import { PAY_PLAIN, content, type Lang } from "@/lib/content";
+import { goToCheckout } from "@/lib/checkout";
+import { content, type Lang } from "@/lib/content";
 
 /**
  * Korb-Leiste am unteren Rand.
@@ -22,14 +23,7 @@ export function CartBar({ lang }: { lang: Lang }) {
     if (status === "sending" || lines.length === 0) return;
     setStatus("sending");
     try {
-      const res = await fetch("/api/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lines }),
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      const { url } = (await res.json()) as { url: string };
-      window.location.assign(url);
+      await goToCheckout(lines);
     } catch {
       setStatus("error");
     }
@@ -46,7 +40,7 @@ export function CartBar({ lang }: { lang: Lang }) {
             {/* Die Fassung nur nennen, wo sie auch wirklich waehlbar ist -
                 sonst verspricht die Leiste etwas, das die Bestellung gar
                 nicht festhaelt. */}
-            {PAY_PLAIN[l.model] && (
+            {HAS_PLAIN[l.model] && (
               <span className="cart-line-ver">
                 {l.version === "with" ? t.versionWith : t.versionWithout}
               </span>

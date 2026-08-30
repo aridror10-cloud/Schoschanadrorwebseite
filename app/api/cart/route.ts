@@ -25,10 +25,10 @@ const SUMIT_CATALOG = "122fbi4";
  * null; die Werkkarten blenden die Wahl dann gar nicht erst ein.
  */
 const SUMIT_ITEMS: Record<ModelKey, Record<Version, number | null>> = {
-  simcha: { with: 2295247327, without: null },
-  regesh: { with: 2295257571, without: null },
-  shrika: { with: 2295252407, without: null },
-  set: { with: 2295176895, without: null },
+  simcha: { with: 2295247327, without: 2307581655 },
+  regesh: { with: 2295257571, without: 2307582551 },
+  shrika: { with: 2295252407, without: 2307583493 },
+  set: { with: 2295176895, without: 2307585333 },
 };
 
 /* Einfache Ratenbegrenzung je Adresse, gleiche Bauart wie /api/order */

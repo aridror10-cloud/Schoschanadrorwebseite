@@ -4,7 +4,7 @@ import { OrderForm } from "@/components/OrderForm";
 import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
 import type { ModelKey } from "@/lib/cart";
-import { PAY_PLAIN, content, type Lang } from "@/lib/content";
+import { content, type Lang } from "@/lib/content";
 
 const mailIcon = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -146,11 +146,7 @@ export function Landing({ lang }: { lang: Lang }) {
                     <a href={piece.payHref} className="btn-outline" data-buy-href>
                       {piece.cta}
                     </a>
-                    <PieceControls
-                      model={modelOf(piece.img)}
-                      lang={lang}
-                      payHref={{ with: piece.payHref, without: PAY_PLAIN[modelOf(piece.img)] }}
-                    />
+                    <PieceControls model={modelOf(piece.img)} lang={lang} />
                   </div>
                 </div>
               ))}
@@ -166,11 +162,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <a href={t.choose.bundle.payHref} className="btn-wide" data-buy-href>
                 {t.choose.bundle.cta}
               </a>
-              <PieceControls
-                model="set"
-                lang={lang}
-                payHref={{ with: t.choose.bundle.payHref, without: PAY_PLAIN.set }}
-              />
+              <PieceControls model="set" lang={lang} />
               {customLink}
             </div>
           </div>

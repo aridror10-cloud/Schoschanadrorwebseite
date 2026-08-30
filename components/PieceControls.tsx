@@ -1,49 +1,59 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { MAX_QTY, type ModelKey, type Version } from "@/lib/cart";
+import { HAS_PLAIN, MAX_QTY, type ModelKey, type Version } from "@/lib/cart";
 import { cartStore } from "@/lib/cart-store";
+import { goToCheckout } from "@/lib/checkout";
 import { content, type Lang } from "@/lib/content";
 
 /**
  * Bedienelemente einer Werkkarte: Fassung (mit/ohne Pasuk), Stueckzahl,
  * "In den Korb".
  *
- * Die Fassung wird hier gewaehlt und nicht erst auf der Zahlseite - so
- * steht auf der Bestellung, was gefertigt werden soll (jede Fassung ist
- * bei SUMIT ein eigenes Produkt). Der Direktkauf-Knopf daneben wird
- * mitgefuehrt: er zeigt immer auf die Zahlseite der gewaehlten Fassung.
+ * Die Fassung wird hier gewaehlt und nicht erst auf der Zahlseite - jede
+ * Fassung ist bei SUMIT ein eigenes Produkt, damit auf der Bestellung
+ * steht, was gefertigt werden soll.
+ *
+ * Der Direktkauf-Knopf daneben bleibt im Server-Markup ein gewoehnlicher
+ * Link auf die Fassung mit Pasuk (so kauft auch ohne JavaScript niemand
+ * ins Leere). Sobald hier eine andere Fassung oder mehr als ein Stueck
+ * gewaehlt ist, faengt diese Komponente den Klick ab und schickt die
+ * Bestellung ueber denselben Weg wie die Korb-Leiste.
  */
-export function PieceControls({
-  model,
-  lang,
-  payHref,
-}: {
-  model: ModelKey;
-  lang: Lang;
-  /** Zahlseiten der beiden Fassungen; ohne zweite Fassung entfaellt die Wahl */
-  payHref: { with: string; without?: string };
-}) {
+export function PieceControls({ model, lang }: { model: ModelKey; lang: Lang }) {
   const t = content[lang].cart;
   const [version, setVersion] = useState<Version>("with");
   const [qty, setQty] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
+  const [failed, setFailed] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  /* Der Klick-Abfang liest den Stand beim Klicken, nicht beim Anmelden */
+  const stateRef = useRef({ version, qty });
+  stateRef.current = { version, qty };
 
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
 
-  /*
-   * Der Direktkauf-Knopf steht als Geschwister im Server-Markup. Statt ihn
-   * hierher zu ziehen, fuehren wir nur seine Adresse nach - so bleibt er
-   * ohne JavaScript ein gewoehnlicher Link auf die Fassung mit Pasuk.
-   */
-  const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const href = version === "without" ? payHref.without : payHref.with;
-    if (!href) return;
     const card = rootRef.current?.closest(".piece-body, .buy-all");
-    card?.querySelector<HTMLAnchorElement>("a[data-buy-href]")?.setAttribute("href", href);
-  }, [version, payHref]);
+    const link = card?.querySelector<HTMLAnchorElement>("a[data-buy-href]");
+    if (!link) return;
+
+    const onClick = (e: MouseEvent) => {
+      const cur = stateRef.current;
+      // Fassung mit Pasuk, ein Stueck: der Link tut es selbst
+      if (cur.version === "with" && cur.qty === 1) return;
+      e.preventDefault();
+      setFailed(false);
+      goToCheckout([{ model, version: cur.version, qty: cur.qty }]).catch(() =>
+        setFailed(true),
+      );
+    };
+
+    link.addEventListener("click", onClick);
+    return () => link.removeEventListener("click", onClick);
+  }, [model]);
 
   function add() {
     cartStore.add(model, version, qty);
@@ -59,7 +69,7 @@ export function PieceControls({
 
   return (
     <div className="pc" ref={rootRef}>
-      {payHref.without && (
+      {HAS_PLAIN[model] && (
         <div className="pc-versions" role="group" aria-label={t.versionLabel}>
           {versions.map((v) => (
             <button
@@ -99,6 +109,8 @@ export function PieceControls({
           {justAdded ? t.added : t.add}
         </button>
       </div>
+
+      {failed && <p className="pc-error" role="alert">{t.error}</p>}
     </div>
   );
 }

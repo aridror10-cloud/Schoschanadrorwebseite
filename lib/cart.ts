@@ -22,6 +22,19 @@ export const MODELS = {
 export type ModelKey = keyof typeof MODELS;
 export type Version = "with" | "without";
 
+/**
+ * Welche Werke es bei SUMIT auch ohne Pasuk als eigenes Produkt gibt.
+ * Steht hier eines auf false, blendet die Karte die Fassungswahl gar
+ * nicht erst ein - die Seite verspricht dann nichts, was die Bestellung
+ * nicht festhaelt.
+ */
+export const HAS_PLAIN: Record<ModelKey, boolean> = {
+  simcha: true,
+  regesh: true,
+  shrika: true,
+  set: true,
+};
+
 /** Eine Zeile im Korb: Werk, Fassung, Stueckzahl */
 export interface CartLine {
   model: ModelKey;
