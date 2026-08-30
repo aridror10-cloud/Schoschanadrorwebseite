@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { CartBar } from "@/components/CartBar";
 import { OrderForm } from "@/components/OrderForm";
+import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
-import { content, type Lang } from "@/lib/content";
+import type { ModelKey } from "@/lib/cart";
+import { PAY_PLAIN, content, type Lang } from "@/lib/content";
 
 const mailIcon = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -14,8 +16,8 @@ const mailIcon = (
 export function Landing({ lang }: { lang: Lang }) {
   const t = content[lang];
 
-  /** /carlebach/simcha.webp -> "simcha", fuer die Vorauswahl im Formular */
-  const modelOf = (img: string) => img.split("/").pop()!.replace(/\.\w+$/, "");
+  /** /carlebach/simcha.webp -> "simcha", fuer Korb und Formular-Vorauswahl */
+  const modelOf = (img: string) => img.split("/").pop()!.replace(/\.\w+$/, "") as ModelKey;
 
   /* Kleiner Sonderanfrage-Link, steht unter mehreren Kauf-Buttons */
   const customLink = (
@@ -141,16 +143,14 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="piece-size">{piece.size}</span>
                     <div className="mini-price">{piece.price}</div>
                     {piece.usd && <div className="mini-price-usd">{piece.usd}</div>}
-                    <a href={piece.payHref} className="btn-outline">{piece.cta}</a>
-                    <button
-                      type="button"
-                      className="cart-add"
-                      data-cart-add={modelOf(piece.img)}
-                      aria-pressed="false"
-                    >
-                      <span className="cart-add-dot" aria-hidden="true" />
-                      <span className="cart-add-label">{t.cart.add}</span>
-                    </button>
+                    <a href={piece.payHref} className="btn-outline" data-buy-href>
+                      {piece.cta}
+                    </a>
+                    <PieceControls
+                      model={modelOf(piece.img)}
+                      lang={lang}
+                      payHref={{ with: piece.payHref, without: PAY_PLAIN[modelOf(piece.img)] }}
+                    />
                   </div>
                 </div>
               ))}
@@ -163,16 +163,14 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
-              <a href={t.choose.bundle.payHref} className="btn-wide">{t.choose.bundle.cta}</a>
-              <button
-                type="button"
-                className="cart-add"
-                data-cart-add="set"
-                aria-pressed="false"
-              >
-                <span className="cart-add-dot" aria-hidden="true" />
-                <span className="cart-add-label">{t.cart.add}</span>
-              </button>
+              <a href={t.choose.bundle.payHref} className="btn-wide" data-buy-href>
+                {t.choose.bundle.cta}
+              </a>
+              <PieceControls
+                model="set"
+                lang={lang}
+                payHref={{ with: t.choose.bundle.payHref, without: PAY_PLAIN.set }}
+              />
               {customLink}
             </div>
           </div>

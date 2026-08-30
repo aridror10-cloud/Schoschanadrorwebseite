@@ -1,57 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CART_ITEMS, type CartKey, isCartKey } from "@/lib/cart";
-import { content, type Lang } from "@/lib/content";
+import { useState } from "react";
+import { cartTotal } from "@/lib/cart";
+import { cartStore, useCart } from "@/lib/cart-store";
+import { PAY_PLAIN, content, type Lang } from "@/lib/content";
 
 /**
- * Sammel-Bestellung auf der Seite selbst.
+ * Korb-Leiste am unteren Rand.
  *
- * Die "In den Korb"-Knoepfe stehen als data-cart-add-Attribute im
- * Server-Markup (gleiche Bauart wie die data-model-Vorauswahl des
- * Formulars); diese Komponente hoert auf die Klicks, fuehrt die Auswahl
- * und zeigt unten die Korb-Leiste. "Zur Kasse" laesst /api/cart den
- * SUMIT-Warenkorb bauen und leitet auf die fertige Zahlseite weiter.
+ * Zeigt jede Zeile mit Fassung und Stueckzahl - die Kundschaft soll vor
+ * dem Bezahlen sehen, was sie bestellt, gerade weil "mit Pasuk" und
+ * "ohne Pasuk" sich im Preis nicht unterscheiden. "Zur Kasse" laesst
+ * /api/cart den SUMIT-Warenkorb bauen und leitet auf die Zahlseite.
  */
 export function CartBar({ lang }: { lang: Lang }) {
   const t = content[lang].cart;
-  const [items, setItems] = useState<CartKey[]>([]);
+  const lines = useCart();
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
 
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      const btn = (e.target as HTMLElement | null)?.closest("[data-cart-add]");
-      const key = btn?.getAttribute("data-cart-add");
-      if (!key || !isCartKey(key)) return;
-      e.preventDefault();
-      setStatus("idle");
-      setItems((cur) => (cur.includes(key) ? cur.filter((k) => k !== key) : [...cur, key]));
-    };
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
-  }, []);
-
-  /* Knoepfe im Server-Markup spiegeln die Auswahl (Text + Zustand) */
-  useEffect(() => {
-    document.querySelectorAll<HTMLElement>("[data-cart-add]").forEach((btn) => {
-      const key = btn.getAttribute("data-cart-add");
-      if (!key || !isCartKey(key)) return;
-      const sel = items.includes(key);
-      btn.classList.toggle("in-cart", sel);
-      btn.setAttribute("aria-pressed", String(sel));
-      const label = btn.querySelector(".cart-add-label");
-      if (label) label.textContent = sel ? t.inCart : t.add;
-    });
-  }, [items, t]);
-
   async function checkout() {
-    if (status === "sending" || items.length === 0) return;
+    if (status === "sending" || lines.length === 0) return;
     setStatus("sending");
     try {
       const res = await fetch("/api/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ lines }),
       });
       if (!res.ok) throw new Error(String(res.status));
       const { url } = (await res.json()) as { url: string };
@@ -61,23 +35,51 @@ export function CartBar({ lang }: { lang: Lang }) {
     }
   }
 
-  if (items.length === 0) return null;
-
-  const total = items.reduce((sum, k) => sum + CART_ITEMS[k].price, 0);
+  if (lines.length === 0) return null;
 
   return (
-    <div className="cart-bar" role="region" aria-live="polite">
-      <div className="cart-bar-info">
-        <span className="cart-bar-names">{items.map((k) => t.names[k]).join(" · ")}</span>
-        <span className="cart-bar-total">₪{total.toLocaleString("en-US")}</span>
-        {status === "error" && <span className="cart-bar-error">{t.error}</span>}
+    <div className="cart-bar" role="region" aria-label={t.title}>
+      <div className="cart-bar-lines" aria-live="polite">
+        {lines.map((l) => (
+          <span className="cart-line" key={`${l.model}:${l.version}`}>
+            <span className="cart-line-name">{t.names[l.model]}</span>
+            {/* Die Fassung nur nennen, wo sie auch wirklich waehlbar ist -
+                sonst verspricht die Leiste etwas, das die Bestellung gar
+                nicht festhaelt. */}
+            {PAY_PLAIN[l.model] && (
+              <span className="cart-line-ver">
+                {l.version === "with" ? t.versionWith : t.versionWithout}
+              </span>
+            )}
+            {l.qty > 1 && <span className="cart-line-qty">×{l.qty}</span>}
+            <button
+              type="button"
+              className="cart-line-x"
+              onClick={() => cartStore.remove(l.model, l.version)}
+              aria-label={`${t.remove}: ${t.names[l.model]}`}
+            >
+              ✕
+            </button>
+          </span>
+        ))}
       </div>
-      <button type="button" className="cart-bar-go" onClick={checkout}>
-        {status === "sending" ? t.sending : t.checkout}
-      </button>
-      <button type="button" className="cart-bar-clear" onClick={() => setItems([])} aria-label={t.clear}>
-        ✕
-      </button>
+
+      <div className="cart-bar-end">
+        <span className="cart-bar-total">₪{cartTotal(lines).toLocaleString("en-US")}</span>
+        <button type="button" className="cart-bar-go" onClick={checkout}>
+          {status === "sending" ? t.sending : t.checkout}
+        </button>
+        <button
+          type="button"
+          className="cart-bar-clear"
+          onClick={() => { cartStore.clear(); setStatus("idle"); }}
+          aria-label={t.clear}
+        >
+          ✕
+        </button>
+      </div>
+
+      {status === "error" && <p className="cart-bar-error" role="alert">{t.error}</p>}
     </div>
   );
 }

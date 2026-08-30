@@ -635,44 +635,87 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
 }
 
 
+
 /* ================= SAMMEL-BESTELLUNG (Korb auf der Seite) =================
-   "In den Korb"-Knoepfe an den Modellkarten fuellen eine Auswahl, die
-   CartBar unten zeigt sie und laesst /api/cart den SUMIT-Warenkorb bauen.
-   Gestaltung in der Laserlinien-Sprache: der Knopf ist eine Linie, der
-   Punkt wird beim Auswaehlen zum Gold-Punkt. */
-.cart-add {
-  margin-top: 12px;
+   An jeder Werkkarte: Fassung (mit/ohne Pasuk), Stueckzahl, "In den Korb".
+   Die Korb-Leiste unten fuehrt die Zeilen und laesst /api/cart den
+   SUMIT-Warenkorb bauen. Gestaltung bleibt in der Laserlinien-Sprache:
+   feine Linien, Gold nur fuer das Gewaehlte, keine bunten Kaesten. */
+.pc { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+/* Fassungswahl: zwei Flaechen, die gewaehlte traegt die Goldlinie */
+.pc-versions { display: flex; gap: 8px; }
+.pc-ver {
+  flex: 1;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 8px 6px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #5f5b52;
+  cursor: pointer;
+  transition: border-color 0.45s ease, color 0.45s ease, box-shadow 0.45s ease;
+}
+.pc-ver:hover { border-color: var(--gold-soft); }
+.pc-ver.sel {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 1px var(--gold);
+  color: var(--charcoal-deep);
+}
+
+/* Stueckzahl und Korb-Knopf in einer Zeile */
+.pc-buy { display: flex; gap: 8px; align-items: stretch; }
+.pc-qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+.pc-qty button {
   background: none;
   border: none;
-  padding: 2px 0;
-  cursor: pointer;
+  width: 30px;
+  padding: 0;
   font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
+  font-size: 1rem;
+  line-height: 1;
   color: var(--gold-text);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid rgba(171, 145, 73, 0.45);
-  transition: color 0.4s ease, border-color 0.4s ease;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
-.cart-add:hover { border-color: var(--gold); }
-.cart-add-dot {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(128, 106, 43, 0.55);
-  flex: 0 0 13px;
-  transition: border-color 0.4s ease, background 0.4s ease;
+.pc-qty button:disabled { color: #c3bfb6; cursor: default; }
+.pc-qty button:not(:disabled):hover { color: var(--charcoal-deep); }
+.pc-qty-num {
+  min-width: 22px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--charcoal-deep);
 }
-.cart-add.in-cart { color: var(--charcoal-deep); }
-.cart-add.in-cart .cart-add-dot {
-  border-color: var(--gold);
-  background: radial-gradient(var(--gold) 44%, transparent 46%);
+.pc-add {
+  flex: 1;
+  border: 1px solid var(--charcoal-deep);
+  border-radius: 2px;
+  background: var(--charcoal-deep);
+  color: #fff;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.45s ease, border-color 0.45s ease, color 0.45s ease;
 }
-.buy-all .cart-add { margin-top: 14px; }
+.pc-add:hover { background: var(--gold); border-color: var(--gold); }
+.pc-add.done { background: var(--gold); border-color: var(--gold); color: #241f16; }
 
+/* Im Set-Block steht die Karte mittig und darf nicht so breit werden */
+.buy-all .pc { max-width: 340px; margin-inline: auto; }
+
+/* ---- Korb-Leiste ---- */
 .cart-bar {
   position: fixed;
   bottom: 18px;
@@ -683,11 +726,12 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-wrap: wrap;
   background: var(--charcoal-deep);
   color: #fff;
-  border-radius: 999px;
-  padding: 10px 14px;
-  padding-inline-start: 22px;
+  border-radius: 12px;
+  padding: 12px 14px;
+  padding-inline-start: 18px;
   box-shadow: 0 22px 44px -18px rgba(0, 0, 0, 0.55);
   z-index: 60;
   animation: cartBarIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -696,10 +740,47 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.cart-bar-info { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-size: 0.88rem; }
-.cart-bar-names { color: #e6e2d9; }
-.cart-bar-total { font-weight: 700; color: var(--gold-soft); font-variant-numeric: tabular-nums; }
-.cart-bar-error { flex-basis: 100%; font-size: 0.76rem; color: #e8b5a8; }
+.cart-bar-lines {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-height: 92px;
+  overflow-y: auto;
+}
+.cart-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  padding-block: 5px;
+  padding-inline: 12px 6px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+.cart-line-name { color: #f0ede6; font-weight: 600; }
+.cart-line-ver { color: #a8a294; font-size: 0.74rem; }
+.cart-line-qty { color: var(--gold-soft); font-weight: 700; font-variant-numeric: tabular-nums; }
+.cart-line-x {
+  background: none;
+  border: none;
+  color: #8f8b82;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 4px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.cart-line-x:hover { color: #fff; }
+
+.cart-bar-end { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; }
+.cart-bar-total {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--gold-soft);
+  font-variant-numeric: tabular-nums;
+}
+.cart-bar-error { flex-basis: 100%; font-size: 0.76rem; color: #e8b5a8; margin: 0; }
 .cart-bar-go {
   border: none;
   border-radius: 999px;
@@ -726,6 +807,12 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
 .cart-bar-clear:hover { color: #fff; }
 
 @media (max-width: 700px) {
-  .cart-bar { bottom: 10px; gap: 10px; padding-inline-start: 16px; }
-  .cart-bar-info { font-size: 0.8rem; }
+  .cart-bar { bottom: 10px; gap: 10px; padding-inline-start: 14px; }
+  .cart-bar-lines { max-height: 78px; }
+  .cart-line { font-size: 0.76rem; }
+  .cart-bar-go { padding: 10px 18px; font-size: 0.85rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-bar { animation: none; }
 }

@@ -30,6 +30,14 @@ export const PAY = {
   catalog: "https://pay.sumit.co.il/11yegzt/122fbi4/",
 } as const;
 
+/**
+ * Zahlseiten der Fassung ohne Pasuk. Jede Fassung ist bei SUMIT ein
+ * eigenes Produkt, damit auf der Bestellung steht, was gefertigt werden
+ * soll. Solange ein Eintrag fehlt, zeigen die Werkkarten gar keine
+ * Fassungswahl an - die Seite bleibt also jederzeit stimmig.
+ */
+export const PAY_PLAIN: Partial<Record<"simcha" | "regesh" | "shrika" | "set", string>> = {};
+
 /** Baut einen mailto-Link mit vorbefuelltem Betreff und Text. */
 const mail = (subject: string, body: string) =>
   `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -154,14 +162,23 @@ export interface LandingContent {
     };
   };
   /**
-   * Sammel-Bestellung direkt auf der Website: "In den Korb"-Knoepfe an den
-   * Modellkarten plus Korb-Leiste. Beim Bezahlen baut /api/cart den
-   * SUMIT-Warenkorb auf und leitet zur Zahlseite weiter.
+   * Sammel-Bestellung direkt auf der Website: an jeder Werkkarte die Wahl
+   * der Fassung (mit/ohne Pasuk) und der Stueckzahl, dazu die Korb-Leiste.
+   * Beim Bezahlen baut /api/cart den SUMIT-Warenkorb und leitet zur
+   * Zahlseite weiter.
    */
   cart: {
+    versionLabel: string;
+    versionWith: string;
+    versionWithout: string;
+    qtyLabel: string;
+    less: string;
+    more: string;
     add: string;
-    inCart: string;
+    added: string;
     names: Record<"simcha" | "regesh" | "shrika" | "set", string>;
+    title: string;
+    remove: string;
     checkout: string;
     clear: string;
     sending: string;
@@ -351,9 +368,17 @@ export const content: Record<Lang, LandingContent> = {
       },
     },
     cart: {
+      versionLabel: "גרסה",
+      versionWith: "עם פסוק",
+      versionWithout: "בלי פסוק",
+      qtyLabel: "כמות",
+      less: "פחות אחד",
+      more: "עוד אחד",
       add: "הוספה לסל",
-      inCart: "בסל ✓",
+      added: "נוסף לסל ✓",
       names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא" },
+      title: "הסל שלכם",
+      remove: "הסרה מהסל",
       checkout: "מעבר לתשלום",
       clear: "ריקון הסל",
       sending: "רגע…",
@@ -635,9 +660,17 @@ Please send me the next steps to complete the order.`,
       },
     },
     cart: {
+      versionLabel: "Version",
+      versionWith: "With verse",
+      versionWithout: "Without verse",
+      qtyLabel: "Quantity",
+      less: "One less",
+      more: "One more",
       add: "Add to basket",
-      inCart: "In basket ✓",
+      added: "Added ✓",
       names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set" },
+      title: "Your basket",
+      remove: "Remove from basket",
       checkout: "Checkout",
       clear: "Clear basket",
       sending: "One moment…",

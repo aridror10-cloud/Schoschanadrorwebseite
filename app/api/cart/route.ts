@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
-import { isCartKey } from "@/lib/cart";
+import { MAX_QTY, type ModelKey, type Version, isModelKey, isVersion } from "@/lib/cart";
 
 /**
- * Baut einen SUMIT-Warenkorb fuer die gewaehlten Modelle und liefert die
+ * Baut einen SUMIT-Warenkorb fuer die gewaehlten Werke und liefert die
  * Adresse der fertigen Zahlseite zurueck.
  *
  * SUMIT fuehrt Warenkoerbe serverseitig unter einer frei waehlbaren
  * Kart-Kennung (dieselbe Mechanik, die die Katalogseite selbst nutzt).
- * Wir legen pro Bestellung eine frische Kennung an, melden jeden Artikel
+ * Wir legen pro Bestellung eine frische Kennung an, melden jede Zeile
  * einzeln an und schicken die Kundschaft dann auf die Zahlseite - dort
  * uebernehmen Versandwahl, Pflichtfelder und Kartenzahlung wie gehabt.
  */
@@ -15,12 +15,20 @@ import { isCartKey } from "@/lib/cart";
 const SUMIT_COMPANY = "11yegzt";
 const SUMIT_CATALOG = "122fbi4";
 
-/** SUMIT-Produktnummern im Katalog "sidrat Carlebach" */
-const SUMIT_ITEMS: Record<string, number> = {
-  simcha: 2295247327,
-  regesh: 2295257571,
-  shrika: 2295252407,
-  set: 2295176895,
+/**
+ * SUMIT-Produktnummern im Katalog "sidrat Carlebach".
+ *
+ * Jede Fassung ist ein eigenes Produkt: nur so steht die Wahl mit oder
+ * ohne Pasuk auf der Bestellung (SUMIT nimmt keine vorbelegten Feldwerte
+ * ueber die Adresszeile an und kennt keine Notiz je Zeile - geprueft am
+ * 28.08.26). Solange eine Fassung ohne Pasuk bei SUMIT fehlt, steht hier
+ * null; die Werkkarten blenden die Wahl dann gar nicht erst ein.
+ */
+const SUMIT_ITEMS: Record<ModelKey, Record<Version, number | null>> = {
+  simcha: { with: 2295247327, without: null },
+  regesh: { with: 2295257571, without: null },
+  shrika: { with: 2295252407, without: null },
+  set: { with: 2295176895, without: null },
 };
 
 /* Einfache Ratenbegrenzung je Adresse, gleiche Bauart wie /api/order */
@@ -38,34 +46,64 @@ function limited(ip: string) {
   return false;
 }
 
+interface Line {
+  model: ModelKey;
+  version: Version;
+  qty: number;
+}
+
+/** Nimmt nur an, was Hand und Fuss hat - alles andere fliegt raus. */
+function parseLines(raw: unknown): Line[] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const lines: Line[] = [];
+  for (const item of raw) {
+    if (typeof item !== "object" || item === null) continue;
+    const { model, version, qty } = item as Record<string, unknown>;
+    if (typeof model !== "string" || !isModelKey(model)) continue;
+    if (typeof version !== "string" || !isVersion(version)) continue;
+    const n = Math.floor(Number(qty));
+    if (!Number.isFinite(n) || n < 1 || n > MAX_QTY) continue;
+    const id = `${model}:${version}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    lines.push({ model, version, qty: n });
+  }
+  return lines;
+}
+
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unbekannt";
   if (limited(ip)) {
     return NextResponse.json({ error: "rate" }, { status: 429 });
   }
 
-  let items: string[];
+  let lines: Line[];
   try {
-    const body = (await req.json()) as { items?: unknown };
-    items = Array.isArray(body.items)
-      ? [...new Set(body.items.filter((k): k is string => typeof k === "string" && isCartKey(k)))]
-      : [];
+    const body = (await req.json()) as { lines?: unknown; items?: unknown };
+    lines = parseLines(body.lines);
   } catch {
     return NextResponse.json({ error: "bad" }, { status: 400 });
   }
-  if (items.length === 0 || items.length > 4) {
+  if (lines.length === 0 || lines.length > 8) {
     return NextResponse.json({ error: "bad" }, { status: 400 });
   }
 
+  /* Fassung ohne Pasuk noch nicht bei SUMIT angelegt: lieber sauber
+     absagen als still die falsche Fassung bestellen. */
+  if (lines.some((l) => SUMIT_ITEMS[l.model][l.version] === null)) {
+    return NextResponse.json({ error: "variant" }, { status: 503 });
+  }
+
   const cartId = crypto.randomUUID();
-  for (const key of items) {
+  for (const line of lines) {
     const form = new URLSearchParams({
       CompanyIdentifier: SUMIT_COMPANY,
       CatalogIdentifier: SUMIT_CATALOG,
       CustomerID: "",
       CustomerKey: "",
-      ItemID: String(SUMIT_ITEMS[key]),
-      Quantity: "1",
+      ItemID: String(SUMIT_ITEMS[line.model][line.version]),
+      Quantity: String(line.qty),
       Increment: "true",
       CartID: cartId,
       Store: "true",
