@@ -228,20 +228,14 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
   background: linear-gradient(90deg, var(--gold), var(--gold-soft));
   border-radius: 2px;
 }
-.version-toggle {
-  max-width: 560px;
-  margin: 0 auto 60px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 22px 26px;
+/* Ueberschrift ueber dem Set-Foto, an Stelle des frueheren Kauf-Knopfes */
+.bundle-heading {
+  font-family: var(--font-frank), serif;
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  text-align: center;
+  margin: 18px 0 20px;
+  text-wrap: balance;
 }
-.version-toggle p { font-size: 0.9rem; color: #666; margin-bottom: 14px; text-align: center; }
-.version-options { display: flex; flex-direction: column; gap: 10px; }
-.v-opt { display: flex; align-items: center; gap: 12px; font-size: 0.94rem; color: var(--charcoal-deep); }
-.v-opt .dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--gold); flex: 0 0 16px; }
-.v-opt small { display: block; color: #888; font-weight: 400; font-size: 0.82rem; margin-top: 2px; }
-.v-note { text-align: center; color: #6b6b6b; font-size: 0.8rem; margin-top: 14px; }
 
 .pieces { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px; }
 .piece {
@@ -817,3 +811,27 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   .cart-bar { animation: none; }
 }
 .pc-error { font-size: 0.76rem; color: #9c4f38; margin: 0; }
+
+/* ---------- Preiskarten: Knoepfe auf gleicher Hoehe ----------
+   Die Beschreibungen sind unterschiedlich lang. Ohne Ausgleich sitzt der
+   eine schwarze Knopf hoeher als der andere - Shoshana ist das zu Recht
+   aufgefallen. Die Karte wird zur Spalte, die Beschreibung nimmt den
+   Rest, der Knopf sitzt unten. */
+.price-cards { align-items: stretch; }
+.price-card { display: flex; flex-direction: column; }
+.price-card .price-desc { flex: 1 0 auto; }
+/* Gleiche Hoehe heisst: gleiche Innenabstaende und eine gemeinsame
+   Mindesthoehe. Die hervorgehobene Karte darf groesser wirken, ihr
+   Knopf aber nicht aus der Reihe tanzen. */
+.price-card .btn-price,
+.price-card .btn-price-lg {
+  margin-top: auto;
+  padding: 15px;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Der Sonderanfrage-Knopf steht jetzt einmal unter beiden Karten */
+.pricing .custom-order-link { margin-top: 22px; }

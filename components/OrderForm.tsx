@@ -4,17 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import { EMAIL, content, type Lang } from "@/lib/content";
 
 /**
- * Bestellkarte ("כרטיס ההזמנה").
+ * Karte fuer Sonderwuensche ("התאמה אישית").
  *
- * Gestaltung folgt dem Laserschnitt-Motiv der Prozess-Sektion: Felder sind
- * Linien statt Kaesten, beim Fokus laeuft eine Goldspur die Linie entlang,
- * die Modellwahl zeichnet einen Rahmen um die Kachel. Nach dem Absenden
- * wird die Karte selbst gerahmt - dieselbe Geste wie beim Set-Foto.
+ * Gestaltung folgt dem Laserschnitt-Motiv: Felder sind Linien statt
+ * Kaesten, beim Fokus laeuft eine Goldspur die Linie entlang, die
+ * Modellwahl zeichnet einen Rahmen um die Kachel.
  *
- * Rolle seit Anbindung der Zahlseiten: Kaufen laeuft ueber SUMIT, dieses
- * Formular ist nur noch fuer Sonderwuensche (andere Groesse, Menge,
- * Geschenk) und Fragen. Lieferart und Adresse entfallen deshalb - die
- * klaert Shoshana im Angebot, nicht vorab.
+ * Rolle: Kaufen laeuft ueber den Korb und SUMIT. Dieses Formular ist
+ * ausschliesslich fuer Anpassungen (andere Groesse, Kiddush, Menge,
+ * Geschenk) und Fragen - deshalb kein Preis, keine Lieferart, keine
+ * Adresse. Nach Shoshanas Rueckmeldung vom 01.09.26 ist bewusst kein
+ * Modell vorausgewaehlt: wer nicht aufpasst, soll nicht versehentlich
+ * eine Anfrage fuer das ganze Set abschicken.
  */
 
 /** Bilder der Modell-Kacheln, in der Reihenfolge von form.modelOptions */
@@ -25,23 +26,30 @@ const TILE_IMAGES: Record<string, string> = {
   set: "/carlebach/set.webp",
 };
 
+/** Anhang: gross genug fuer ein Foto, klein genug fuer die Mail */
+const MAX_FILE = 2.5 * 1024 * 1024;
+const FILE_TYPES = "image/*,.pdf";
+
 type Status = "idle" | "sending" | "sent" | "error";
 
 export function OrderForm({ lang }: { lang: Lang }) {
   const t = content[lang];
   const f = t.form;
 
-  const [model, setModel] = useState("set");
+  const [model, setModel] = useState("");
   const [version, setVersion] = useState<"with" | "without">("with");
   const [qty, setQty] = useState("1");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [notes, setNotes] = useState("");
+  const [file, setFile] = useState<{ name: string; type: string; data: string } | null>(null);
+  const [fileError, setFileError] = useState("");
   const [company, setComapny] = useState(""); // Honigtopf, bleibt fuer Menschen unsichtbar
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const doneRef = useRef<HTMLDivElement>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
 
   /*
    * Nach dem Absenden wechselt der Karteninhalt komplett. Ohne den Fokus
@@ -53,9 +61,9 @@ export function OrderForm({ lang }: { lang: Lang }) {
   }, [status]);
 
   /*
-   * Die Kauf-Buttons auf der Seite verlinken auf #order und tragen
-   * data-model. Der Browser scrollt selbst, wir uebernehmen nur die
-   * Vorauswahl - so bleibt die Verlinkung ohne JavaScript funktionsfaehig.
+   * Sonderanfrage-Links auf der Seite zeigen auf #order und koennen per
+   * data-model ein Modell vorschlagen. Der Browser scrollt selbst, wir
+   * uebernehmen nur die Vorauswahl.
    */
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -70,8 +78,32 @@ export function OrderForm({ lang }: { lang: Lang }) {
   const tiles = f.modelOptions.filter((o) => TILE_IMAGES[o.value]);
   const extra = f.modelOptions.filter((o) => !TILE_IMAGES[o.value]);
 
+  function pickFile(list: FileList | null) {
+    const chosen = list?.[0];
+    setFileError("");
+    if (!chosen) return setFile(null);
+    if (chosen.size > MAX_FILE) {
+      setFileError(f.file.tooBig);
+      if (fileInput.current) fileInput.current.value = "";
+      return setFile(null);
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result);
+      setFile({ name: chosen.name, type: chosen.type, data: result.split(",")[1] ?? "" });
+    };
+    reader.readAsDataURL(chosen);
+  }
+
+  function clearFile() {
+    setFile(null);
+    setFileError("");
+    if (fileInput.current) fileInput.current.value = "";
+  }
+
   function validate() {
     const next: Record<string, string> = {};
+    if (!model) next.model = f.errorModel;
     if (!name.trim()) next.name = f.errorRequired;
     if (!email.trim()) next.email = f.errorRequired;
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) next.email = f.errorEmail;
@@ -79,8 +111,16 @@ export function OrderForm({ lang }: { lang: Lang }) {
     setErrors(next);
     const first = Object.keys(next)[0];
     if (first) {
-      // Zum ersten beanstandeten Feld springen, statt es nur rot zu faerben
-      requestAnimationFrame(() => document.getElementById(`of-${first}`)?.focus());
+      // Zum ersten beanstandeten Feld springen, statt es nur rot zu faerben.
+      // Bewusst setTimeout statt requestAnimationFrame: der Sprung soll auch
+      // dann stattfinden, wenn der Browser gerade keine Bilder zeichnet.
+      setTimeout(() => {
+        const ziel =
+          first === "model"
+            ? document.querySelector<HTMLElement>(".of-tiles button")
+            : document.getElementById(`of-${first}`);
+        ziel?.focus();
+      }, 0);
       return false;
     }
     return true;
@@ -106,6 +146,7 @@ export function OrderForm({ lang }: { lang: Lang }) {
           email,
           notes,
           company,
+          file,
         }),
       });
       if (!res.ok) throw new Error(String(res.status));
@@ -121,18 +162,18 @@ export function OrderForm({ lang }: { lang: Lang }) {
     value: string,
     onChange: (v: string) => void,
     placeholder: string,
-    opts: { type?: string; area?: boolean; optional?: boolean } = {},
+    opts: { type?: string; area?: boolean; optional?: boolean; rows?: number; big?: boolean } = {},
   ) => (
-    <div className="of-group">
+    <div className={`of-group${opts.big ? " of-group-big" : ""}`}>
       <label className="of-label" htmlFor={`of-${key}`}>
         {label}
-        {opts.optional && <span className="of-optional"> · {f.optional}</span>}
+        {opts.optional && <span className="of-optional"> ({f.optional})</span>}
       </label>
       <div className="of-field">
         {opts.area ? (
           <textarea
             id={`of-${key}`}
-            rows={3}
+            rows={opts.rows ?? 3}
             value={value}
             placeholder={placeholder}
             onChange={(ev) => onChange(ev.target.value)}
@@ -216,6 +257,14 @@ export function OrderForm({ lang }: { lang: Lang }) {
                       {o.label}
                     </button>
                   ))}
+                  {errors.model && (
+                    <p className="of-error" role="alert">
+                      {errors.model}
+                    </p>
+                  )}
+                  {/* Ohne diesen Satz liest sich "שמחה — ₪590" wie ein
+                      Festpreis, der die Sonderanfertigung einschliesst */}
+                  <p className="of-note">{f.modelNote}</p>
                 </fieldset>
 
                 <fieldset className="of-fieldset">
@@ -234,6 +283,7 @@ export function OrderForm({ lang }: { lang: Lang }) {
                       </button>
                     ))}
                   </div>
+                  {model === "set" && <p className="of-note">{f.versionSetNote}</p>}
                 </fieldset>
 
                 <div className="of-row">
@@ -251,9 +301,42 @@ export function OrderForm({ lang }: { lang: Lang }) {
                   })}
                 </div>
 
+                {/* Das Herz des Formulars: mehr Raum und mehr Gewicht als
+                    die uebrigen Felder */}
                 {field("notes", f.labels.notes, notes, setNotes, f.placeholders.notes, {
                   area: true,
+                  rows: 5,
+                  big: true,
                 })}
+
+                <div className="of-group of-file">
+                  <label className="of-label" htmlFor="of-file">
+                    {f.file.label}
+                    <span className="of-optional"> ({f.optional})</span>
+                  </label>
+                  <input
+                    id="of-file"
+                    ref={fileInput}
+                    type="file"
+                    accept={FILE_TYPES}
+                    onChange={(ev) => pickFile(ev.target.files)}
+                  />
+                  {file ? (
+                    <p className="of-file-picked">
+                      <span>{file.name}</span>
+                      <button type="button" onClick={clearFile}>
+                        {f.file.remove}
+                      </button>
+                    </p>
+                  ) : (
+                    <p className="of-note">{f.file.hint}</p>
+                  )}
+                  {fileError && (
+                    <p className="of-error" role="alert">
+                      {fileError}
+                    </p>
+                  )}
+                </div>
 
                 {/* Honigtopf gegen Spam-Roboter: fuer Menschen unsichtbar */}
                 <div className="of-hp" aria-hidden="true">

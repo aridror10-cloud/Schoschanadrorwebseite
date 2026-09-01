@@ -57,6 +57,28 @@ function clamp(value: unknown, max = 2000) {
   return String(value ?? "").trim().slice(0, max);
 }
 
+/**
+ * Anhang aus dem Formular (Bild oder PDF zur Veranschaulichung).
+ *
+ * Der Browser schickt ihn als Base64 mit. Wir pruefen Groesse und Typ
+ * erneut - die Pruefung im Formular schuetzt vor Versehen, nicht vor
+ * Absicht. Zu grosse oder unerwuenschte Dateien werden still verworfen:
+ * die Anfrage selbst soll daran nicht scheitern.
+ */
+const MAX_ATTACHMENT = 2.5 * 1024 * 1024;
+
+function attachment(raw: unknown) {
+  if (typeof raw !== "object" || raw === null) return null;
+  const { name, type, data } = raw as Record<string, unknown>;
+  if (typeof data !== "string" || !data) return null;
+  if (!/^[A-Za-z0-9+/=]+$/.test(data)) return null;
+  if ((data.length * 3) / 4 > MAX_ATTACHMENT) return null;
+  const art = String(type ?? "");
+  if (!art.startsWith("image/") && art !== "application/pdf") return null;
+  const datei = clamp(name, 120).replace(/[^\w.\- ]+/g, "_") || "anhang";
+  return { filename: datei, content: data };
+}
+
 async function sendMail(payload: Record<string, unknown>) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -131,11 +153,14 @@ export async function POST(request: Request) {
       </div>
     </div>`;
 
+  const anhang = attachment(data.file);
+
   try {
     await sendMail({
       from: FROM,
       to: [TO],
       reply_to: email,
+      ...(anhang ? { attachments: [anhang] } : {}),
       subject: isHebrew
         ? `בקשה חדשה מהאתר – ${name}`
         : `New enquiry from the website – ${name}`,

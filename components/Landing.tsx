@@ -118,19 +118,6 @@ export function Landing({ lang }: { lang: Lang }) {
               <h2>{t.choose.title}</h2>
             </div>
 
-            <div className="version-toggle" data-reveal>
-              <p>{t.choose.toggle.intro}</p>
-              <div className="version-options">
-                {t.choose.toggle.options.map((opt) => (
-                  <div className="v-opt" key={opt.slice(0, 20)}>
-                    <span className="dot" />
-                    {opt}
-                  </div>
-                ))}
-              </div>
-              <div className="v-note">{t.choose.toggle.note}</div>
-            </div>
-
             <div className="pieces" data-reveal-group>
               {t.choose.pieces.map((piece) => (
                 <div className="piece" key={piece.img}>
@@ -143,15 +130,13 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="piece-size">{piece.size}</span>
                     <div className="mini-price">{piece.price}</div>
                     {piece.usd && <div className="mini-price-usd">{piece.usd}</div>}
-                    <a href={piece.payHref} className="btn-outline" data-buy-href>
-                      {piece.cta}
-                    </a>
                     <PieceControls model={modelOf(piece.img)} lang={lang} />
                   </div>
                 </div>
               ))}
             </div>
 
+            <h3 className="bundle-heading" data-reveal>{t.choose.bundleHeading}</h3>
             <div className="ph set-photo" data-reveal>
               <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
             </div>
@@ -159,9 +144,6 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
-              <a href={t.choose.bundle.payHref} className="btn-wide" data-buy-href>
-                {t.choose.bundle.cta}
-              </a>
               <PieceControls model="set" lang={lang} />
               {customLink}
             </div>
@@ -254,7 +236,6 @@ export function Landing({ lang }: { lang: Lang }) {
                 {t.pricing.single.usd && <div className="price-usd">{t.pricing.single.usd}</div>}
                 <p className="price-desc">{t.pricing.single.desc}</p>
                 <a href="#choose" className="btn-price">{t.pricing.single.cta}</a>
-                {customLink}
               </div>
               <div className="price-card featured">
                 <div className="price-badge">{t.pricing.set.badge}</div>
@@ -263,9 +244,11 @@ export function Landing({ lang }: { lang: Lang }) {
                 {t.pricing.set.usd && <div className="price-usd">{t.pricing.set.usd}</div>}
                 <p className="price-desc">{t.pricing.set.desc}</p>
                 <a href={t.choose.bundle.payHref} className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
-                {customLink}
               </div>
             </div>
+            {/* Ein gemeinsamer Sonderanfrage-Knopf unter beiden Karten,
+                statt zweimal derselbe Satz nebeneinander */}
+            {customLink}
 
             <div className="delivery-note" data-reveal-group>
               {t.pricing.delivery.map((item) => (

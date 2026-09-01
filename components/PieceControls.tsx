@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { HAS_PLAIN, MAX_QTY, type ModelKey, type Version } from "@/lib/cart";
 import { cartStore } from "@/lib/cart-store";
-import { goToCheckout } from "@/lib/checkout";
 import { content, type Lang } from "@/lib/content";
 
 /**
@@ -14,46 +13,18 @@ import { content, type Lang } from "@/lib/content";
  * Fassung ist bei SUMIT ein eigenes Produkt, damit auf der Bestellung
  * steht, was gefertigt werden soll.
  *
- * Der Direktkauf-Knopf daneben bleibt im Server-Markup ein gewoehnlicher
- * Link auf die Fassung mit Pasuk (so kauft auch ohne JavaScript niemand
- * ins Leere). Sobald hier eine andere Fassung oder mehr als ein Stueck
- * gewaehlt ist, faengt diese Komponente den Klick ab und schickt die
- * Bestellung ueber denselben Weg wie die Korb-Leiste.
+ * Seit dem 01.09.26 fuehrt nur noch ein Weg zur Kasse: der Korb. Der
+ * zweite Kauf-Knopf je Karte ist auf Shoshanas Wunsch entfallen, weil
+ * zwei Wege nebeneinander mehr Fragen aufwarfen als sie beantworteten.
  */
 export function PieceControls({ model, lang }: { model: ModelKey; lang: Lang }) {
   const t = content[lang].cart;
   const [version, setVersion] = useState<Version>("with");
   const [qty, setQty] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
-  const [failed, setFailed] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  /* Der Klick-Abfang liest den Stand beim Klicken, nicht beim Anmelden */
-  const stateRef = useRef({ version, qty });
-  stateRef.current = { version, qty };
 
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
-
-  useEffect(() => {
-    const card = rootRef.current?.closest(".piece-body, .buy-all");
-    const link = card?.querySelector<HTMLAnchorElement>("a[data-buy-href]");
-    if (!link) return;
-
-    const onClick = (e: MouseEvent) => {
-      const cur = stateRef.current;
-      // Fassung mit Pasuk, ein Stueck: der Link tut es selbst
-      if (cur.version === "with" && cur.qty === 1) return;
-      e.preventDefault();
-      setFailed(false);
-      goToCheckout([{ model, version: cur.version, qty: cur.qty }]).catch(() =>
-        setFailed(true),
-      );
-    };
-
-    link.addEventListener("click", onClick);
-    return () => link.removeEventListener("click", onClick);
-  }, [model]);
 
   function add() {
     cartStore.add(model, version, qty);
@@ -68,7 +39,7 @@ export function PieceControls({ model, lang }: { model: ModelKey; lang: Lang }) 
   ];
 
   return (
-    <div className="pc" ref={rootRef}>
+    <div className="pc">
       {HAS_PLAIN[model] && (
         <div className="pc-versions" role="group" aria-label={t.versionLabel}>
           {versions.map((v) => (
@@ -110,7 +81,6 @@ export function PieceControls({ model, lang }: { model: ModelKey; lang: Lang }) 
         </button>
       </div>
 
-      {failed && <p className="pc-error" role="alert">{t.error}</p>}
     </div>
   );
 }

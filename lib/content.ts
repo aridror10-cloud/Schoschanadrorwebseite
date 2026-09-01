@@ -49,9 +49,8 @@ export interface Piece {
   desc: string;
   size: string;
   price: string;
-  /** Nur EN: Zweitzeile "~$185 USD" */
+  /** Nur EN: Zweitzeile "~$195 USD" */
   usd?: string;
-  cta: string;
 }
 
 export interface DeliveryItem {
@@ -88,12 +87,19 @@ export interface FormContent {
   placeholders: { name: string; phone: string; email: string; address: string; notes: string };
   /** Auswahl im Modell-Feld; value landet auch in der Mail */
   modelOptions: { value: string; label: string }[];
+  /** Preishinweis unter der Modellwahl: Sonderwuensche kosten extra */
+  modelNote: string;
+  /** Hinweis, dass die Fassung beim Set fuer alle drei Werke gilt */
+  versionSetNote: string;
+  /** Anhang: Bild oder Datei zur Veranschaulichung */
+  file: { label: string; hint: string; tooBig: string; remove: string };
   optional: string;
   submit: string;
   sending: string;
   successTitle: string;
   successText: string;
   errorRequired: string;
+  errorModel: string;
   errorEmail: string;
   errorSend: string;
   /** Alternative fuer alle, die lieber selbst schreiben */
@@ -144,18 +150,14 @@ export interface LandingContent {
   choose: {
     kicker: string;
     title: string;
-    toggle: {
-      intro: string;
-      options: [string, string];
-      note: string;
-    };
     pieces: Piece[];
     setAlt: string;
+    /** Ueberschrift ueber dem Set-Foto, statt eines eigenen Kauf-Knopfes */
+    bundleHeading: string;
     bundle: {
       price: string;
       usd?: string;
       save: string;
-      cta: string;
       payHref: string;
     };
   };
@@ -317,14 +319,6 @@ export const content: Record<Lang, LandingContent> = {
     choose: {
       kicker: "שלושה דגמים",
       title: "בחרו את הדיוקן המתאים לכם",
-      toggle: {
-        intro: "כל אחד מן הדיוקנאות זמין בשתי גרסאות לבחירתכם:",
-        options: [
-          "דיוקן עם פסוק מתוך אחד מניגוניו של רבי שלמה קרליבך, שנבחר בהתאמה לרוח ולתנועה שבדיוקן ומשולב בעיצוב (כמוצג בתמונות)",
-          "דיוקן ללא הפסוק — למראה נקי ומינימליסטי",
-        ],
-        note: "בחרו את הגרסה המועדפת עליכם בעת ההזמנה",
-      },
       pieces: [
         {
           img: "/carlebach/simcha.webp",
@@ -333,8 +327,7 @@ export const content: Record<Lang, LandingContent> = {
           name: "שמחה",
           desc: "רגע של שמחה מרוממת והארת פנים.",
           size: "גובה כ־60 ס״מ",
-          price: "₪550",
-          cta: "רכישת דגם זה",
+          price: "₪590",
         },
         {
           img: "/carlebach/regesh.webp",
@@ -343,8 +336,7 @@ export const content: Record<Lang, LandingContent> = {
           name: "רגש",
           desc: "רגע של התבוננות ועומק.",
           size: "גובה כ־60 ס״מ",
-          price: "₪550",
-          cta: "רכישת דגם זה",
+          price: "₪590",
         },
         {
           img: "/carlebach/shrika.webp",
@@ -353,16 +345,15 @@ export const content: Record<Lang, LandingContent> = {
           name: "שריקה",
           desc: "רגע של התכנסות פנימית.",
           size: "גובה כ־60 ס״מ",
-          price: "₪550",
-          cta: "רכישת דגם זה",
+          price: "₪590",
         },
       ],
       setAlt: "שלושת דגמי הקולקציה יחד על קיר",
+      bundleHeading: "הסדרה המלאה במחיר מיוחד",
       bundle: {
         payHref: PAY.set,
-        price: "₪1350",
-        save: "חיסכון של 300 ₪ לעומת רכישה נפרדת",
-        cta: "רכישת הסדרה המלאה",
+        price: "₪1490",
+        save: "חיסכון של 280 ₪ לעומת רכישה נפרדת",
       },
     },
     cart: {
@@ -419,7 +410,7 @@ export const content: Record<Lang, LandingContent> = {
         "במשך שנים רבות אני עוסקת בתכנון מוצרי יודאיקה לייצור תעשייתי.",
         "אני מאמינה שמוצר יהודי אינו רק חפץ שימושי או פריט נוי. הוא יכול לשאת רעיון, זיכרון וערך.",
         "בכל יצירה אני שואפת לשלב דיוק הנדסי, שפה אמנותית וכבוד לתוכן שאותו היא מבטאת.",
-        "סדרת קרליבך היא הראשונה בסדרת דיוקנאות מתכת המתוכננת להתרחב לדמויות נוספות בעתיד.",
+        "סדרת קרליבך היא הראשונה בפרויקט דיוקנאות מתכת, המתוכנן להתרחב בעתיד לדמויות נוספות.",
       ],
       signature: "שושנה דרור",
     },
@@ -436,14 +427,14 @@ export const content: Record<Lang, LandingContent> = {
       title: "מחירים",
       single: {
         name: "דיוקן בודד",
-        price: "₪550",
+        price: "₪590",
         desc: "בחירת דגם אחד מתוך שמחה, רגש או שריקה — עם או בלי הפסוק התואם מתוך אחד מניגוניו של רבי שלמה קרליבך.",
         cta: "לבחירת דגם",
       },
       set: {
         badge: "הכי משתלם",
         name: "סט שלושת הדיוקנאות",
-        price: "₪1350",
+        price: "₪1490",
         desc: "הסדרה המלאה — שמחה, רגש ושריקה יחד, לקיר אחד שמספר סיפור שלם.",
         cta: "לביצוע הזמנה",
       },
@@ -484,9 +475,9 @@ export const content: Record<Lang, LandingContent> = {
       label: "שליחת מייל",
     },
     form: {
-      kicker: "בקשה מיוחדת",
+      kicker: "התאמה אישית",
       title: "משהו אחר בראש?",
-      lead: "לרכישה רגילה אפשר לשלם ישירות באתר, בלחיצה על הדגם שבחרתם. הטופס הזה מיועד לבקשות מיוחדות — מידה אחרת, כמות גדולה, מתנה — או לכל שאלה.",
+      lead: "רוצים מידה אחרת, כיתוב שונה, כמות גדולה או התאמה מיוחדת? בחרו את הדגם הקרוב למה שאתם מחפשים וספרו לי מה תרצו לשנות.",
       labels: {
         model: "הדגם המבוקש",
         version: "גרסה",
@@ -500,28 +491,37 @@ export const content: Record<Lang, LandingContent> = {
         deliveryShip: "משלוח עד הבית (₪50)",
         deliveryPickup: "איסוף עצמי ממודיעין עילית",
         address: "כתובת למשלוח",
-        notes: "הבקשה או השאלה שלכם",
+        notes: "ספרו לי מה תרצו להתאים",
       },
       placeholders: {
         name: "שרה כהן",
         phone: "050-0000000",
         email: "name@mail.com",
         address: "רחוב ומספר, עיר, מיקוד",
-        notes: "מידה אחרת, הזמנה בכמות, מתנה, או כל שאלה שיש לכם",
+        notes: "מידה אחרת, כיתוב, פסוק, צבע, כמות, גימור או כל בקשה אחרת.",
       },
       modelOptions: [
-        { value: "simcha", label: "שמחה — ₪550" },
-        { value: "regesh", label: "רגש — ₪550" },
-        { value: "shrika", label: "שריקה — ₪550" },
-        { value: "set", label: "סט שלושת הדיוקנאות — ₪1350" },
-        { value: "other", label: "עדיין לא החלטתי / התאמה מיוחדת" },
+        { value: "simcha", label: "שמחה — ₪590" },
+        { value: "regesh", label: "רגש — ₪590" },
+        { value: "shrika", label: "שריקה — ₪590" },
+        { value: "set", label: "סט שלושת הדיוקנאות — ₪1490" },
+        { value: "other", label: "עדיין לא החלטתי על דגם" },
       ],
+      modelNote: "המחירים המוצגים הם לדגמים הסטנדרטיים. התאמות מיוחדות יתומחרו בנפרד בהתאם לבקשה.",
+      versionSetNote: "הבחירה חלה על שלושת הדגמים. לשילוב אחר, פרטו בבקשה.",
+      file: {
+        label: "צירוף תמונה או קובץ",
+        hint: "אפשר לצרף תמונה או קובץ להמחשה (עד 2.5 מ״ב).",
+        tooBig: "הקובץ גדול מדי. עד 2.5 מ״ב.",
+        remove: "הסרת הקובץ",
+      },
       optional: "לא חובה",
-      submit: "שליחת הבקשה",
+      submit: "שליחת בקשה להתאמה",
       sending: "שולח…",
       successTitle: "הבקשה התקבלה, תודה!",
-      successText: "העתק נשלח לאימייל שלכם. אחזור אליכם בהקדם עם תשובה או הצעת מחיר.",
+      successText: "אעבור על הפרטים ואחזור אליכם במייל. העתק של הבקשה נשלח גם אליכם.",
       errorRequired: "נא למלא את השדה",
+      errorModel: "נא לבחור דגם",
       errorEmail: "כתובת אימייל לא תקינה",
       errorSend: "השליחה נכשלה. נסו שוב, או כתבו ישירות אל",
       mailAltLead: "מעדיפים לכתוב בעצמכם?",
@@ -605,14 +605,6 @@ Please send me the next steps to complete the order.`,
     choose: {
       kicker: "Three Designs",
       title: "Find the Portrait That Speaks to You",
-      toggle: {
-        intro: "Each portrait is available in two versions:",
-        options: [
-          "With a Hebrew verse set to one of Reb Shlomo’s melodies, chosen to echo the mood and gesture of the portrait and woven into the design, as shown",
-          "Without the verse, for a clean and understated look",
-        ],
-        note: "Choose your preferred version when ordering",
-      },
       pieces: [
         {
           img: "/carlebach/simcha.webp",
@@ -621,9 +613,8 @@ Please send me the next steps to complete the order.`,
           name: "Joy",
           desc: "Music, warmth, and the joy that lifted a room.",
           size: "Height approx. 60 cm (24 in)",
-          price: "₪550",
-          usd: "~$185 USD",
-          cta: "Buy This Piece",
+          price: "₪590",
+          usd: "~$195 USD",
         },
         {
           img: "/carlebach/regesh.webp",
@@ -632,9 +623,8 @@ Please send me the next steps to complete the order.`,
           name: "Soul",
           desc: "A quiet moment of prayer, feeling, and depth.",
           size: "Height approx. 60 cm (24 in)",
-          price: "₪550",
-          usd: "~$185 USD",
-          cta: "Buy This Piece",
+          price: "₪590",
+          usd: "~$195 USD",
         },
         {
           img: "/carlebach/shrika.webp",
@@ -643,18 +633,17 @@ Please send me the next steps to complete the order.`,
           name: "Whistling",
           desc: "An intimate gesture, filled with focus and spirit.",
           size: "Height approx. 60 cm (24 in)",
-          price: "₪550",
-          usd: "~$185 USD",
-          cta: "Buy This Piece",
+          price: "₪590",
+          usd: "~$195 USD",
         },
       ],
       setAlt: "All three collection designs together on a wall",
+      bundleHeading: "The Complete Collection at a Special Price",
       bundle: {
         payHref: PAY.set,
-        price: "₪1350",
-        usd: "~$450 USD",
-        save: "Save ₪300 with the complete collection",
-        cta: "Buy the Full Collection",
+        price: "₪1490",
+        usd: "~$495 USD",
+        save: "Save ₪280 with the complete collection",
       },
     },
     cart: {
@@ -711,7 +700,7 @@ Please send me the next steps to complete the order.`,
         "For more than two decades, I have designed Judaica for professional and industrial production.",
         "I believe Jewish art can do more than beautify a room. It can hold a memory, express a value, and make something meaningful present in everyday life.",
         "My work brings together technical precision, an original artistic language, and deep respect for the story each piece carries.",
-        "The Carlebach Collection is the first in a growing series of metal portraits honoring figures who have shaped Jewish life.",
+        "The Carlebach Collection is the first in a metal portrait project, planned to grow to further figures in the future.",
       ],
       signature: "Shoshana Dror",
     },
@@ -731,16 +720,16 @@ Please send me the next steps to complete the order.`,
         "Prices shown in USD are approximate (~$1 = ₪3.00) and may vary slightly by the time of checkout — you will be charged in ILS.",
       single: {
         name: "Single Portrait",
-        price: "₪550",
-        usd: "~$185 USD",
+        price: "₪590",
+        usd: "~$195 USD",
         desc: "Choose Joy, Soul, or Whistling — with or without its corresponding Hebrew verse set to one of Reb Shlomo’s melodies.",
         cta: "Choose your design",
       },
       set: {
         badge: "Best Value",
         name: "Full Set of Three Portraits",
-        price: "₪1350",
-        usd: "~$450 USD",
+        price: "₪1490",
+        usd: "~$495 USD",
         desc: "Joy, Soul, and Whistling together — three portraits that bring the full spirit of the collection to one wall.",
         cta: "Place an Order",
       },
@@ -786,9 +775,9 @@ Please send me the next steps to complete the order.`,
       label: "Email Me",
     },
     form: {
-      kicker: "Custom request",
+      kicker: "A custom piece",
       title: "Something else in mind?",
-      lead: "For a standard purchase you can pay directly on the site — just pick your design above. This form is for special requests: a different size, a larger quantity, a gift, or any question.",
+      lead: "Would you like a different size, different lettering, a larger quantity or another adaptation? Pick the design closest to what you have in mind and tell me what you would like to change.",
       labels: {
         model: "Which design",
         version: "Version",
@@ -802,28 +791,37 @@ Please send me the next steps to complete the order.`,
         deliveryShip: "Home delivery (₪50)",
         deliveryPickup: "Self-pickup from Modi'in Illit",
         address: "Shipping address",
-        notes: "Your request or question",
+        notes: "Tell me what you would like to adapt",
       },
       placeholders: {
         name: "Sarah Cohen",
         phone: "+972 50-000-0000",
         email: "name@mail.com",
         address: "Street and number, city, postal code, country",
-        notes: "A different size, a larger quantity, a gift — or any question you have",
+        notes: "A different size, lettering, the verse, colour, quantity, finish, or any other request.",
       },
       modelOptions: [
-        { value: "simcha", label: "Joy — ₪550" },
-        { value: "regesh", label: "Soul — ₪550" },
-        { value: "shrika", label: "Whistling — ₪550" },
-        { value: "set", label: "Full set of three — ₪1350" },
-        { value: "other", label: "Not decided yet / custom piece" },
+        { value: "simcha", label: "Joy — ₪590" },
+        { value: "regesh", label: "Soul — ₪590" },
+        { value: "shrika", label: "Whistling — ₪590" },
+        { value: "set", label: "Full set of three — ₪1490" },
+        { value: "other", label: "Not decided on a design yet" },
       ],
+      modelNote: "The prices shown are for the standard designs. Custom adaptations are quoted separately, based on your request.",
+      versionSetNote: "The choice applies to all three designs. For a different mix, just say so in your request.",
+      file: {
+        label: "Attach an image or file",
+        hint: "You can attach an image or file to illustrate what you mean (up to 2.5 MB).",
+        tooBig: "That file is too large. Up to 2.5 MB, please.",
+        remove: "Remove the file",
+      },
       optional: "optional",
-      submit: "Send request",
+      submit: "Send custom request",
       sending: "Sending…",
       successTitle: "Thank you, your request came through!",
-      successText: "A copy is on its way to your inbox. I'll get back to you shortly with an answer or a quote.",
+      successText: "I'll go through the details and get back to you by email. A copy is on its way to your inbox.",
       errorRequired: "Please fill in this field",
+      errorModel: "Please choose a design",
       errorEmail: "That email address doesn't look right",
       errorSend: "Sending failed. Please try again, or write directly to",
       mailAltLead: "Prefer to write it yourself?",

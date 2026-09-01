@@ -13,10 +13,10 @@
  */
 
 export const MODELS = {
-  simcha: { price: 550 },
-  regesh: { price: 550 },
-  shrika: { price: 550 },
-  set: { price: 1350 },
+  simcha: { price: 590 },
+  regesh: { price: 590 },
+  shrika: { price: 590 },
+  set: { price: 1490 },
 } as const;
 
 export type ModelKey = keyof typeof MODELS;
