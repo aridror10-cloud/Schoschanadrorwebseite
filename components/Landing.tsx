@@ -122,7 +122,12 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.choose.pieces.map((piece) => (
                 <div className="piece" key={piece.img}>
                   <div className="ph">
-                    <img src={piece.img} alt={piece.alt} loading="lazy" />
+                    <img
+                      src={piece.img}
+                      alt={piece.alt}
+                      loading="lazy"
+                      data-piece-img={modelOf(piece.img)}
+                    />
                   </div>
                   <div className="piece-body">
                     <div className="piece-name">{piece.name}</div>
@@ -142,13 +147,18 @@ export function Landing({ lang }: { lang: Lang }) {
 
             <h3 className="bundle-heading" data-reveal>{t.choose.bundleHeading}</h3>
             <div className="ph set-photo" data-reveal>
-              <img src="/carlebach/set.webp" alt={t.choose.setAlt} loading="lazy" />
+              <img
+                src="/carlebach/set.webp"
+                alt={t.choose.setAlt}
+                loading="lazy"
+                data-piece-img="set"
+              />
             </div>
             <div className="buy-all" data-reveal>
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
-              <PieceControls model="set" lang={lang} />
+              <PieceControls model="set" lang={lang} plainImg="/carlebach/set-plain.webp" />
               {customLink}
             </div>
           </div>

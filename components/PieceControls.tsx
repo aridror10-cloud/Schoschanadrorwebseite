@@ -19,8 +19,9 @@ import { content, type Lang } from "@/lib/content";
  *
  * Seit dem 02.09.26 wechselt mit der Fassung auch das Foto: erst daran
  * sieht man, was "ohne Pasuk" ueberhaupt heisst. Das Bild steht als
- * Server-Markup in der Karte - wir tauschen nur seine Quelle, damit die
- * Seite ohne JavaScript weiterhin das Werk mit Pasuk zeigt.
+ * Server-Markup auf der Seite und traegt data-piece-img mit dem Namen
+ * des Werks - wir tauschen nur seine Quelle, damit die Seite ohne
+ * JavaScript weiterhin das Werk mit Pasuk zeigt.
  */
 export function PieceControls({
   model,
@@ -37,7 +38,6 @@ export function PieceControls({
   const [qty, setQty] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
   const originalBild = useRef<string | null>(null);
   const vorgeladen = useRef(false);
 
@@ -49,7 +49,7 @@ export function PieceControls({
    */
   useEffect(() => {
     if (!plainImg) return;
-    const bild = rootRef.current?.closest(".piece")?.querySelector<HTMLImageElement>(".ph img");
+    const bild = document.querySelector<HTMLImageElement>(`[data-piece-img="${model}"]`);
     if (!bild) return;
     if (originalBild.current === null) originalBild.current = bild.getAttribute("src") ?? "";
     const ziel = version === "without" ? plainImg : originalBild.current;
@@ -67,7 +67,7 @@ export function PieceControls({
     return () => {
       abgebrochen = true;
     };
-  }, [version, plainImg]);
+  }, [version, plainImg, model]);
 
   /* Das zweite Foto erst holen, wenn jemand die Wahl ins Auge fasst */
   function vorladen() {
@@ -89,7 +89,7 @@ export function PieceControls({
   ];
 
   return (
-    <div className="pc" ref={rootRef}>
+    <div className="pc">
       {HAS_PLAIN[model] && (
         <div
           className="pc-versions"
