@@ -19,10 +19,15 @@ export function Landing({ lang }: { lang: Lang }) {
   /** /carlebach/simcha.webp -> "simcha", fuer Korb und Formular-Vorauswahl */
   const modelOf = (img: string) => img.split("/").pop()!.replace(/\.\w+$/, "") as ModelKey;
 
-  /* Kleiner Sonderanfrage-Link, steht unter mehreren Kauf-Buttons */
+  /*
+   * Sonderanfrage-Knopf, steht an mehreren Stellen. Er fuehrt zum Formular
+   * am Seitenende und nicht mehr ins Mailprogramm: das oeffnete sich bei
+   * Shoshana gar nicht, und so geht es jedem ohne eingerichtete Mail-App.
+   * Wer lieber schreibt, findet den Mail-Weg im Formular selbst.
+   */
   const customLink = (
     <div className="custom-order-link">
-      <a href={t.customHref}>{t.customLinkLabel}</a>
+      <a href="#order">{t.customLinkLabel}</a>
     </div>
   );
 
@@ -39,7 +44,7 @@ export function Landing({ lang }: { lang: Lang }) {
         </p>
         <div className="order-band-actions">
           <a href="#choose" className="btn-wide">{t.orderBand.cta}</a>
-          <a href={t.customHref} className="custom-order-button">{t.orderBand.customCta}</a>
+          <a href="#order" className="custom-order-button">{t.orderBand.customCta}</a>
         </div>
       </div>
     </section>
@@ -308,7 +313,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <p className="contact-lead">{t.contact.lead}</p>
             </div>
             <div className="contact-links" data-reveal-group>
-              <a href={t.contactHref} className="contact-link">
+              <a href="#order" className="contact-link">
                 {mailIcon}
                 <span>{t.contact.label}</span>
               </a>

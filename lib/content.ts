@@ -121,11 +121,7 @@ export interface LandingContent {
   };
   /** Bestell-Mail: vorbefuellte Vorlage fuer eine regulaere Bestellung */
   orderHref: string;
-  /** Sonderanfrage-Mail: andere Groesse, Menge oder Sonderanfertigung */
-  customHref: string;
-  /** Allgemeine Anfrage aus der Kontakt-Sektion, ohne Bestell-Betreff */
-  contactHref: string;
-  /** Text des kleinen Sonderanfrage-Links unter den Kauf-Buttons */
+  /** Text des Sonderanfrage-Knopfes; fuehrt zum Formular am Seitenende */
   customLinkLabel: string;
   nav: {
     logoAlt: string;
@@ -284,12 +280,7 @@ export const content: Record<Lang, LandingContent> = {
 
 אשמח לקבלת המשך פרטים לביצוע ההזמנה.`,
     ),
-    customHref: mail(
-      "בקשה להתאמה אישית – סדרת קרליבך",
-      "שלום שושנה,\n\nההתאמות שהייתי רוצה לבצע הן:\n\n",
-    ),
-    contactHref: mail("פנייה מהאתר – סדרת קרליבך", "שלום שושנה,\n\n"),
-    customLinkLabel: "מעוניינים בגודל אחר, בכמות או בהתאמה מיוחדת? פנו במייל לקבלת הצעת מחיר",
+    customLinkLabel: "מעוניינים בגודל אחר, בכמות או בהתאמה מיוחדת?",
 
     nav: {
       logoAlt: "שושנה דרור | יודאיקה",
@@ -477,8 +468,8 @@ export const content: Record<Lang, LandingContent> = {
     contact: {
       kicker: "יצירת קשר",
       title: "יש לכם שאלה?",
-      lead: "לשאלות, הזמנות בכמות, מידה שאינה 60 ס״מ או התאמה מיוחדת — השירות ניתן במייל. לחיצה על הכפתור תפתח הודעה חדשה אליי.",
-      label: "שליחת מייל",
+      lead: "לשאלות, הזמנות בכמות, מידה שאינה 60 ס״מ או התאמה מיוחדת — מלאו את טופס הפנייה. מי שמעדיף לכתוב במייל ימצא שם קישור ישיר.",
+      label: "לטופס הפנייה",
     },
     form: {
       kicker: "התאמה אישית",
@@ -574,12 +565,7 @@ Shipping address / pickup:
 
 Please send me the next steps to complete the order.`,
     ),
-    customHref: mail(
-      "Custom Order Inquiry – Rabbi Shlomo Carlebach Portrait Collection",
-      "Hello Shoshana,\n\nThe changes I have in mind are:\n\n",
-    ),
-    contactHref: mail("Website enquiry – Carlebach Collection", "Hello Shoshana,\n\n"),
-    customLinkLabel: "Looking for another size or a custom variation? Tell me what you have in mind",
+    customLinkLabel: "Looking for another size or a custom variation?",
 
     nav: {
       logoAlt: "Shoshana Dror | Judaica",
@@ -781,8 +767,8 @@ Please send me the next steps to complete the order.`,
     contact: {
       kicker: "Get in Touch",
       title: "Have a Question?",
-      lead: "Have a question, need a larger quantity, or envision a different size? Send me a note and tell me what you have in mind.",
-      label: "Email Me",
+      lead: "Have a question, need a larger quantity, or envision a different size? Fill in the enquiry form. If you would rather write an email, you will find a direct link there.",
+      label: "To the enquiry form",
     },
     form: {
       kicker: "A custom piece",
