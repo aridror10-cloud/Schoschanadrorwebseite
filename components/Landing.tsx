@@ -99,7 +99,7 @@ export function Landing({ lang }: { lang: Lang }) {
         <section className="meet" id="meet">
           <div className="wrap meet-grid">
             <div className="ph" data-reveal>
-              <img src="/carlebach/closeup.webp" alt={t.meet.imgAlt} loading="lazy" />
+              <img src="/carlebach/meet.webp" alt={t.meet.imgAlt} loading="lazy" />
             </div>
             <div className="meet-text" data-reveal>
               <div className="kicker">{t.meet.kicker}</div>
