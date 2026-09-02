@@ -37,7 +37,8 @@ export function OrderForm({ lang }: { lang: Lang }) {
   const f = t.form;
 
   const [model, setModel] = useState("");
-  const [version, setVersion] = useState<"with" | "without">("with");
+  // Bewusst leer: die Fassung soll eine bewusste Wahl sein, keine Vorgabe
+  const [version, setVersion] = useState<"with" | "without" | "">("");
   const [qty, setQty] = useState("1");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -104,6 +105,7 @@ export function OrderForm({ lang }: { lang: Lang }) {
   function validate() {
     const next: Record<string, string> = {};
     if (!model) next.model = f.errorModel;
+    if (!version) next.version = f.errorVersion;
     if (!name.trim()) next.name = f.errorRequired;
     if (!email.trim()) next.email = f.errorRequired;
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) next.email = f.errorEmail;
@@ -118,7 +120,9 @@ export function OrderForm({ lang }: { lang: Lang }) {
         const ziel =
           first === "model"
             ? document.querySelector<HTMLElement>(".of-tiles button")
-            : document.getElementById(`of-${first}`);
+            : first === "version"
+              ? document.querySelector<HTMLElement>(".of-opts button")
+              : document.getElementById(`of-${first}`);
         ziel?.focus();
       }, 0);
       return false;
@@ -283,6 +287,11 @@ export function OrderForm({ lang }: { lang: Lang }) {
                       </button>
                     ))}
                   </div>
+                  {errors.version && (
+                    <p className="of-error" role="alert">
+                      {errors.version}
+                    </p>
+                  )}
                   {model === "set" && <p className="of-note">{f.versionSetNote}</p>}
                 </fieldset>
 

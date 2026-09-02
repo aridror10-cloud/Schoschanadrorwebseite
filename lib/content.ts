@@ -42,6 +42,8 @@ const mail = (subject: string, body: string) =>
 
 export interface Piece {
   img: string;
+  /** Dasselbe Werk ohne Pasuk - die Karte wechselt bei der Fassungswahl */
+  imgPlain?: string;
   /** Zahlseite dieses Modells bei SUMIT */
   payHref: string;
   alt: string;
@@ -100,6 +102,7 @@ export interface FormContent {
   successText: string;
   errorRequired: string;
   errorModel: string;
+  errorVersion: string;
   errorEmail: string;
   errorSend: string;
   /** Alternative fuer alle, die lieber selbst schreiben */
@@ -322,6 +325,7 @@ export const content: Record<Lang, LandingContent> = {
       pieces: [
         {
           img: "/carlebach/simcha.webp",
+          imgPlain: "/carlebach/simcha-plain.webp",
           payHref: PAY.simcha,
           alt: "דגם שמחה - דיוקן רבי שלמה קרליבך מנגן בגיטרה",
           name: "שמחה",
@@ -331,6 +335,7 @@ export const content: Record<Lang, LandingContent> = {
         },
         {
           img: "/carlebach/regesh.webp",
+          imgPlain: "/carlebach/regesh-plain.webp",
           payHref: PAY.regesh,
           alt: "דגם רגש - דיוקן רבי שלמה קרליבך שר עם פסוק משולב בעיצוב",
           name: "רגש",
@@ -340,6 +345,7 @@ export const content: Record<Lang, LandingContent> = {
         },
         {
           img: "/carlebach/shrika.webp",
+          imgPlain: "/carlebach/shrika-plain.webp",
           payHref: PAY.shrika,
           alt: "דגם שריקה - דיוקן פרופיל של רבי שלמה קרליבך",
           name: "שריקה",
@@ -498,7 +504,7 @@ export const content: Record<Lang, LandingContent> = {
         phone: "050-0000000",
         email: "name@mail.com",
         address: "רחוב ומספר, עיר, מיקוד",
-        notes: "מידה אחרת, כיתוב, פסוק, צבע, כמות, גימור או כל בקשה אחרת.",
+        notes: "מידה אחרת, כיתוב שונה, פסוק, צבע, כמות, גימור או כל בקשה אחרת.",
       },
       modelOptions: [
         { value: "simcha", label: "שמחה — ₪590" },
@@ -522,6 +528,7 @@ export const content: Record<Lang, LandingContent> = {
       successText: "אעבור על הפרטים ואחזור אליכם במייל. העתק של הבקשה נשלח גם אליכם.",
       errorRequired: "נא למלא את השדה",
       errorModel: "נא לבחור דגם",
+      errorVersion: "נא לבחור גרסה",
       errorEmail: "כתובת אימייל לא תקינה",
       errorSend: "השליחה נכשלה. נסו שוב, או כתבו ישירות אל",
       mailAltLead: "מעדיפים לכתוב בעצמכם?",
@@ -608,6 +615,7 @@ Please send me the next steps to complete the order.`,
       pieces: [
         {
           img: "/carlebach/simcha.webp",
+          imgPlain: "/carlebach/simcha-plain.webp",
           payHref: PAY.simcha,
           alt: "Joy design - Rabbi Shlomo Carlebach portrait playing guitar",
           name: "Joy",
@@ -618,6 +626,7 @@ Please send me the next steps to complete the order.`,
         },
         {
           img: "/carlebach/regesh.webp",
+          imgPlain: "/carlebach/regesh-plain.webp",
           payHref: PAY.regesh,
           alt: "Soul design - Rabbi Shlomo Carlebach singing, with verse woven into the design",
           name: "Soul",
@@ -628,6 +637,7 @@ Please send me the next steps to complete the order.`,
         },
         {
           img: "/carlebach/shrika.webp",
+          imgPlain: "/carlebach/shrika-plain.webp",
           payHref: PAY.shrika,
           alt: "Whistling design - profile portrait of Rabbi Shlomo Carlebach",
           name: "Whistling",
@@ -798,7 +808,7 @@ Please send me the next steps to complete the order.`,
         phone: "+972 50-000-0000",
         email: "name@mail.com",
         address: "Street and number, city, postal code, country",
-        notes: "A different size, lettering, the verse, colour, quantity, finish, or any other request.",
+        notes: "A different size, different lettering, the verse, colour, quantity, finish, or any other request.",
       },
       modelOptions: [
         { value: "simcha", label: "Joy — ₪590" },
@@ -822,6 +832,7 @@ Please send me the next steps to complete the order.`,
       successText: "I'll go through the details and get back to you by email. A copy is on its way to your inbox.",
       errorRequired: "Please fill in this field",
       errorModel: "Please choose a design",
+      errorVersion: "Please choose a version",
       errorEmail: "That email address doesn't look right",
       errorSend: "Sending failed. Please try again, or write directly to",
       mailAltLead: "Prefer to write it yourself?",

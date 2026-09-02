@@ -130,7 +130,11 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="piece-size">{piece.size}</span>
                     <div className="mini-price">{piece.price}</div>
                     {piece.usd && <div className="mini-price-usd">{piece.usd}</div>}
-                    <PieceControls model={modelOf(piece.img)} lang={lang} />
+                    <PieceControls
+                      model={modelOf(piece.img)}
+                      lang={lang}
+                      plainImg={piece.imgPlain}
+                    />
                   </div>
                 </div>
               ))}
