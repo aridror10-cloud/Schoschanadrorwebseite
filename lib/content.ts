@@ -175,13 +175,31 @@ export interface LandingContent {
     more: string;
     add: string;
     added: string;
-    names: Record<"simcha" | "regesh" | "shrika" | "set", string>;
+    names: Record<"simcha" | "regesh" | "shrika" | "set" | "sukkot", string>;
     title: string;
     remove: string;
     checkout: string;
     clear: string;
     sending: string;
     error: string;
+  };
+  /**
+   * Sonderedition zu Sukkot (Shoshana, 02.09.26): das Werk "Simcha" mit dem
+   * Sukkot-Segen statt des Pasuk, befristet bestellbar. Steht zwischen der
+   * Modellwahl und den Nebenteilen der Seite.
+   */
+  sukkot: {
+    kicker: string;
+    title: string;
+    inscriptionLead: string;
+    inscription: string;
+    meta: string;
+    /** Nur EN: Dollar-Naeherung */
+    usd?: string;
+    deadline: string;
+    imgAlt: string;
+    /** Knopf, solange die Edition noch nicht im Korb liegt: zum Formular */
+    orderViaForm: string;
   };
   /**
    * "Die Details, die den Unterschied machen" - ersetzt auf Anweisung des
@@ -362,13 +380,23 @@ export const content: Record<Lang, LandingContent> = {
       more: "עוד אחד",
       add: "הוספה לסל",
       added: "נוסף לסל ✓",
-      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא" },
+      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה" },
       title: "הסל שלכם",
       remove: "הסרה מהסל",
       checkout: "מעבר לתשלום",
       clear: "ריקון הסל",
       sending: "רגע…",
       error: "משהו השתבש — נסו שוב או השתמשו בכפתורי הרכישה.",
+    },
+    sukkot: {
+      kicker: "מהדורה מיוחדת לסוכות",
+      title: "דגם „שמחה” לנוי סוכה",
+      inscriptionLead: "עם הכיתוב",
+      inscription: "„הרחמן הוא יקים לנו את סוכת דוד הנופלת”",
+      meta: "גובה כ־60 ס״מ | 590 ₪",
+      deadline: "הזמנות למהדורת סוכות עד ו׳ בתשרי | 17.9, בכפוף לזמינות.",
+      imgAlt: "דגם שמחה לנוי סוכה, עם הכיתוב הרחמן הוא יקים לנו את סוכת דוד הנופלת, תלוי על קיר",
+      orderViaForm: "להזמנת מהדורת סוכות",
     },
     details: {
       title: "הפרטים שעושים את ההבדל",
@@ -651,13 +679,24 @@ Please send me the next steps to complete the order.`,
       more: "One more",
       add: "Add to basket",
       added: "Added ✓",
-      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set" },
+      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set", sukkot: "Joy, Sukkot edition" },
       title: "Your basket",
       remove: "Remove from basket",
       checkout: "Checkout",
       clear: "Clear basket",
       sending: "One moment…",
       error: "Something went wrong — please try again or use the buy buttons.",
+    },
+    sukkot: {
+      kicker: "Special Edition for Sukkot",
+      title: "The “Joy” design for your sukkah",
+      inscriptionLead: "With the Sukkot blessing cut into the metal:",
+      inscription: "„הרחמן הוא יקים לנו את סוכת דוד הנופלת”",
+      meta: "Height approx. 60 cm (24 in) | ₪590",
+      usd: "~$195 USD",
+      deadline: "Orders for the Sukkot edition until 6 Tishrei | September 17, subject to availability.",
+      imgAlt: "The Joy design for a sukkah, with the blessing HaRachaman hu yakim lanu et sukkat David hanofelet, hanging on a wall",
+      orderViaForm: "Order the Sukkot edition",
     },
     details: {
       title: "Details That Make the Difference",

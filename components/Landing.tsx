@@ -3,7 +3,7 @@ import { CartBar } from "@/components/CartBar";
 import { OrderForm } from "@/components/OrderForm";
 import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
-import type { ModelKey } from "@/lib/cart";
+import { ORDERABLE, type ModelKey } from "@/lib/cart";
 import { content, type Lang } from "@/lib/content";
 
 const mailIcon = (
@@ -99,7 +99,7 @@ export function Landing({ lang }: { lang: Lang }) {
         <section className="meet" id="meet">
           <div className="wrap meet-grid">
             <div className="ph" data-reveal>
-              <img src="/carlebach/meet.webp" alt={t.meet.imgAlt} loading="lazy" />
+              <img src="/carlebach/angle.webp" alt={t.meet.imgAlt} loading="lazy" />
             </div>
             <div className="meet-text" data-reveal>
               <div className="kicker">{t.meet.kicker}</div>
@@ -165,6 +165,32 @@ export function Landing({ lang }: { lang: Lang }) {
               <div className="bundle-save">{t.choose.bundle.save}</div>
               <PieceControls model="set" lang={lang} plainImg="/carlebach/set-plain.webp" />
               {customLink}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== SUKKOT SPECIAL EDITION =====
+            Befristete Sonderedition (Shoshana, 02.09.26). Solange das Produkt
+            bei SUMIT fehlt, fuehrt der Knopf zum Anfrageformular statt in den
+            Korb - siehe ORDERABLE in lib/cart.ts. */}
+        <section className="sukkot" id="sukkot">
+          <div className="wrap sukkot-grid">
+            <div className="ph sukkot-photo" data-reveal>
+              <img src="/carlebach/sukkot.webp" alt={t.sukkot.imgAlt} loading="lazy" />
+            </div>
+            <div className="sukkot-text" data-reveal>
+              <div className="kicker">{t.sukkot.kicker}</div>
+              <h2>{t.sukkot.title}</h2>
+              <p className="sukkot-lead">{t.sukkot.inscriptionLead}</p>
+              <p className="sukkot-inscription" lang="he" dir="rtl">{t.sukkot.inscription}</p>
+              <div className="mini-price">{t.sukkot.meta}</div>
+              {t.sukkot.usd && <div className="mini-price-usd">{t.sukkot.usd}</div>}
+              <p className="sukkot-deadline">{t.sukkot.deadline}</p>
+              {ORDERABLE.sukkot ? (
+                <PieceControls model="sukkot" lang={lang} />
+              ) : (
+                <a href="#order" className="pc-add sukkot-cta">{t.sukkot.orderViaForm}</a>
+              )}
             </div>
           </div>
         </section>

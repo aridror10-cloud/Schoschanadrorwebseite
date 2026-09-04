@@ -17,6 +17,8 @@ export const MODELS = {
   regesh: { price: 590 },
   shrika: { price: 590 },
   set: { price: 1490 },
+  /** Sonderedition zu Sukkot: "Simcha" mit dem Sukkot-Segen statt des Pasuk */
+  sukkot: { price: 590 },
 } as const;
 
 export type ModelKey = keyof typeof MODELS;
@@ -33,6 +35,21 @@ export const HAS_PLAIN: Record<ModelKey, boolean> = {
   regesh: true,
   shrika: true,
   set: true,
+  sukkot: false,
+};
+
+/**
+ * Was sich ueberhaupt in den Korb legen laesst. Ein Werk, das bei SUMIT
+ * noch kein Produkt hat, bekommt statt der Korb-Knoepfe einen Verweis
+ * auf das Anfrageformular - lieber ein Umweg als eine Fehlermeldung an
+ * der Kasse.
+ */
+export const ORDERABLE: Record<ModelKey, boolean> = {
+  simcha: true,
+  regesh: true,
+  shrika: true,
+  set: true,
+  sukkot: false,
 };
 
 /** Eine Zeile im Korb: Werk, Fassung, Stueckzahl */
