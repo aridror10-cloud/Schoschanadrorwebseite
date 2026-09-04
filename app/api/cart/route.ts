@@ -29,8 +29,8 @@ const SUMIT_ITEMS: Record<ModelKey, Record<Version, number | null>> = {
   regesh: { with: 2295257571, without: 2307582551 },
   shrika: { with: 2295252407, without: 2307583493 },
   set: { with: 2295176895, without: 2307585333 },
-  // Sukkot-Edition: Produkt bei SUMIT noch nicht angelegt (Stand 04.09.26)
-  sukkot: { with: null, without: null },
+  // Sukkot-Edition: nur eine Fassung, der Segen ist Teil des Werks
+  sukkot: { with: 2331147539, without: null },
 };
 
 /* Einfache Ratenbegrenzung je Adresse, gleiche Bauart wie /api/order */

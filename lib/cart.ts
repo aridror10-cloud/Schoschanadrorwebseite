@@ -49,7 +49,7 @@ export const ORDERABLE: Record<ModelKey, boolean> = {
   regesh: true,
   shrika: true,
   set: true,
-  sukkot: false,
+  sukkot: true,
 };
 
 /** Eine Zeile im Korb: Werk, Fassung, Stueckzahl */
