@@ -138,6 +138,12 @@ export interface LandingContent {
     titleLines: [string, string];
     sub: string;
     cta: string;
+    /**
+     * Einzeiliger Hinweis auf die Sukkot-Edition ueber dem Scroll-Link
+     * (Shoshana, 06.09.26): Text in hellem Creme, Stern und Aufruf in Gold,
+     * die ganze Zeile fuehrt zur Sukkot-Sektion.
+     */
+    sukkot: { lead: string; body: string; cta: string };
     scroll: string;
   };
   meet: {
@@ -145,6 +151,14 @@ export interface LandingContent {
     kicker: string;
     titleLines: [string, string];
     paras: string[];
+    /** Zweiter Block "vom Foto zum Metall" (Shoshana, 06.09.26) */
+    more: {
+      title: string;
+      paras: string[];
+      choiceBefore: string;
+      choiceStrong: string;
+      choiceAfter: string;
+    };
   };
   choose: {
     kicker: string;
@@ -316,6 +330,11 @@ export const content: Record<Lang, LandingContent> = {
       titleLines: ["סדרת דיוקנאות המתכת", "של רבי שלמה קרליבך"],
       sub: "יצירות קיר המבקשות לשמר את השמחה, הרגש והנוכחות של רבי שלמה קרליבך.",
       cta: "לביצוע הזמנה",
+      sukkot: {
+        lead: "לכבוד סוכות",
+        body: "דגם „שמחה” בשילוב „הרחמן הוא יקים” —",
+        cta: "לצפייה",
+      },
       scroll: "גללו להכיר את היצירות ↓",
     },
     meet: {
@@ -327,6 +346,16 @@ export const content: Record<Lang, LandingContent> = {
         "מתוך רצון להעניק לדמותו של רבי שלמה קרליבך ביטוי אמנותי מכובד ועל־זמני, נוצרה סדרת דיוקנאות קיר ממתכת, המעוצבת מתוך תצלומי מקור ומיוצרת בחיתוך לייזר מדויק.",
         "כל יצירה מבקשת לשמר לא רק את מראהו, אלא גם משהו מן השמחה, הרגש והנוכחות שאפיינו אותו.",
       ],
+      more: {
+        title: "מהצילום אל המתכת",
+        paras: [
+          "כל דיוקן נוצר מתוך תצלומי מקור ועובד ליצירת מתכת בחיתוך מדויק, תוך שמירה על ההבעה והמאפיינים הייחודיים של הדמות.",
+          "הדיוקן, בגובה כ־60 ס״מ, מורחק מעט מן הקיר ליצירת עומק ומשחק עדין של אור וצל.",
+        ],
+        choiceBefore: "כל דגם ניתן לבחירה ",
+        choiceStrong: "עם פסוק משולב ביצירה או בלעדיו",
+        choiceAfter: ".",
+      },
     },
     choose: {
       kicker: "שלושה דגמים",
@@ -445,7 +474,7 @@ export const content: Record<Lang, LandingContent> = {
         "10% מהרווחים על הזמנות שיבוצעו עד ט״ז בחשוון תשפ״ז (27 באוקטובר 2026) יוקדשו לצדקה",
       after: " — ברוח מורשתו של אהבת ישראל, שמחה ודאגה לזולת.",
       figureLabel: "מהרווחים לצדקה",
-      photoAlt: "תקריב אווירה על דיוקן המתכת של רבי שלמה קרליבך",
+      photoAlt: "דיוקן „שמחה” של רבי שלמה קרליבך, צוחק",
     },
     pricing: {
       kicker: "רכישה",
@@ -611,6 +640,11 @@ Please send me the next steps to complete the order.`,
       titleLines: ["The Metal Portrait Series", "of Rabbi Shlomo Carlebach"],
       sub: "Original metal wall art inspired by the joy, soul, and enduring presence of Rabbi Shlomo Carlebach.",
       cta: "Place an Order",
+      sukkot: {
+        lead: "For Sukkot",
+        body: "the “Joy” design with “HaRachaman Hu Yakim” —",
+        cta: "see it",
+      },
       scroll: "Scroll to explore the collection ↓",
     },
     meet: {
@@ -622,6 +656,16 @@ Please send me the next steps to complete the order.`,
         "This collection was created as a timeless tribute to Rabbi Shlomo Carlebach — known to so many simply as Reb Shlomo. Each portrait begins with an original photograph, is carefully translated into line and form, and is precision-cut in metal.",
         "The goal is not only to capture his likeness, but to bring something of his warmth, joy, and spiritual depth into the spaces where Jewish life is lived.",
       ],
+      more: {
+        title: "From Photograph to Metal",
+        paras: [
+          "Each portrait is created from original photographs and worked into a precisely cut piece of metal, preserving the expression and the distinctive features of the figure.",
+          "The portrait, about 60 cm (24 in) tall, stands slightly off the wall, creating depth and a subtle play of light and shadow.",
+        ],
+        choiceBefore: "Every design is available ",
+        choiceStrong: "with a verse integrated into the piece, or without it",
+        choiceAfter: ".",
+      },
     },
     choose: {
       kicker: "Three Designs",
@@ -746,7 +790,7 @@ Please send me the next steps to complete the order.`,
       after:
         " — carrying forward, in a small way, his legacy of ahavat Yisrael, joy, and care for every soul.",
       figureLabel: "of profits to tzedakah",
-      photoAlt: "Atmospheric close-up of the Rabbi Shlomo Carlebach metal portrait",
+      photoAlt: "The “Joy” portrait of Rabbi Shlomo Carlebach, laughing",
     },
     pricing: {
       kicker: "Purchase",

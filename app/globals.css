@@ -882,3 +882,38 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   .sukkot-grid { grid-template-columns: 1fr; gap: 32px; }
   .sukkot-photo { max-width: 460px; margin: 0 auto; width: 100%; }
 }
+
+/* ---------- Sukkot-Hinweis im Hero (Shoshana, 06.09.26) ----------
+   Eine Zeile zwischen Kauf-Knopf und Scroll-Link: helles Creme, Stern
+   und Aufruf in Gold, kleiner als der Beschreibungstext. Die ganze Zeile
+   ist der Link. */
+.hero-sukkot {
+  font-size: 0.86rem;
+  color: #f1ecdf;
+  letter-spacing: 0.2px;
+  text-align: center;
+  line-height: 1.6;
+  transition: color 0.4s ease;
+}
+.hero-sukkot-gold { color: var(--gold-soft); font-weight: 600; }
+.hero-sukkot:hover { color: #fff; }
+.hero-sukkot:hover .hero-sukkot-gold { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Zweiter Block im Abschnitt Kunst/Erinnerung: eine kurze Goldlinie
+   trennt ihn vom ersten, wie Shoshanas Trennstrich in der Vorlage */
+.meet-sub {
+  font-family: var(--font-frank), serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 34px 0 12px;
+}
+.meet-sub::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 2px;
+  margin-bottom: 18px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+}
+.meet p strong { font-weight: 600; color: var(--charcoal-deep); }

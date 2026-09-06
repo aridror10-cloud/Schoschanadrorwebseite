@@ -90,6 +90,10 @@ export function Landing({ lang }: { lang: Lang }) {
             <p>{t.hero.sub}</p>
             <div className="hero-actions">
               <a href="#choose" className="btn-primary-lg">{t.hero.cta}</a>
+              <a href="#sukkot" className="hero-sukkot">
+                {t.hero.sukkot.lead} <span className="hero-sukkot-gold">✦</span> {t.hero.sukkot.body}{" "}
+                <span className="hero-sukkot-gold">{t.hero.sukkot.cta}</span>
+              </a>
               <a href="#meet" className="scroll-link">{t.hero.scroll}</a>
             </div>
           </div>
@@ -111,6 +115,15 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.meet.paras.map((p) => (
                 <p key={p.slice(0, 20)}>{p}</p>
               ))}
+              <h3 className="meet-sub">{t.meet.more.title}</h3>
+              {t.meet.more.paras.map((p) => (
+                <p key={p.slice(0, 20)}>{p}</p>
+              ))}
+              <p>
+                {t.meet.more.choiceBefore}
+                <strong>{t.meet.more.choiceStrong}</strong>
+                {t.meet.more.choiceAfter}
+              </p>
             </div>
           </div>
         </section>
