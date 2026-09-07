@@ -151,14 +151,8 @@ export interface LandingContent {
     kicker: string;
     titleLines: [string, string];
     paras: string[];
-    /** Zweiter Block "vom Foto zum Metall" (Shoshana, 06.09.26) */
-    more: {
-      title: string;
-      paras: string[];
-      choiceBefore: string;
-      choiceStrong: string;
-      choiceAfter: string;
-    };
+    /** Weitere Bloecke mit Zwischenueberschrift (Shoshana, 07.09.26) */
+    blocks: { title: string; paras: string[] }[];
   };
   choose: {
     kicker: string;
@@ -340,22 +334,29 @@ export const content: Record<Lang, LandingContent> = {
     meet: {
       imgAlt: "תקריב על דיוקן קרליבך בחיתוך לייזר",
       kicker: "הרעיון",
-      titleLines: ["כשהאמנות פוגשת", "את הזיכרון"],
+      titleLines: ["יש דמויות", "שנשארות איתנו"],
       paras: [
-        "יש דמויות שהשפעתן ממשיכה להאיר גם שנים רבות לאחר לכתן.",
-        "מתוך רצון להעניק לדמותו של רבי שלמה קרליבך ביטוי אמנותי מכובד ועל־זמני, נוצרה סדרת דיוקנאות קיר ממתכת, המעוצבת מתוך תצלומי מקור ומיוצרת בחיתוך לייזר מדויק.",
-        "כל יצירה מבקשת לשמר לא רק את מראהו, אלא גם משהו מן השמחה, הרגש והנוכחות שאפיינו אותו.",
+        "רבי שלוימ׳לה נגע בלבבות בדרך שחידש מפנימיותו — בניגון שהפך את הפסוק לתפילה אישית וחיה, בשמחה, באהבת ישראל וביכולת לעורר את הלב ולהרים אותו קצת יותר גבוה.",
+        "בהופעות, בזיצים וברגעים הקטנים שביניהם, הוא השאיר אחריו הרבה יותר מניגונים. הוא השאיר חיבור, געגוע והתעוררות שממשיכים ללוות אנשים עד היום.",
+        "מתוך החיבור הזה נולדה סדרת הדיוקנאות — שלושה רגעים מדמותו של רבי שלמה קרליבך, המבקשים לעורר בנו שוב ושוב את הרוח, השמחה והחיבור שהשאיר אחריו.",
       ],
-      more: {
-        title: "מהצילום אל המתכת",
-        paras: [
-          "כל דיוקן נוצר מתוך תצלומי מקור ועובד ליצירת מתכת בחיתוך מדויק, תוך שמירה על ההבעה והמאפיינים הייחודיים של הדמות.",
-          "הדיוקן, בגובה כ־60 ס״מ, מורחק מעט מן הקיר ליצירת עומק ומשחק עדין של אור וצל.",
-        ],
-        choiceBefore: "כל דגם ניתן לבחירה ",
-        choiceStrong: "עם פסוק משולב ביצירה או בלעדיו",
-        choiceAfter: ".",
-      },
+      blocks: [
+        {
+          title: "מהצילום אל המתכת",
+          paras: [
+            "כל דיוקן נבנה מתוך תצלומי מקור, בעיבוד מוקפד השומר על ההבעה והתנועה האופייניות לרבי שלמה.",
+            "היצירה, בגובה כ־60 ס״מ, עשויה מתכת בחיתוך מדויק ומורחקת מעט מן הקיר, כך שהאור והצל מוסיפים לה עומק ונוכחות.",
+            "כל דגם ניתן לבחירה עם פסוק משולב ביצירה או בלעדיו.",
+          ],
+        },
+        {
+          title: "רוצים להתאים את היצירה לחלל שלכם?",
+          paras: [
+            "ניתן להזמין את הדיוקנאות גם בגודל, בצבע או בשילוב פסוק אחר, בתמחור בהתאם להתאמה המבוקשת.",
+            "ניתן גם ליצור דיוקן מתצלום אחר של רבי שלוימ׳לה — כיצירה חדשה הנבנית במיוחד עבורכם.",
+          ],
+        },
+      ],
     },
     choose: {
       kicker: "שלושה דגמים",
@@ -650,22 +651,30 @@ Please send me the next steps to complete the order.`,
     meet: {
       imgAlt: "Close-up of a laser-cut Carlebach portrait",
       kicker: "The Story Behind the Collection",
-      titleLines: ["Art That Keeps", "a Presence Alive"],
+      titleLines: ["Some People", "Stay With Us"],
       paras: [
-        "Some people continue to light up our lives long after they are gone.",
-        "This collection was created as a timeless tribute to Rabbi Shlomo Carlebach — known to so many simply as Reb Shlomo. Each portrait begins with an original photograph, is carefully translated into line and form, and is precision-cut in metal.",
-        "The goal is not only to capture his likeness, but to bring something of his warmth, joy, and spiritual depth into the spaces where Jewish life is lived.",
+        "Reb Shlomo touched hearts in a way that was uniquely his — through melody, joy, love for every Jew, and a rare ability to lift the heart.",
+        "He left behind more than melodies. He left a spirit of connection and inspiration that lives on.",
+        "From that connection, this portrait series was born — three moments of Reb Shlomo, created to bring something of his joy and spirit into our homes.",
       ],
-      more: {
-        title: "From Photograph to Metal",
-        paras: [
-          "Each portrait is created from original photographs and worked into a precisely cut piece of metal, preserving the expression and the distinctive features of the figure.",
-          "The portrait, about 60 cm (24 in) tall, stands slightly off the wall, creating depth and a subtle play of light and shadow.",
-        ],
-        choiceBefore: "Every design is available ",
-        choiceStrong: "with a verse integrated into the piece, or without it",
-        choiceAfter: ".",
-      },
+      blocks: [
+        {
+          title: "From Photograph to Metal",
+          paras: [
+            "Created from original photographs, each portrait preserves Reb Shlomo’s distinctive expression and movement.",
+            "Approximately 60 cm (24 in) tall, each piece is precision-cut from metal and mounted slightly away from the wall, allowing light and shadow to add depth and presence.",
+            "Available with or without an integrated verse.",
+          ],
+        },
+        {
+          title: "Looking for a Personal Touch?",
+          paras: [
+            "Custom options are available, including a different verse, size, or color.",
+            "A portrait based on a different photograph can also be commissioned as a fully custom piece, created from the ground up.",
+            "Customizations are priced separately.",
+          ],
+        },
+      ],
     },
     choose: {
       kicker: "Three Designs",

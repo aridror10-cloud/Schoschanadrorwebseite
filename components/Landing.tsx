@@ -115,15 +115,14 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.meet.paras.map((p) => (
                 <p key={p.slice(0, 20)}>{p}</p>
               ))}
-              <h3 className="meet-sub">{t.meet.more.title}</h3>
-              {t.meet.more.paras.map((p) => (
-                <p key={p.slice(0, 20)}>{p}</p>
+              {t.meet.blocks.map((block) => (
+                <div className="meet-block" key={block.title}>
+                  <h3 className="meet-sub">{block.title}</h3>
+                  {block.paras.map((p) => (
+                    <p key={p.slice(0, 20)}>{p}</p>
+                  ))}
+                </div>
               ))}
-              <p>
-                {t.meet.more.choiceBefore}
-                <strong>{t.meet.more.choiceStrong}</strong>
-                {t.meet.more.choiceAfter}
-              </p>
             </div>
           </div>
         </section>

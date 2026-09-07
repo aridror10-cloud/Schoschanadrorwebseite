@@ -916,4 +916,3 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   border-radius: 2px;
   background: linear-gradient(90deg, var(--gold), var(--gold-soft));
 }
-.meet p strong { font-weight: 600; color: var(--charcoal-deep); }
