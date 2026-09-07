@@ -31,8 +31,8 @@ const SUMIT_ITEMS: Record<ModelKey, Record<Version, number | null>> = {
   set: { with: 2295176895, without: 2307585333 },
   // Sukkot-Edition: nur eine Fassung, der Segen ist Teil des Werks
   sukkot: { with: 2331147539, without: null },
-  // Sukkot-Serie: Produkt bei SUMIT noch nicht angelegt (Stand 07.09.26)
-  sukkotSet: { with: null, without: null },
+  // Sukkot-Serie: drei Werke plus typografischer Pasuk, eine Fassung
+  sukkotSet: { with: 2338520016, without: null },
 };
 
 /* Einfache Ratenbegrenzung je Adresse, gleiche Bauart wie /api/order */
