@@ -19,6 +19,8 @@ export const MODELS = {
   set: { price: 1490 },
   /** Sonderedition zu Sukkot: "Simcha" mit dem Sukkot-Segen statt des Pasuk */
   sukkot: { price: 590 },
+  /** Sukkot-Serie: die drei Werke plus ein typografischer Pasuk */
+  sukkotSet: { price: 1890 },
 } as const;
 
 export type ModelKey = keyof typeof MODELS;
@@ -36,6 +38,7 @@ export const HAS_PLAIN: Record<ModelKey, boolean> = {
   shrika: true,
   set: true,
   sukkot: false,
+  sukkotSet: false,
 };
 
 /**
@@ -50,6 +53,7 @@ export const ORDERABLE: Record<ModelKey, boolean> = {
   shrika: true,
   set: true,
   sukkot: true,
+  sukkotSet: false,
 };
 
 /** Eine Zeile im Korb: Werk, Fassung, Stueckzahl */

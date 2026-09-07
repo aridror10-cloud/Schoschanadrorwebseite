@@ -183,7 +183,7 @@ export interface LandingContent {
     more: string;
     add: string;
     added: string;
-    names: Record<"simcha" | "regesh" | "shrika" | "set" | "sukkot", string>;
+    names: Record<"simcha" | "regesh" | "shrika" | "set" | "sukkot" | "sukkotSet", string>;
     title: string;
     remove: string;
     checkout: string;
@@ -198,16 +198,37 @@ export interface LandingContent {
    */
   sukkot: {
     kicker: string;
-    title: string;
-    inscriptionLead: string;
-    inscription: string;
-    meta: string;
-    /** Nur EN: Dollar-Naeherung */
-    usd?: string;
+    /** Der Vers "we-samachta be-chagecha", auch auf der englischen Seite hebraeisch */
+    verse: string;
+    /** Nur EN: Uebersetzung des Verses */
+    verseGloss?: string;
+    intro: string;
+    /** Schritt 2: das Einzelwerk als Hero-Produkt der Sektion */
+    single: {
+      title: string;
+      inscription: string;
+      note: string;
+      price: string;
+      usd?: string;
+      imgAlt: string;
+      orderViaForm: string;
+    };
+    /** Schritt 3: kurze Ueberleitung zur Serie */
+    bridge: { title: string; text: string };
+    /** Schritt 4: die vierteilige Serie mit wechselnden Bildern */
+    series: {
+      items: string;
+      title: string;
+      text: string;
+      price: string;
+      usd?: string;
+      imgAltSukkah: string;
+      imgAltWall: string;
+      orderViaForm: string;
+    };
+    /** Schritt 5: Frist, abgesetzt aber nicht aufdringlich */
     deadline: string;
-    imgAlt: string;
-    /** Knopf, solange die Edition noch nicht im Korb liegt: zum Formular */
-    orderViaForm: string;
+    shipping: string;
   };
   /**
    * "Die Details, die den Unterschied machen" - ersetzt auf Anweisung des
@@ -410,7 +431,7 @@ export const content: Record<Lang, LandingContent> = {
       more: "עוד אחד",
       add: "הוספה לסל",
       added: "נוסף לסל ✓",
-      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה" },
+      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה", sukkotSet: "סדרת סוכות (4 חלקים)" },
       title: "הסל שלכם",
       remove: "הסרה מהסל",
       checkout: "מעבר לתשלום",
@@ -419,14 +440,32 @@ export const content: Record<Lang, LandingContent> = {
       error: "משהו השתבש — נסו שוב או השתמשו בכפתורי הרכישה.",
     },
     sukkot: {
-      kicker: "מהדורה מיוחדת לסוכות",
-      title: "דגם „שמחה” לנוי סוכה",
-      inscriptionLead: "עם הכיתוב",
-      inscription: "„הרחמן הוא יקים לנו את סוכת דוד הנופלת”",
-      meta: "גובה כ־60 ס״מ | 590 ₪",
-      deadline: "הזמנות למהדורת סוכות עד ו׳ בתשרי | 17.9, בכפוף לזמינות.",
-      imgAlt: "דגם שמחה לנוי סוכה, עם הכיתוב הרחמן הוא יקים לנו את סוכת דוד הנופלת, תלוי על קיר",
-      orderViaForm: "להזמנת מהדורת סוכות",
+      kicker: "לכבוד סוכות",
+      verse: "וְשָׂמַחְתָּ בְּחַגֶּךָ",
+      intro: "מהדורה מיוחדת לסוכות מתוך סדרת דיוקנאות רבי שלוימ׳לה — דיוקן מתכת בחיתוך אמנותי, בשילוב 'הרחמן הוא יקים לנו'",
+      single: {
+        title: "דגם „שמחה” — מהדורת סוכות",
+        inscription: "„הרחמן הוא יקים לנו את סוכת דוד הנופלת”",
+        note: "הפסוק משתלב כחלק בלתי נפרד מן היצירה ונחתך יחד עם הדיוקן מתוך המתכת.",
+        price: "590 ₪",
+        imgAlt: "דגם שמחה למהדורת סוכות, עם הפסוק הרחמן הוא יקים לנו את סוכת דוד הנופלת משולב בדיוקן",
+        orderViaForm: "להזמנת דגם שמחה למהדורת סוכות",
+      },
+      bridge: {
+        title: "רוצים להרחיב את היצירה?",
+        text: "לצד שלושת הדיוקנאות בסדרה ניתן לצרף יצירת טיפוגרפיה תואמת, שנבנתה במיוחד לסוכות.",
+      },
+      series: {
+        items: "שמחה | רגש | שריקה | פסוק טיפוגרפי",
+        title: "סדרת הדיוקנאות — מהדורת סוכות",
+        text: "שלושת הדיוקנאות של רבי שלוימ׳לה, בתוספת יצירת טיפוגרפיה תואמת לסוכות — כסדרה אחת בעלת שפה חומרית ועיצובית משותפת.",
+        price: "1890 ₪",
+        imgAltSukkah: "הדמיה של ארבעת חלקי הסדרה בתוך סוכה: שלושת הדיוקנאות והפסוק הטיפוגרפי על קיר אבן",
+        imgAltWall: "ארבעת חלקי הסדרה על קיר לבן: שלושת הדיוקנאות והפסוק הטיפוגרפי",
+        orderViaForm: "להזמנת הסדרה למהדורת סוכות",
+      },
+      deadline: "הזמנות למהדורת סוכות עד 17.9 | ו׳ בתשרי — בכפוף לזמינות.",
+      shipping: "המשלוח אינו כלול במחיר.",
     },
     details: {
       title: "הפרטים שעושים את ההבדל",
@@ -732,7 +771,7 @@ Please send me the next steps to complete the order.`,
       more: "One more",
       add: "Add to basket",
       added: "Added ✓",
-      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set", sukkot: "Joy, Sukkot edition" },
+      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set", sukkot: "Joy, Sukkot edition", sukkotSet: "Sukkot series (4 pieces)" },
       title: "Your basket",
       remove: "Remove from basket",
       checkout: "Checkout",
@@ -741,15 +780,35 @@ Please send me the next steps to complete the order.`,
       error: "Something went wrong — please try again or use the buy buttons.",
     },
     sukkot: {
-      kicker: "Special Edition for Sukkot",
-      title: "The “Joy” design for your sukkah",
-      inscriptionLead: "With the Sukkot blessing cut into the metal:",
-      inscription: "„הרחמן הוא יקים לנו את סוכת דוד הנופלת”",
-      meta: "Height approx. 60 cm (24 in) | ₪590",
-      usd: "~$195 USD",
-      deadline: "Orders for the Sukkot edition until 6 Tishrei | September 17, subject to availability.",
-      imgAlt: "The Joy design for a sukkah, with the blessing HaRachaman hu yakim lanu et sukkat David hanofelet, hanging on a wall",
-      orderViaForm: "Order the Sukkot edition",
+      kicker: "For Sukkot",
+      verse: "וְשָׂמַחְתָּ בְּחַגֶּךָ",
+      verseGloss: "“And you shall rejoice in your festival”",
+      intro: "A special Sukkot edition from the Reb Shlomo portrait series — an artistically cut metal portrait, combined with “HaRachaman Hu Yakim Lanu”.",
+      single: {
+        title: "The “Joy” design — Sukkot edition",
+        inscription: "„הרחמן הוא יקים לנו את סוכת דוד הנופלת”",
+        note: "The verse is an inseparable part of the piece, cut from the metal together with the portrait.",
+        price: "₪590",
+        usd: "~$195 USD",
+        imgAlt: "The Joy design, Sukkot edition, with the verse HaRachaman hu yakim lanu et sukkat David hanofelet integrated into the portrait",
+        orderViaForm: "Order the Joy design, Sukkot edition",
+      },
+      bridge: {
+        title: "Want to take it further?",
+        text: "Alongside the three portraits in the series, a matching typographic piece, created especially for Sukkot, can be added.",
+      },
+      series: {
+        items: "Joy | Soul | Whistling | typographic verse",
+        title: "The portrait series — Sukkot edition",
+        text: "The three portraits of Reb Shlomo, together with a matching typographic piece for Sukkot — one series with a shared material and design language.",
+        price: "₪1890",
+        usd: "~$630 USD",
+        imgAltSukkah: "Rendering of the four-piece series inside a sukkah: the three portraits and the typographic verse on a stone wall",
+        imgAltWall: "The four-piece series on a white wall: the three portraits and the typographic verse",
+        orderViaForm: "Order the Sukkot series",
+      },
+      deadline: "Orders for the Sukkot edition until September 17 | 6 Tishrei — subject to availability.",
+      shipping: "Shipping is not included in the price.",
     },
     details: {
       title: "Details That Make the Difference",

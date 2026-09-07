@@ -3,6 +3,7 @@ import { CartBar } from "@/components/CartBar";
 import { OrderForm } from "@/components/OrderForm";
 import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
+import { SukkotSlides } from "@/components/SukkotSlides";
 import { ORDERABLE, type ModelKey } from "@/lib/cart";
 import { content, type Lang } from "@/lib/content";
 
@@ -182,27 +183,65 @@ export function Landing({ lang }: { lang: Lang }) {
         </section>
 
         {/* ===== SUKKOT SPECIAL EDITION =====
-            Befristete Sonderedition (Shoshana, 02.09.26). Solange das Produkt
-            bei SUMIT fehlt, fuehrt der Knopf zum Anfrageformular statt in den
-            Korb - siehe ORDERABLE in lib/cart.ts. */}
+            Befristete Sonderedition in fuenf Schritten (Shoshana, 07.09.26):
+            Eroeffnung, das Einzelwerk als Hero-Produkt, Ueberleitung, die
+            vierteilige Serie mit wechselnden Bildern, Frist. Fehlt ein
+            Produkt bei SUMIT, fuehrt sein Knopf zum Anfrageformular statt
+            in den Korb - siehe ORDERABLE in lib/cart.ts. */}
         <section className="sukkot" id="sukkot">
-          <div className="wrap sukkot-grid">
-            <div className="ph sukkot-photo" data-reveal>
-              <img src="/carlebach/sukkot.webp" alt={t.sukkot.imgAlt} loading="lazy" />
-            </div>
-            <div className="sukkot-text" data-reveal>
+          <div className="wrap">
+            <div className="section-head sukkot-head" data-reveal>
               <div className="kicker">{t.sukkot.kicker}</div>
-              <h2>{t.sukkot.title}</h2>
-              <p className="sukkot-lead">{t.sukkot.inscriptionLead}</p>
-              <p className="sukkot-inscription" lang="he" dir="rtl">{t.sukkot.inscription}</p>
-              <div className="mini-price">{t.sukkot.meta}</div>
-              {t.sukkot.usd && <div className="mini-price-usd">{t.sukkot.usd}</div>}
+              <h2 className="sukkot-verse" lang="he" dir="rtl">{t.sukkot.verse}</h2>
+              {t.sukkot.verseGloss && <p className="sukkot-gloss">{t.sukkot.verseGloss}</p>}
+              <p className="sukkot-intro">{t.sukkot.intro}</p>
+            </div>
+
+            <div className="sukkot-hero" data-reveal>
+              <div className="ph sukkot-hero-photo">
+                <img src="/carlebach/sukkot.webp" alt={t.sukkot.single.imgAlt} loading="lazy" />
+              </div>
+              <div className="sukkot-hero-text">
+                <h3>{t.sukkot.single.title}</h3>
+                <p className="sukkot-inscription" lang="he" dir="rtl">{t.sukkot.single.inscription}</p>
+                <p className="sukkot-note">{t.sukkot.single.note}</p>
+                <div className="mini-price">{t.sukkot.single.price}</div>
+                {t.sukkot.single.usd && <div className="mini-price-usd">{t.sukkot.single.usd}</div>}
+                {ORDERABLE.sukkot ? (
+                  <PieceControls model="sukkot" lang={lang} />
+                ) : (
+                  <a href="#order" className="pc-add sukkot-cta">{t.sukkot.single.orderViaForm}</a>
+                )}
+              </div>
+            </div>
+
+            <div className="sukkot-bridge" data-reveal>
+              <h3>{t.sukkot.bridge.title}</h3>
+              <p>{t.sukkot.bridge.text}</p>
+            </div>
+
+            <div className="sukkot-series" data-reveal>
+              <SukkotSlides
+                images={["/carlebach/sukkot-set-wall.webp", "/carlebach/sukkot-set-sukkah.webp"]}
+                alts={[t.sukkot.series.imgAltWall, t.sukkot.series.imgAltSukkah]}
+              />
+              <p className="sukkot-items">{t.sukkot.series.items}</p>
+              <div className="sukkot-series-text">
+                <h3>{t.sukkot.series.title}</h3>
+                <p>{t.sukkot.series.text}</p>
+                <div className="mini-price">{t.sukkot.series.price}</div>
+                {t.sukkot.series.usd && <div className="mini-price-usd">{t.sukkot.series.usd}</div>}
+                {ORDERABLE.sukkotSet ? (
+                  <PieceControls model="sukkotSet" lang={lang} />
+                ) : (
+                  <a href="#order" className="pc-add sukkot-cta">{t.sukkot.series.orderViaForm}</a>
+                )}
+              </div>
+            </div>
+
+            <div className="sukkot-deadline-box" data-reveal>
               <p className="sukkot-deadline">{t.sukkot.deadline}</p>
-              {ORDERABLE.sukkot ? (
-                <PieceControls model="sukkot" lang={lang} />
-              ) : (
-                <a href="#order" className="pc-add sukkot-cta">{t.sukkot.orderViaForm}</a>
-              )}
+              <p className="sukkot-shipping">{t.sukkot.shipping}</p>
             </div>
           </div>
         </section>
