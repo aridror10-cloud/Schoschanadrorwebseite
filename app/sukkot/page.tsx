@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { siteUrl } from "@/lib/site";
 
 /**
@@ -50,12 +49,15 @@ export default function SukkotSharePage() {
             height={1536}
             fetchPriority="high"
           />
-          <Link href="/#sukkot" className="share-cta">
+          {/* Bewusst normale Anker statt Router-Link: die Zielseite laedt
+              voll, und der Browser springt selbst zum Abschnitt #sukkot -
+              das funktioniert in jedem In-App-Browser von WhatsApp & Co. */}
+          <a href="/#sukkot" className="share-cta">
             לצפייה בסדרה ובמהדורת סוכות
-          </Link>
-          <Link href="/en#sukkot" className="share-en" lang="en" dir="ltr">
+          </a>
+          <a href="/en#sukkot" className="share-en" lang="en" dir="ltr">
             View the Sukkot edition in English
-          </Link>
+          </a>
         </div>
       </main>
     </div>
