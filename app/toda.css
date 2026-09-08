@@ -66,14 +66,15 @@
 .toda-en p { font-size: 0.94rem; }
 
 /*
- * Teil-Link /sukkot: Shoshanas Plakat gross, darunter ein Knopf zur
- * Sukkot-Sektion. Die Seite ist fuer WhatsApp und Facebook gedacht -
- * dort zaehlt die Vorschau (og-sukkot.jpg), hier das Plakat selbst.
+ * Teil-Link /sukkot: Shoshanas Plakat als ganze Seite. Der schwarze
+ * Balken im Plakat ist der Knopf (unsichtbarer Anker darueber), darunter
+ * nichts mehr. Fuer WhatsApp und Facebook zaehlt die Vorschau
+ * (og-sukkot.jpg), hier das Plakat selbst.
  */
 .share {
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 36px 16px 56px;
+  padding: 28px 16px 40px;
   background:
     radial-gradient(760px 520px at 50% 12%, rgba(223, 203, 152, 0.28), rgba(223, 203, 152, 0) 66%),
     linear-gradient(180deg, #fbf9f5, var(--cream));
@@ -81,41 +82,31 @@
 .share-card {
   max-width: 520px;
   margin: 0 auto;
-  text-align: center;
 }
-.share-card img {
+.share-poster {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 34px 64px -40px rgba(46, 46, 46, 0.55);
+}
+.share-poster img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 4px;
-  box-shadow: 0 34px 64px -40px rgba(46, 46, 46, 0.55);
 }
-.share-cta {
-  display: block;
-  margin-top: 24px;
-  background: linear-gradient(150deg, #c4ab6c, var(--gold));
-  color: #241f16;
-  padding: 17px 24px;
-  font-size: 1.02rem;
-  font-weight: 700;
-  border-radius: 2px;
-  letter-spacing: 0.3px;
-  box-shadow: 0 16px 30px -12px rgba(0, 0, 0, 0.45);
-  transition: transform 0.5s ease, background 0.5s ease, box-shadow 0.5s ease;
+/* Trefferflaeche etwas grosszuegiger als der Balken selbst (Daumen) */
+.share-hot {
+  position: absolute;
+  left: 23.5%;
+  top: 85.6%;
+  width: 53%;
+  height: 6.6%;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: box-shadow 0.35s ease;
 }
-.share-cta:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(150deg, #cdb87f, var(--gold-soft));
-  box-shadow: 0 22px 38px -14px rgba(0, 0, 0, 0.5);
+.share-hot:hover,
+.share-hot:focus-visible {
+  box-shadow: 0 0 0 2px rgba(196, 171, 108, 0.9);
+  outline: none;
 }
-.share-en {
-  display: inline-block;
-  margin-top: 16px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--gold-text);
-  border-bottom: 1px solid rgba(128, 106, 43, 0.35);
-  padding-bottom: 1px;
-  transition: border-color 0.4s ease, color 0.4s ease;
-}
-.share-en:hover { color: var(--charcoal-deep); border-color: var(--charcoal-deep); }

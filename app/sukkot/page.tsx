@@ -42,22 +42,23 @@ export default function SukkotSharePage() {
     <div className="page" lang="he" dir="rtl">
       <main className="share">
         <div className="share-card">
-          <img
-            src="/carlebach/share-sukkot.webp"
-            alt="יש דמויות שנשארות איתנו — סדרת דיוקנאות רבי שלמה קרליבך, מהדורת סוכות"
-            width={1024}
-            height={1536}
-            fetchPriority="high"
-          />
-          {/* Bewusst normale Anker statt Router-Link: die Zielseite laedt
-              voll, und der Browser springt selbst zum Abschnitt #sukkot -
-              das funktioniert in jedem In-App-Browser von WhatsApp & Co. */}
-          <a href="/#sukkot" className="share-cta">
-            לצפייה בסדרה ובמהדורת סוכות
-          </a>
-          <a href="/en#sukkot" className="share-en" lang="en" dir="ltr">
-            View the Sukkot edition in English
-          </a>
+          {/* Das Plakat ist die ganze Seite. Der schwarze Balken im Plakat
+              ("לצפייה בסדרה ובמהדורת סוכות") ist der Knopf: ein unsichtbarer
+              Anker liegt genau ueber diesem Bereich (Masse in Prozent der
+              Plakatflaeche, gemessen am Bild 1024x1536: x 260-763, y 1332-1405).
+              Normaler Anker statt Router-Link: die Startseite laedt voll und
+              der Browser springt selbst zu #sukkot, auch in den In-App-
+              Browsern von WhatsApp und Facebook. */}
+          <div className="share-poster">
+            <img
+              src="/carlebach/share-sukkot.webp"
+              alt="יש דמויות שנשארות איתנו — סדרת דיוקנאות רבי שלמה קרליבך, מהדורת סוכות"
+              width={1024}
+              height={1536}
+              fetchPriority="high"
+            />
+            <a href="/#sukkot" className="share-hot" aria-label="לצפייה בסדרה ובמהדורת סוכות" />
+          </div>
         </div>
       </main>
     </div>
