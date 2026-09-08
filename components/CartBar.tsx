@@ -23,7 +23,7 @@ export function CartBar({ lang }: { lang: Lang }) {
     if (status === "sending" || lines.length === 0) return;
     setStatus("sending");
     try {
-      await goToCheckout(lines);
+      await goToCheckout(lines, lang);
     } catch {
       setStatus("error");
     }

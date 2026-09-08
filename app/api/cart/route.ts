@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { MAX_QTY, type ModelKey, type Version, isModelKey, isVersion } from "@/lib/cart";
+import type { Lang } from "@/lib/content";
 
 /**
  * Baut einen SUMIT-Warenkorb fuer die gewaehlten Werke und liefert die
@@ -13,26 +14,44 @@ import { MAX_QTY, type ModelKey, type Version, isModelKey, isVersion } from "@/l
  */
 
 const SUMIT_COMPANY = "11yegzt";
-const SUMIT_CATALOG = "122fbi4";
 
 /**
- * SUMIT-Produktnummern im Katalog "sidrat Carlebach".
+ * Ein Katalog je Sprache. SUMIT stellt Zahlseite, Beleg und Kunden-Mail
+ * auf die Sprache des Katalogs um, uebersetzt aber keine Produktnamen -
+ * deshalb hat jede Sprache ihre eigenen Produkte mit eigenen Nummern.
  *
  * Jede Fassung ist ein eigenes Produkt: nur so steht die Wahl mit oder
  * ohne Pasuk auf der Bestellung (SUMIT nimmt keine vorbelegten Feldwerte
  * ueber die Adresszeile an und kennt keine Notiz je Zeile - geprueft am
- * 28.08.26). Solange eine Fassung ohne Pasuk bei SUMIT fehlt, steht hier
- * null; die Werkkarten blenden die Wahl dann gar nicht erst ein.
+ * 28.08.26). Steht hier null, blenden die Werkkarten die Wahl nicht ein.
  */
-const SUMIT_ITEMS: Record<ModelKey, Record<Version, number | null>> = {
-  simcha: { with: 2295247327, without: 2307581655 },
-  regesh: { with: 2295257571, without: 2307582551 },
-  shrika: { with: 2295252407, without: 2307583493 },
-  set: { with: 2295176895, without: 2307585333 },
-  // Sukkot-Edition: nur eine Fassung, der Segen ist Teil des Werks
-  sukkot: { with: 2331147539, without: null },
-  // Sukkot-Serie: drei Werke plus typografischer Pasuk, eine Fassung
-  sukkotSet: { with: 2338520016, without: null },
+type ItemTable = Record<ModelKey, Record<Version, number | null>>;
+
+const SUMIT: Record<Lang, { catalog: string; items: ItemTable }> = {
+  he: {
+    catalog: "122fbi4",
+    items: {
+      simcha: { with: 2295247327, without: 2307581655 },
+      regesh: { with: 2295257571, without: 2307582551 },
+      shrika: { with: 2295252407, without: 2307583493 },
+      set: { with: 2295176895, without: 2307585333 },
+      // Sukkot-Edition: nur eine Fassung, der Segen ist Teil des Werks
+      sukkot: { with: 2331147539, without: null },
+      // Sukkot-Serie: drei Werke plus typografischer Pasuk, eine Fassung
+      sukkotSet: { with: 2338520016, without: null },
+    },
+  },
+  en: {
+    catalog: "12otbmk",
+    items: {
+      simcha: { with: 2339413397, without: 2339415421 },
+      regesh: { with: 2339416651, without: 2339420565 },
+      shrika: { with: 2339421664, without: 2339423921 },
+      set: { with: 2339425339, without: 2339425486 },
+      sukkot: { with: 2339426974, without: null },
+      sukkotSet: { with: 2339429071, without: null },
+    },
+  },
 };
 
 /* Einfache Ratenbegrenzung je Adresse, gleiche Bauart wie /api/order */
@@ -83,19 +102,22 @@ export async function POST(req: Request) {
   }
 
   let lines: Line[];
+  let lang: Lang = "he";
   try {
-    const body = (await req.json()) as { lines?: unknown; items?: unknown };
+    const body = (await req.json()) as { lines?: unknown; lang?: unknown };
     lines = parseLines(body.lines);
+    if (body.lang === "en") lang = "en";
   } catch {
     return NextResponse.json({ error: "bad" }, { status: 400 });
   }
+  const { catalog, items } = SUMIT[lang];
   if (lines.length === 0 || lines.length > 8) {
     return NextResponse.json({ error: "bad" }, { status: 400 });
   }
 
   /* Fassung ohne Pasuk noch nicht bei SUMIT angelegt: lieber sauber
      absagen als still die falsche Fassung bestellen. */
-  if (lines.some((l) => SUMIT_ITEMS[l.model][l.version] === null)) {
+  if (lines.some((l) => items[l.model][l.version] === null)) {
     return NextResponse.json({ error: "variant" }, { status: 503 });
   }
 
@@ -103,10 +125,10 @@ export async function POST(req: Request) {
   for (const line of lines) {
     const form = new URLSearchParams({
       CompanyIdentifier: SUMIT_COMPANY,
-      CatalogIdentifier: SUMIT_CATALOG,
+      CatalogIdentifier: catalog,
       CustomerID: "",
       CustomerKey: "",
-      ItemID: String(SUMIT_ITEMS[line.model][line.version]),
+      ItemID: String(items[line.model][line.version]),
       Quantity: String(line.qty),
       Increment: "true",
       CartID: cartId,
@@ -124,6 +146,6 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({
-    url: `https://pay.sumit.co.il/${SUMIT_COMPANY}/${SUMIT_CATALOG}/c/payment/?cartid=${cartId}`,
+    url: `https://pay.sumit.co.il/${SUMIT_COMPANY}/${catalog}/c/payment/?cartid=${cartId}`,
   });
 }
