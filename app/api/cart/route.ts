@@ -111,7 +111,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad" }, { status: 400 });
   }
   const { catalog, items } = SUMIT[lang];
-  if (lines.length === 0 || lines.length > 8) {
+  // Obergrenze = Zahl der unterscheidbaren Werke (Modell x Fassung),
+  // damit auch ein Korb mit allem, was es gibt, noch durchgeht
+  if (lines.length === 0 || lines.length > 10) {
     return NextResponse.json({ error: "bad" }, { status: 400 });
   }
 
