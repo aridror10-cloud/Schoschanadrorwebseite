@@ -94,13 +94,9 @@
   width: 100%;
   height: auto;
 }
-/* Trefferflaeche etwas grosszuegiger als der Balken selbst (Daumen) */
+/* Trefferflaeche: Lage je Plakat als Inline-Style (siehe SharePoster) */
 .share-hot {
   position: absolute;
-  left: 23.5%;
-  top: 85.6%;
-  width: 53%;
-  height: 6.6%;
   border-radius: 6px;
   cursor: pointer;
   transition: box-shadow 0.35s ease;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SharePoster } from "@/components/SharePoster";
 import { siteUrl } from "@/lib/site";
 
 /**
@@ -40,27 +41,14 @@ export const metadata: Metadata = {
 export default function SukkotSharePage() {
   return (
     <div className="page" lang="he" dir="rtl">
-      <main className="share">
-        <div className="share-card">
-          {/* Das Plakat ist die ganze Seite. Der schwarze Balken im Plakat
-              ("לצפייה בסדרה ובמהדורת סוכות") ist der Knopf: ein unsichtbarer
-              Anker liegt genau ueber diesem Bereich (Masse in Prozent der
-              Plakatflaeche, gemessen am Bild 1024x1536: x 260-763, y 1332-1405).
-              Normaler Anker statt Router-Link: die Startseite laedt voll und
-              der Browser springt selbst zu #sukkot, auch in den In-App-
-              Browsern von WhatsApp und Facebook. */}
-          <div className="share-poster">
-            <img
-              src="/carlebach/share-sukkot.webp"
-              alt="יש דמויות שנשארות איתנו — סדרת דיוקנאות רבי שלמה קרליבך, מהדורת סוכות"
-              width={1024}
-              height={1536}
-              fetchPriority="high"
-            />
-            <a href="/#sukkot" className="share-hot" aria-label="לצפייה בסדרה ובמהדורת סוכות" />
-          </div>
-        </div>
-      </main>
+      <SharePoster
+        src="/carlebach/share-sukkot.webp"
+        alt="יש דמויות שנשארות איתנו — סדרת דיוקנאות רבי שלמה קרליבך, מהדורת סוכות"
+        href="/#sukkot"
+        label="לצפייה בסדרה ובמהדורת סוכות"
+        /* Balken im Bild 1024x1536: x 260-763, y 1332-1405, plus Rand */
+        hot={{ left: "23.5%", top: "85.6%", width: "53%", height: "6.6%" }}
+      />
     </div>
   );
 }
