@@ -232,6 +232,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <p>{t.sukkot.series.text}</p>
                 <div className="mini-price">{t.sukkot.series.price}</div>
                 {t.sukkot.series.usd && <div className="mini-price-usd">{t.sukkot.series.usd}</div>}
+                {t.sukkot.series.note && <div className="price-note">{t.sukkot.series.note}</div>}
                 {ORDERABLE.sukkotSet ? (
                   <PieceControls model="sukkotSet" lang={lang} />
                 ) : (

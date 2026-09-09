@@ -224,6 +224,8 @@ export interface LandingContent {
       text: string;
       price: string;
       usd?: string;
+      /** Hinweis unter dem Preis, z. B. Lieferung inklusive */
+      note?: string;
       imgAltSukkah: string;
       imgAltWall: string;
       orderViaForm: string;
@@ -463,12 +465,13 @@ export const content: Record<Lang, LandingContent> = {
         title: "סדרת הדיוקנאות — מהדורת סוכות",
         text: "שלושת הדיוקנאות של רבי שלוימ׳לה, בתוספת יצירת טיפוגרפיה תואמת לסוכות — כסדרה אחת בעלת שפה חומרית ועיצובית משותפת.",
         price: "1890 ₪",
+        note: "משלוח עד הבית ללא עלות",
         imgAltSukkah: "הדמיה של ארבעת חלקי הסדרה בתוך סוכה: שלושת הדיוקנאות והפסוק הטיפוגרפי על קיר אבן",
         imgAltWall: "ארבעת חלקי הסדרה על קיר לבן: שלושת הדיוקנאות והפסוק הטיפוגרפי",
         orderViaForm: "להזמנת הסדרה למהדורת סוכות",
       },
       deadline: "הזמנות למהדורת סוכות עד 17.9 | ו׳ בתשרי — בכפוף לזמינות.",
-      shipping: "המשלוח אינו כלול במחיר.",
+      shipping: "המשלוח אינו כלול במחיר. בהזמנת הסדרה, המשלוח עלינו.",
     },
     details: {
       title: "הפרטים שעושים את ההבדל",
@@ -538,7 +541,7 @@ export const content: Record<Lang, LandingContent> = {
       },
       delivery: [
         { icon: "1", title: "איסוף עצמי ממודיעין עילית", sub: "ללא עלות, בתיאום מראש." },
-        { icon: "2", title: "משלוח עד הבית", sub: "בעלות של 50 ₪, לכל רחבי הארץ. בהזמנת סט של שלושה, המשלוח עלינו." },
+        { icon: "2", title: "משלוח עד הבית", sub: "בעלות של 50 ₪, לכל רחבי הארץ. בהזמנת סט (שלושת הדיוקנאות או סדרת סוכות), המשלוח עלינו." },
         {
           icon: "○",
           title: "הזמנות עד יום היארצייט — ט״ז בחשוון (27.10.26)",
@@ -811,12 +814,13 @@ Please send me the next steps to complete the order.`,
         text: "The three portraits of Reb Shlomo, together with a matching typographic piece for Sukkot — one series with a shared material and design language.",
         price: "₪1890",
         usd: "~$630 USD",
+        note: "Free home delivery in Israel",
         imgAltSukkah: "Rendering of the four-piece series inside a sukkah: the three portraits and the typographic verse on a stone wall",
         imgAltWall: "The four-piece series on a white wall: the three portraits and the typographic verse",
         orderViaForm: "Order the Sukkot series",
       },
       deadline: "Orders for the Sukkot edition until September 17 | 6 Tishrei — subject to availability.",
-      shipping: "Shipping is not included in the price.",
+      shipping: "Shipping is not included in the price. Free home delivery with the series.",
     },
     details: {
       title: "Details That Make the Difference",
@@ -891,7 +895,7 @@ Please send me the next steps to complete the order.`,
       },
       delivery: [
         { icon: "1", title: "Self-pickup from Modi'in Illit", sub: "Free of charge, by prior arrangement." },
-        { icon: "2", title: "Home delivery", sub: "₪50, nationwide. Free with a set of three." },
+        { icon: "2", title: "Home delivery", sub: "₪50, nationwide. Free with a set (the three portraits or the Sukkot series)." },
         {
           icon: "○",
           title: "Orders placed by the yahrzeit — October 27, 2026",
