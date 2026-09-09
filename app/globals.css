@@ -271,6 +271,19 @@ header.nav.scrolled { box-shadow: 0 12px 32px -20px rgba(46, 46, 46, 0.4); }
 .page[lang="en"] .mini-price { margin-bottom: 4px; }
 .page[lang="en"] .bundle-price { margin-bottom: 2px; }
 .bundle-save { font-size: 0.82rem; color: #888; margin-bottom: 18px; }
+/* Lieferung inklusive: direkt unter dem Preis, dort wo entschieden wird */
+.price-note {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-text);
+  background: rgba(171, 145, 73, 0.1);
+  border: 1px solid rgba(171, 145, 73, 0.35);
+  border-radius: 2px;
+  padding: 4px 12px;
+  margin: -6px 0 12px;
+}
+.price-card .price-note { margin: -10px 0 16px; }
 .buy-all { text-align: center; }
 
 /* Set-Foto: schlicht, ohne Rahmen - der Rahmen erweckte den falschen

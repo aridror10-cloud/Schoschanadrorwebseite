@@ -163,6 +163,8 @@ export interface LandingContent {
     bundleHeading: string;
     bundle: {
       price: string;
+      /** Hinweis unter dem Preis, z. B. Lieferung inklusive */
+      note?: string;
       usd?: string;
       save: string;
       payHref: string;
@@ -270,7 +272,7 @@ export interface LandingContent {
     /** Nur EN: Hinweis zum Umrechnungskurs oberhalb der Preiskarten */
     currNote?: string;
     single: { name: string; price: string; usd?: string; desc: string; cta: string };
-    set: { badge: string; name: string; price: string; usd?: string; desc: string; cta: string };
+    set: { badge: string; name: string; price: string; usd?: string; note?: string; desc: string; cta: string };
     delivery: DeliveryItem[];
     disclaimer: string;
   };
@@ -419,6 +421,7 @@ export const content: Record<Lang, LandingContent> = {
       bundle: {
         payHref: PAY.set,
         price: "₪1490",
+        note: "משלוח עד הבית ללא עלות",
         save: "חיסכון של 280 ₪ לעומת רכישה נפרדת",
       },
     },
@@ -529,12 +532,13 @@ export const content: Record<Lang, LandingContent> = {
         badge: "הכי משתלם",
         name: "סט שלושת הדיוקנאות",
         price: "₪1490",
+        note: "משלוח עד הבית ללא עלות",
         desc: "הסדרה המלאה — שמחה, רגש ושריקה יחד, לקיר אחד שמספר סיפור שלם.",
         cta: "לביצוע הזמנה",
       },
       delivery: [
         { icon: "1", title: "איסוף עצמי ממודיעין עילית", sub: "ללא עלות, בתיאום מראש." },
-        { icon: "2", title: "משלוח עד הבית", sub: "בעלות של 50 ₪, לכל רחבי הארץ." },
+        { icon: "2", title: "משלוח עד הבית", sub: "בעלות של 50 ₪, לכל רחבי הארץ. בהזמנת סט של שלושה, המשלוח עלינו." },
         {
           icon: "○",
           title: "הזמנות עד יום היארצייט — ט״ז בחשוון (27.10.26)",
@@ -762,6 +766,7 @@ Please send me the next steps to complete the order.`,
         payHref: PAY.set,
         price: "₪1490",
         usd: "~$495 USD",
+        note: "Free home delivery in Israel",
         save: "Save ₪280 with the complete collection",
       },
     },
@@ -880,12 +885,13 @@ Please send me the next steps to complete the order.`,
         name: "Full Set of Three Portraits",
         price: "₪1490",
         usd: "~$495 USD",
+        note: "Free home delivery in Israel",
         desc: "Joy, Soul, and Whistling together — three portraits that bring the full spirit of the collection to one wall.",
         cta: "Place an Order",
       },
       delivery: [
         { icon: "1", title: "Self-pickup from Modi'in Illit", sub: "Free of charge, by prior arrangement." },
-        { icon: "2", title: "Home delivery", sub: "₪50, nationwide." },
+        { icon: "2", title: "Home delivery", sub: "₪50, nationwide. Free with a set of three." },
         {
           icon: "○",
           title: "Orders placed by the yahrzeit — October 27, 2026",

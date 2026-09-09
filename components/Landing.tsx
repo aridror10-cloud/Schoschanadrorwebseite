@@ -175,6 +175,7 @@ export function Landing({ lang }: { lang: Lang }) {
             <div className="buy-all" data-reveal>
               <div className="bundle-price">{t.choose.bundle.price}</div>
               {t.choose.bundle.usd && <div className="mini-price-usd">{t.choose.bundle.usd}</div>}
+              {t.choose.bundle.note && <div className="price-note">{t.choose.bundle.note}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
               <PieceControls model="set" lang={lang} plainImg="/carlebach/set-plain.webp" />
               {customLink}
@@ -338,6 +339,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="price-name">{t.pricing.set.name}</div>
                 <div className="price-value">{t.pricing.set.price}</div>
                 {t.pricing.set.usd && <div className="price-usd">{t.pricing.set.usd}</div>}
+                {t.pricing.set.note && <div className="price-note">{t.pricing.set.note}</div>}
                 <p className="price-desc">{t.pricing.set.desc}</p>
                 <a href={t.choose.bundle.payHref} className="btn-price btn-price-lg">{t.pricing.set.cta}</a>
               </div>
