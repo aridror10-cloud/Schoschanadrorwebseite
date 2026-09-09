@@ -550,10 +550,13 @@ export const content: Record<Lang, LandingContent> = {
       items: [
         {
           q: "מאיזה חומר עשוי הדיוקן?",
-          a: "אלומיניום איכותי בחיתוך לייזר ובצביעת אבקה בתנור — עמיד, קל משקל ונוח לתלייה.",
+          a: "ברזל מגולוון בעובי 1.5 מ״מ, בחיתוך לייזר ובצביעת אבקה בתנור. עמיד לאורך שנים ונוח לתלייה.",
           open: true,
         },
-        { q: "האם הוא מגיע מוכן לתלייה?", a: "כן." },
+        {
+          q: "האם הדיוקן מגיע מוכן לתלייה?",
+          a: "כן. הדיוקן מגיע מוכן לתלייה, יחד עם ערכת ברגים ודיבלים ועם שבלונת סימון לקידוח, המסייעת לסמן על הקיר במדויק את מיקום שני החורים הנדרשים לתלייה. כך ההתקנה פשוטה, מדויקת ונוחה.",
+        },
         {
           q: "תוך כמה זמן מתקבלת ההזמנה?",
           a: "הייצור נעשה לפי הזמנה. זמן האספקה הרגיל הוא עד 20 ימי עסקים; בתקופות עומס ייתכן זמן אספקה ארוך יותר, שיימסר בעת ההזמנה.",
@@ -903,10 +906,13 @@ Please send me the next steps to complete the order.`,
       items: [
         {
           q: "What material is the portrait made of?",
-          a: "High-quality laser-cut aluminum with an oven-baked powder coating — durable, lightweight, and easy to hang.",
+          a: "Laser-cut galvanized steel, 1.5 mm thick, with an oven-baked powder coating. Built to last and easy to hang.",
           open: true,
         },
-        { q: "Does it arrive ready to hang?", a: "Yes." },
+        {
+          q: "Does the portrait come ready to hang?",
+          a: "Yes. The portrait comes ready to hang, complete with screws and wall plugs and a drilling template that helps you accurately mark the two required drill points on the wall, making installation simple and precise.",
+        },
         {
           q: "How long until my order arrives?",
           a: "Each piece is made to order. Standard lead time is up to 20 business days; during peak periods, a longer lead time may apply and will be confirmed when you order.",
