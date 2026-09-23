@@ -1,5 +1,5 @@
 import Script from "next/script";
-import { PIXEL_ID } from "@/lib/pixel";
+import { PIXEL_ID } from "@/lib/pixel-id";
 
 /**
  * Meta Pixel auf allen Seiten (wird im Root-Layout eingebunden).

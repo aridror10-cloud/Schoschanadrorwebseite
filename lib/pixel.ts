@@ -8,7 +8,7 @@
  * Ohne geladenen Pixel (Werbeblocker, Tracking-Schutz) passiert nichts -
  * die Website funktioniert unabhaengig davon.
  */
-export const PIXEL_ID = "1037484335987383";
+export { PIXEL_ID } from "@/lib/pixel-id";
 
 type Fbq = (cmd: "track", event: string, params?: Record<string, unknown>) => void;
 
