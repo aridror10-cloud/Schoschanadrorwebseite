@@ -12,9 +12,17 @@ export { PIXEL_ID } from "@/lib/pixel-id";
 
 type Fbq = (cmd: "track", event: string, params?: Record<string, unknown>) => void;
 
-export function track(event: string, params?: Record<string, unknown>) {
+/**
+ * Der Pixel laedt erst nach dem Sichtbarwerden der Seite. Ein Ereignis
+ * direkt beim Laden (Kauf auf der Dankesseite) kaeme sonst zu frueh -
+ * deshalb bis zu fuenf Sekunden nachwarten, dann aufgeben.
+ */
+export function track(event: string, params?: Record<string, unknown>, tries = 25) {
   const fbq = (window as unknown as { fbq?: Fbq }).fbq;
-  if (typeof fbq !== "function") return;
+  if (typeof fbq !== "function") {
+    if (tries > 0) setTimeout(() => track(event, params, tries - 1), 200);
+    return;
+  }
   try {
     fbq("track", event, params);
   } catch {
