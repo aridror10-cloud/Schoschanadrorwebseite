@@ -302,6 +302,7 @@ export interface LandingContent {
   footer: {
     logoAlt: string;
     copy: string;
+    privacy: string;
   };
 }
 
@@ -644,6 +645,7 @@ export const content: Record<Lang, LandingContent> = {
     footer: {
       logoAlt: "שושנה דרור — Where Meaning Takes Form",
       copy: "קולקציית קרליבך © 2026",
+      privacy: "מדיניות פרטיות",
     },
   },
 
@@ -1006,6 +1008,7 @@ Please send me the next steps to complete the order.`,
     footer: {
       logoAlt: "Shoshana Dror — Where Meaning Takes Form",
       copy: "The Carlebach Collection © 2026",
+      privacy: "Privacy policy",
     },
   },
 };

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PurchaseEvent } from "@/components/PurchaseEvent";
 
 /**
  * Dankesseite nach erfolgreicher Zahlung.
@@ -23,6 +24,7 @@ export default function TodaPage() {
   return (
     <div className="page" lang="he" dir="rtl">
       <main className="toda">
+        <PurchaseEvent />
         <div className="toda-card">
           <svg className="of-check" width="64" height="64" viewBox="0 0 58 58" aria-hidden="true">
             <circle cx="29" cy="29" r="27" />

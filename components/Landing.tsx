@@ -426,7 +426,10 @@ export function Landing({ lang }: { lang: Lang }) {
           <div className="fb">
             <img src="/carlebach/footer-logo.png" alt={t.footer.logoAlt} className="footer-logo" />
           </div>
-          <div>{t.footer.copy}</div>
+          <div className="footer-text">
+            <span>{t.footer.copy}</span>
+            <a href="/privacy" className="footer-link">{t.footer.privacy}</a>
+          </div>
         </div>
       </footer>
     </div>

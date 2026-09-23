@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
+import { MetaPixel } from "@/components/MetaPixel";
 import { content } from "@/lib/content";
 import { isTestPhase, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -91,7 +92,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // suppressHydrationWarning: die englische Seite stellt lang/dir per
     // Inline-Skript um, bevor React uebernimmt (analog zum Theme-Skript-Muster)
     <html lang="he" dir="rtl" className={`${heebo.variable} ${frankRuhl.variable}`} suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        {children}
+        <MetaPixel />
+      </body>
     </html>
   );
 }

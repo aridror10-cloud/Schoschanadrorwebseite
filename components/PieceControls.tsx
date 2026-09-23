@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { HAS_PLAIN, MAX_QTY, type ModelKey, type Version } from "@/lib/cart";
+import { HAS_PLAIN, MAX_QTY, MODELS, type ModelKey, type Version } from "@/lib/cart";
 import { cartStore } from "@/lib/cart-store";
+import { track } from "@/lib/pixel";
 import { content, type Lang } from "@/lib/content";
 
 /**
@@ -78,6 +79,12 @@ export function PieceControls({
 
   function add() {
     cartStore.add(model, version, qty);
+    track("AddToCart", {
+      content_ids: [`${model}:${version}`],
+      content_type: "product",
+      value: MODELS[model].price * qty,
+      currency: "ILS",
+    });
     setJustAdded(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setJustAdded(false), 1800);

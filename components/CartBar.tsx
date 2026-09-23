@@ -4,6 +4,7 @@ import { useState } from "react";
 import { HAS_PLAIN, cartTotal } from "@/lib/cart";
 import { cartStore, useCart } from "@/lib/cart-store";
 import { goToCheckout } from "@/lib/checkout";
+import { track } from "@/lib/pixel";
 import { content, type Lang } from "@/lib/content";
 
 /**
@@ -22,6 +23,12 @@ export function CartBar({ lang }: { lang: Lang }) {
   async function checkout() {
     if (status === "sending" || lines.length === 0) return;
     setStatus("sending");
+    track("InitiateCheckout", {
+      content_ids: lines.map((l) => `${l.model}:${l.version}`),
+      num_items: lines.reduce((n, l) => n + l.qty, 0),
+      value: cartTotal(lines),
+      currency: "ILS",
+    });
     try {
       await goToCheckout(lines, lang);
     } catch {

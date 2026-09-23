@@ -52,6 +52,18 @@
 }
 .toda-back:hover { background: var(--gold); color: #fff; }
 
+/* Datenschutzseite: gleiche Karte, aber links ausgerichteter Fliesstext */
+.legal { align-items: flex-start; }
+.legal-card { max-width: 680px; text-align: start; padding: 44px 38px 40px; }
+.legal-card h1 { text-align: start; }
+.legal-card h2 { font-family: var(--font-frank), serif; font-size: 1.15rem; margin: 26px 0 8px; }
+.legal-card h3 { font-size: 1rem; margin: 20px 0 6px; }
+.legal-card .legal-title { margin-top: 0; font-size: 1.35rem; }
+.legal-card p { max-width: none; margin: 0 0 10px; font-size: 0.95rem; }
+.legal-card p a { color: var(--gold-text); text-decoration: underline; }
+.legal-card .toda-back { margin-top: 22px; }
+.legal-card .toda-en { text-align: start; }
+
 /* Englischer Teil darunter, klar abgesetzt */
 .toda-en {
   margin-top: 40px;
