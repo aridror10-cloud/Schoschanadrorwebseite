@@ -288,6 +288,8 @@ export interface LandingContent {
     title: string;
     lead: string;
     label: string;
+    /** Zugaenglicher Name des Telefon-Links */
+    phoneLabel: string;
   };
   /** Bestellformular auf der Seite */
   form: FormContent;
@@ -578,6 +580,7 @@ export const content: Record<Lang, LandingContent> = {
       title: "יש לכם שאלה?",
       lead: "לשאלות, הזמנות בכמות, מידה שאינה 60 ס״מ או התאמה מיוחדת — מלאו את טופס הפנייה. מי שמעדיף לכתוב במייל ימצא שם קישור ישיר.",
       label: "לטופס הפנייה",
+      phoneLabel: "להתקשר לשושנה",
     },
     form: {
       kicker: "התאמה אישית",
@@ -938,6 +941,7 @@ Please send me the next steps to complete the order.`,
       title: "Have a Question?",
       lead: "Have a question, need a larger quantity, or envision a different size? Fill in the enquiry form. If you would rather write an email, you will find a direct link there.",
       label: "To the enquiry form",
+      phoneLabel: "Call Shoshana",
     },
     form: {
       kicker: "A custom piece",

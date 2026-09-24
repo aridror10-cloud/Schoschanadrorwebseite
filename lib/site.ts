@@ -4,6 +4,10 @@
  * damit Vorschau- und Produktivumgebung unterschiedliche URLs nutzen koennen.
  */
 
+/** Shoshanas Handy, nur Sprachanrufe (kein WhatsApp). Anzeige / Waehlformat. */
+export const PHONE_DISPLAY = "053-314-2341";
+export const PHONE_TEL = "+972533142341";
+
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   // Auf Vercel automatisch die Produktions-Domain verwenden
