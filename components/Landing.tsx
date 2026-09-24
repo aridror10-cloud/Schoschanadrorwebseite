@@ -8,9 +8,11 @@ import { ORDERABLE, type ModelKey } from "@/lib/cart";
 import { content, type Lang } from "@/lib/content";
 import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 
-const phoneIcon = (
+/* WhatsApp-Zeichen (Sprechblase mit Hoerer), Linienstil wie das Mail-Symbol */
+const whatsappIcon = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+    <path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.3z" />
+    <path d="M9.2 8.6c0 2.6 3.6 6.2 6.2 6.2l1.2-1.6-1.9-.9-1 .9a6 6 0 0 1-2.9-2.9l.9-1-.9-1.9z" />
   </svg>
 );
 
@@ -404,11 +406,16 @@ export function Landing({ lang }: { lang: Lang }) {
                 {mailIcon}
                 <span>{t.contact.label}</span>
               </a>
-              {/* Nummer als Anruf-Link. Bewusst nur der Hoerer: ein
-                  WhatsApp-Zeichen wuerde einen Kanal versprechen, den es
-                  nicht gibt (Shoshana, 24.09.26). */}
-              <a href={`tel:${PHONE_TEL}`} className="contact-link" aria-label={t.contact.phoneLabel}>
-                {phoneIcon}
+              {/* WhatsApp-Link mit Zeichen (Bernard, 24.09.26); im Fuss
+                  bleibt die Nummer als normaler Anruf-Link. */}
+              <a
+                href={`https://wa.me/${PHONE_TEL.replace("+", "")}`}
+                className="contact-link"
+                aria-label={t.contact.phoneLabel}
+                target="_blank"
+                rel="noopener"
+              >
+                {whatsappIcon}
                 <span dir="ltr">{PHONE_DISPLAY}</span>
               </a>
             </div>
