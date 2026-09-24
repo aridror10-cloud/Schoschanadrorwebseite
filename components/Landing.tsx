@@ -406,15 +406,9 @@ export function Landing({ lang }: { lang: Lang }) {
                 {mailIcon}
                 <span>{t.contact.label}</span>
               </a>
-              {/* WhatsApp-Link mit Zeichen (Bernard, 24.09.26); im Fuss
-                  bleibt die Nummer als normaler Anruf-Link. */}
-              <a
-                href={`https://wa.me/${PHONE_TEL.replace("+", "")}`}
-                className="contact-link"
-                aria-label={t.contact.phoneLabel}
-                target="_blank"
-                rel="noopener"
-              >
+              {/* WhatsApp-Zeichen als vertrautes Symbol, der Klick waehlt
+                  aber die normale Nummer (Bernard, 24.09.26). */}
+              <a href={`tel:${PHONE_TEL}`} className="contact-link" aria-label={t.contact.phoneLabel}>
                 {whatsappIcon}
                 <span dir="ltr">{PHONE_DISPLAY}</span>
               </a>
