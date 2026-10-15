@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
 import { MetaPixel } from "@/components/MetaPixel";
-import { content } from "@/lib/content";
+import { HOME, brand } from "@/lib/studio";
 import { isTestPhase, siteUrl } from "@/lib/site";
 import "./globals.css";
 import "./order-form.css";
 import "./brand-fx.css";
 import "./charity.css";
 import "./toda.css";
+import "./studio.css";
 
 /**
  * Schriften wie in der Design-Vorlage (Heebo + Frank Ruhl Libre).
@@ -33,37 +34,36 @@ const frankRuhl = Frank_Ruhl_Libre({
   preload: false,
 });
 
-const he = content.he.meta;
-
+/*
+ * Grundeinstellungen fuer die ganze Website "שושנה יודאיקה".
+ * Jede Seite setzt Titel, Beschreibung, kanonische Adresse und
+ * Vorschaubild selbst; der Titel bekommt automatisch den Markennamen
+ * angehaengt. Die Carlebach-Seiten verwenden ihre bisherigen Titel
+ * unveraendert (title.absolute).
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
-  title: he.title,
-  description: he.description,
+  title: { default: `${brand.name} | ${brand.slogan}`, template: `%s | ${brand.name}` },
+  description: HOME.hero.sub,
   authors: [{ name: "Shoshana Dror" }],
   creator: "Shoshana Dror",
 
-  alternates: {
-    canonical: "/",
-    languages: { he: "/", en: "/en", "x-default": "/" },
-  },
-
   openGraph: {
     type: "website",
-    locale: he.ogLocale,
-    alternateLocale: content.en.meta.ogLocale,
+    locale: "he_IL",
     url: siteUrl,
-    siteName: "Shoshana Dror",
-    title: he.title,
-    description: he.ogDescription,
-    images: [{ url: "/carlebach/og.jpg" }],
+    siteName: brand.name,
+    title: `${brand.name} | ${brand.slogan}`,
+    description: HOME.hero.sub,
+    images: [{ url: "/studio/og-brand.jpg", width: 1200, height: 630 }],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: he.title,
-    description: he.ogDescription,
-    images: ["/carlebach/og.jpg"],
+    title: `${brand.name} | ${brand.slogan}`,
+    description: HOME.hero.sub,
+    images: ["/studio/og-brand.jpg"],
   },
 
   // In der Testphase fuer alle Suchmaschinen gesperrt (siehe lib/site.ts)

@@ -11,7 +11,7 @@ import Link from "next/link";
  */
 
 export const metadata: Metadata = {
-  title: "מדיניות פרטיות | שושנה דרור",
+  title: "מדיניות פרטיות",
   description: "אילו נתונים נאספים באתר ולמה",
   robots: { index: false, follow: true },
   alternates: { canonical: "/privacy" },
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
             <strong>תשלום:</strong> התשלום מתבצע בדף מאובטח של סאמיט (SUMIT), שירות סליקה ישראלי מורשה. פרטי האשראי לא עוברים דרך האתר הזה ולא נשמרים בו.
           </p>
           <p>
-            <strong>מדידה ופרסום:</strong> האתר משתמש בפיקסל של מטא (פייסבוק). הוא מדווח למטא על פעולות באתר, כמו צפייה בדף, הוספה לסל ומעבר לתשלום, כדי למדוד את יעילות הפרסום ולהציג פרסומות רלוונטיות בפייסבוק ובאינסטגרם. מטא עשויה לקשר את המידע לחשבון שלכם אצלה. לא נשלחים אליה פרטי תשלום.
+            <strong>מדידה ופרסום:</strong> האתר משתמש בפיקסל של מטא (פייסבוק). הוא מדווח למטא על פעולות באתר, כמו צפייה בדף, הוספה לסל, מעבר לתשלום ושליחת טופס פנייה, כדי למדוד את יעילות הפרסום ולהציג פרסומות רלוונטיות בפייסבוק ובאינסטגרם. מטא עשויה לקשר את המידע לחשבון שלכם אצלה. לא נשלחים אליה פרטי תשלום.
           </p>
           <h2>מה לא נעשה</h2>
           <p>
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
               <strong>Payment:</strong> payment takes place on a secure page of SUMIT, a licensed Israeli payment provider. Card details never pass through this site and are not stored here.
             </p>
             <p>
-              <strong>Measurement and advertising:</strong> this site uses the Meta (Facebook) Pixel. It reports actions on the site to Meta, such as viewing a page, adding to the basket and proceeding to checkout, to measure advertising and show relevant ads on Facebook and Instagram. Meta may link this to your Meta account. No payment details are sent.
+              <strong>Measurement and advertising:</strong> this site uses the Meta (Facebook) Pixel. It reports actions on the site to Meta, such as viewing a page, adding to the basket, proceeding to checkout and sending an enquiry form, to measure advertising and show relevant ads on Facebook and Instagram. Meta may link this to your Meta account. No payment details are sent.
             </p>
             <h3>What is not done</h3>
             <p>

@@ -17,7 +17,7 @@ const DESCRIPTION =
   "מהדורה מיוחדת לסוכות: דגם „שמחה” בשילוב הפסוק, או סט שלושת הדיוקנאות בתוספת יצירת הפסוק. הזמנות עד ו׳ בתשרי | 17.9";
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   robots: { index: false, follow: true },
   alternates: { canonical: "/sukkot" },
@@ -44,7 +44,7 @@ export default function SukkotSharePage() {
       <SharePoster
         src="/carlebach/share-sukkot.webp"
         alt="יש דמויות שנשארות איתנו — סדרת דיוקנאות רבי שלמה קרליבך, מהדורת סוכות"
-        href="/#sukkot"
+        href="/carlebach#sukkot"
         label="לצפייה בסדרה ובמהדורת סוכות"
         /* Balken im Bild 1024x1536: x 260-763, y 1332-1405, plus Rand */
         hot={{ left: "23.5%", top: "85.6%", width: "53%", height: "6.6%" }}

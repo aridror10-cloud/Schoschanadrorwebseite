@@ -4,6 +4,8 @@ import { OrderForm } from "@/components/OrderForm";
 import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
 import { SukkotSlides } from "@/components/SukkotSlides";
+import { visibleNav } from "@/components/site/SiteShell";
+import { SiteHeader } from "@/components/site/SiteHeader";
 import { ORDERABLE, type ModelKey } from "@/lib/cart";
 import { content, type Lang } from "@/lib/content";
 import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
@@ -65,24 +67,42 @@ export function Landing({ lang }: { lang: Lang }) {
     <div className="page" lang={lang} dir={t.dir}>
       <ScrollFx lang={lang} dir={t.dir} />
       <CartBar lang={lang} />
-      <header className="nav">
-        <div className="nav-inner">
-          <div className="brand">
-            <img src="/carlebach/logo.png" alt={t.nav.logoAlt} className="brand-logo" />
+      {/* Hebraeisch: Kopf der ganzen Website mit Klappmenue, damit man
+          von der Verkaufsseite zu den anderen Bereichen findet. Englisch
+          gibt es nur diese eine Seite, dort bleibt der schlanke Kopf. */}
+      {lang === "he" ? (
+        <SiteHeader
+          items={visibleNav()}
+          collapsed
+          actions={
+            <>
+              <Link href={t.nav.switchHref} className="lang-switch" lang={t.nav.switchLang} dir={t.nav.switchDir}>
+                {t.nav.switchLabel}
+              </Link>
+              <a href="#choose" className="nav-cta">{t.nav.cta}</a>
+            </>
+          }
+        />
+      ) : (
+        <header className="nav">
+          <div className="nav-inner">
+            <div className="brand">
+              <img src="/carlebach/logo.png" alt={t.nav.logoAlt} className="brand-logo" />
+            </div>
+            <div className="nav-right">
+              <Link
+                href={t.nav.switchHref}
+                className="lang-switch"
+                lang={t.nav.switchLang}
+                dir={t.nav.switchDir}
+              >
+                {t.nav.switchLabel}
+              </Link>
+              <a href="#choose" className="nav-cta">{t.nav.cta}</a>
+            </div>
           </div>
-          <div className="nav-right">
-            <Link
-              href={t.nav.switchHref}
-              className="lang-switch"
-              lang={t.nav.switchLang}
-              dir={t.nav.switchDir}
-            >
-              {t.nav.switchLabel}
-            </Link>
-            <a href="#choose" className="nav-cta">{t.nav.cta}</a>
-          </div>
-        </div>
-      </header>
+        </header>
+      )}
 
       <main>
         {/* ===== SCREEN 1 — HERO ===== */}
@@ -438,7 +458,13 @@ export function Landing({ lang }: { lang: Lang }) {
       <footer>
         <div className="wrap footer-inner">
           <div className="fb">
-            <img src="/carlebach/footer-logo.png" alt={t.footer.logoAlt} className="footer-logo" />
+            {lang === "he" ? (
+              <Link href="/" aria-label="שושנה יודאיקה, לעמוד הבית">
+                <img src="/carlebach/footer-logo.png" alt={t.footer.logoAlt} className="footer-logo" />
+              </Link>
+            ) : (
+              <img src="/carlebach/footer-logo.png" alt={t.footer.logoAlt} className="footer-logo" />
+            )}
           </div>
           <div className="footer-text">
             <span>{t.footer.copy}</span>

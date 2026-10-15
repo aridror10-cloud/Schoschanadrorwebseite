@@ -6,12 +6,12 @@ import { siteUrl } from "@/lib/site";
 const en = content.en.meta;
 
 export const metadata: Metadata = {
-  title: en.title,
+  title: { absolute: en.title },
   description: en.description,
 
   alternates: {
     canonical: "/en",
-    languages: { he: "/", en: "/en", "x-default": "/" },
+    languages: { he: "/carlebach", en: "/en" },
   },
 
   openGraph: {

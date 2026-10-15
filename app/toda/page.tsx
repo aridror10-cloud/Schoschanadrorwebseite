@@ -15,7 +15,7 @@ import { PurchaseEvent } from "@/components/PurchaseEvent";
  */
 
 export const metadata: Metadata = {
-  title: "תודה על ההזמנה | שושנה דרור",
+  title: "תודה על ההזמנה",
   description: "אישור קבלת התשלום",
   robots: { index: false, follow: false },
 };

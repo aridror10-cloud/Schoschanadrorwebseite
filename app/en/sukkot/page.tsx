@@ -13,7 +13,7 @@ const DESCRIPTION =
   "Sukkot edition: “Simcha” with the verse, or a festive set of all three portraits plus a separate verse artwork. Orders through September 17.";
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   robots: { index: false, follow: true },
   alternates: { canonical: "/en/sukkot" },
