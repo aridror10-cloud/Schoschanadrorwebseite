@@ -705,3 +705,12 @@ main:focus { outline: none; }
 /* Zusatzbilder der Projektseiten: gleich hohe Felder, ganzes Bild sichtbar */
 .sj-project-more-pics .lb-thumb { aspect-ratio: 1 / 1; background: #f1f0ec; }
 .sj-project-more-pics .lb-thumb img { height: 100%; object-fit: contain; }
+
+/* Kontaktzeile und weitere Arbeiten eines Partners (Breuner) */
+.sj-contact-line { margin-top: 18px; font-weight: 600; color: #3f3c37 !important; }
+.sj-contact-line a { color: var(--gold-text); border-bottom: 1px solid rgba(128, 106, 43, 0.35); }
+.sj-project-extra { margin-top: clamp(40px, 6vw, 64px); }
+.sj-project-extra h2 { font-family: var(--font-frank), serif; font-weight: 500; font-size: 1.45rem; margin-bottom: 18px; }
+.lb-grid.is-two { grid-template-columns: repeat(2, 1fr); }
+.sj-project-extra .lb-thumb { aspect-ratio: 4 / 3; background: #1d1b18; }
+.sj-project-extra .lb-thumb img { height: 100%; object-fit: contain; }

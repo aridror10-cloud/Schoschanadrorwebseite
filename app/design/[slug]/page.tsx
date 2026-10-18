@@ -89,6 +89,14 @@ export default async function ProjectPage({ params }: Props) {
                   />
                 </p>
               )}
+              {p.contact && (
+                <p className="sj-contact-line">
+                  {p.contact.label}{" "}
+                  <a href={`tel:${p.contact.tel}`} dir="ltr">
+                    {p.contact.phone}
+                  </a>
+                </p>
+              )}
               {p.link && (
                 <p>
                   <a href={p.link.href} className="sj-arrow" target="_blank" rel="noopener">
@@ -129,6 +137,13 @@ export default async function ProjectPage({ params }: Props) {
             <div className="sj-project-more-pics" data-reveal>
               <Lightbox pics={more} />
             </div>
+          )}
+
+          {p.extra && (
+            <section className="sj-project-extra" data-reveal>
+              <h2>{p.extra.title}</h2>
+              <Lightbox pics={p.extra.images} className="is-two" />
+            </section>
           )}
 
           <nav className="sj-project-nav" aria-label="ניווט בין פרויקטים">
