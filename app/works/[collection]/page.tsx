@@ -47,6 +47,7 @@ export default async function CollectionPage({ params }: Props) {
   if (!c) notFound();
   const kind = c.availability === "order" ? "order" : "interest";
   const ask = kind === "order" ? WORKS.pieceAsk.order : WORKS.pieceAsk.interest;
+  const rich = c.items.some((it) => it.text?.length);
 
   return (
     <SiteShell>
@@ -58,6 +59,7 @@ export default async function CollectionPage({ params }: Props) {
             <span aria-current="page">{c.title}</span>
           </nav>
           <SectionHead as="h1" title={c.title}>
+            {c.subtitle && <p className="sj-subtitle">{c.subtitle}</p>}
             <p className="sj-lead">{c.lead}</p>
             {c.paras.map((p) => (
               <p key={p.slice(0, 24)}>{p}</p>
@@ -71,32 +73,69 @@ export default async function CollectionPage({ params }: Props) {
 
       <section className="sj-section sj-gallery-section">
         <div className="wrap">
-          <ul className="sj-works-grid" data-reveal-group>
-            {c.items.map((it) => (
-              <li key={it.code} className="sj-work">
-                <Lightbox
-                  pics={[{ ...it.image, caption: `${it.title} · ${it.code}` }]}
-                  className="is-single"
-                  sizes="(max-width: 760px) 50vw, 25vw"
-                />
-                <div className="sj-work-meta">
-                  <h2 className="sj-work-title">{it.title}</h2>
-                  <span className="sj-work-code" dir="ltr">
-                    {it.code}
-                  </span>
-                </div>
-                <a
-                  href="#enquiry"
-                  className="sj-work-ask"
-                  data-piece={`${it.title} (${it.code})`}
-                  data-kind={kind}
-                  aria-label={`${ask}: ${it.title}`}
-                >
-                  {ask}
-                </a>
-              </li>
-            ))}
-          </ul>
+          {rich ? (
+            /* Werke mit Beschreibung und Massen: grosse Eintraege, Bild und Text nebeneinander */
+            <div className="sj-feature-list">
+              {c.items.map((it) => (
+                <article key={it.code} className="sj-feature" data-reveal>
+                  <div className="sj-feature-media">
+                    <Lightbox
+                      pics={[{ ...it.image, caption: `${it.kicker ? `${it.kicker} | ` : ""}${it.title}` }]}
+                      className="is-single"
+                      sizes="(max-width: 760px) 100vw, 45vw"
+                    />
+                  </div>
+                  <div className="sj-feature-text">
+                    {it.kicker && <p className="sj-kicker">{it.kicker}</p>}
+                    <h2 className="sj-title">{it.title}</h2>
+                    {it.text?.map((t) => (
+                      <p key={t.slice(0, 24)}>{t}</p>
+                    ))}
+                    {it.specs && (
+                      <ul className="sj-specs">
+                        {it.specs.map((t) => (
+                          <li key={t}>{t}</li>
+                        ))}
+                      </ul>
+                    )}
+                    <a
+                      href="#enquiry"
+                      className="sj-btn"
+                      data-piece={`${it.kicker ? `${it.kicker}: ` : ""}${it.title} (${it.code})`}
+                      data-kind={kind}
+                      aria-label={`${ask}: ${it.title}`}
+                    >
+                      {ask}
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <ul className="sj-works-grid" data-reveal-group>
+              {c.items.map((it) => (
+                <li key={it.code} className="sj-work">
+                  <Lightbox
+                    pics={[{ ...it.image, caption: it.title }]}
+                    className="is-single"
+                    sizes="(max-width: 760px) 50vw, 33vw"
+                  />
+                  <div className="sj-work-meta">
+                    <h2 className="sj-work-title">{it.title}</h2>
+                  </div>
+                  <a
+                    href="#enquiry"
+                    className="sj-work-ask"
+                    data-piece={`${it.title} (${it.code})`}
+                    data-kind={kind}
+                    aria-label={`${ask}: ${it.title}`}
+                  >
+                    {ask}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </section>
 

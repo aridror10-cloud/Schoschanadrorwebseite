@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const p = PROJECTS.find((x) => x.slug === slug);
   if (!p) return {};
-  const title = `${p.title} | ${p.client}`;
+  const title = `${p.title} | ${p.subtitle}`;
   return {
     title,
     description: p.summary,
@@ -57,7 +57,7 @@ export default async function ProjectPage({ params }: Props) {
 
           <header className="sj-project-head" data-reveal>
             <h1 className="sj-title sj-title-xl">{p.title}</h1>
-            <p className="sj-project-by">{p.client}</p>
+            <p className="sj-project-by">{p.subtitle}</p>
           </header>
 
           <div className="sj-project-layout">
@@ -70,12 +70,35 @@ export default async function ProjectPage({ params }: Props) {
                 ratio={cover ? undefined : "4 / 3"}
                 placeholder={p.title}
               />
+              {cover?.caption && <p className="sj-fig-caption">{cover.caption}</p>}
             </div>
 
             <div className="sj-project-copy" data-reveal>
               {p.body.map((para) => (
                 <p key={para.slice(0, 24)}>{para}</p>
               ))}
+              {p.closing && (
+                <p className="sj-closing">
+                  {p.closing.text}{" "}
+                  <img
+                    src={p.closing.logo.src}
+                    alt={p.closing.logo.alt}
+                    width={p.closing.logo.w}
+                    height={p.closing.logo.h}
+                    className="sj-closing-logo"
+                  />
+                </p>
+              )}
+              {p.link && (
+                <p>
+                  <a href={p.link.href} className="sj-arrow" target="_blank" rel="noopener">
+                    <span>{p.link.label}</span>
+                    <span className="sj-arrow-mark" aria-hidden="true">
+                      ←
+                    </span>
+                  </a>
+                </p>
+              )}
               <dl className="sj-credits">
                 <div className="sj-credits-title">{DESIGN.project.credits}</div>
                 {p.credits.map((c) => (
@@ -87,6 +110,20 @@ export default async function ProjectPage({ params }: Props) {
               </dl>
             </div>
           </div>
+
+          {p.aside && (
+            <aside className="sj-aside" data-reveal>
+              <h2>{p.aside.title}</h2>
+              {p.aside.paras.map((t) => (
+                <p key={t.slice(0, 24)}>{t}</p>
+              ))}
+              {p.aside.link && (
+                <a href={p.aside.link.href} className="sj-btn sj-btn-ghost" target="_blank" rel="noopener">
+                  {p.aside.link.label}
+                </a>
+              )}
+            </aside>
+          )}
 
           {more.length > 0 && (
             <div className="sj-project-more-pics" data-reveal>

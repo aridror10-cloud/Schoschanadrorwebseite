@@ -4,32 +4,31 @@ import type { Pic } from "@/lib/studio";
  * Seitenbilder der Website "שושנה יודאיקה" (ohne Projekt- und Werkbilder,
  * die stehen direkt bei ihren Eintraegen in lib/studio.ts).
  *
- * Stand 15.10.26: nur echte Fotos ihrer Arbeiten aus ihrem Portfolio,
- * keine KI-Nachbildungen (die erfinden Schrift). Fuer die Projekte und
- * Werkgruppen fehlen noch Originalfotos, dort stehen Platzhalter.
+ * Nur echte Fotos ihrer Arbeiten, keine KI-Nachbildungen (die erfinden
+ * Schrift). Stand 18.10.26: alle Projekt- und Werkfotos von Shoshana.
  */
 
-/** Fotochemisch geaetzte Scheiben, Titelbild ihres Portfolios */
-const etched: Pic = {
-  src: "/studio/etched-discs.webp",
-  alt: "שתי דסקיות מתכת בצריבה פוטוכימית, דגם ספירלה עדין בצבעי זהב ונחושת",
-  w: 1139,
-  h: 578,
+/** Fotos aus Shoshanas Mails vom 18.10.26 */
+const tree: Pic = {
+  src: "/studio/peirot-1.webp",
+  alt: "מעמד העלונים פירות של נחת: עץ רימונים מוזהב עשיר בענפים ועלים, על בסיס עץ מעוצב",
+  w: 1300,
+  h: 1225,
 };
 
-/** Lasergeschnittenes Portraet mit Handschrift (Auftragsarbeit) */
-const portrait: Pic = {
-  src: "/studio/laser-portrait.webp",
-  alt: "דיוקן מתכת בחיתוך לייזר על קיר בהיר, ובתחתיתו שורות בכתב יד חתוכות במתכת",
-  w: 1200,
-  h: 1474,
+const aron: Pic = {
+  src: "/studio/dosa-2.webp",
+  alt: "ארון הקודש בבית הכנסת דוסא עם התאורה דולקת ועמודי עיטור מוארים",
+  w: 755,
+  h: 784,
 };
 
-const handwriting: Pic = {
-  src: "/studio/laser-handwriting.webp",
-  alt: "תקריב של כתב יד עברי שנחתך במתכת כחלק מדיוקן, והצל שהוא מטיל על הקיר",
-  w: 1600,
-  h: 1069,
+/** Reserve, falls ein Hochformat gebraucht wird */
+export const harp: Pic = {
+  src: "/studio/nevel-1.webp",
+  alt: "נבל של הודיה: נבל מוזהב שגופו בנוי מאותיות, על רקע קטיפה כהה",
+  w: 1050,
+  h: 1400,
 };
 
 const set: Pic = {
@@ -48,13 +47,20 @@ const atWork: Pic = {
 };
 
 export const HOME_PICS = {
-  doorDesign: etched,
+  doorDesign: tree,
   doorWorks: set,
-  ideas: handwriting,
+  ideas: aron,
+};
+
+const dosaRoom: Pic = {
+  src: "/studio/dosa-1.webp",
+  alt: "ריהוט בית הכנסת דוסא לאחר ההתקנה: ארון הקודש, התיבה ועמוד התפילה בעץ עם עיטורי מגזרות",
+  w: 1600,
+  h: 1200,
 };
 
 export const DESIGN_PICS = {
-  hero: portrait,
+  hero: dosaRoom,
 };
 
 export const ABOUT_PICS = {

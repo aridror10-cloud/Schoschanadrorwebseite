@@ -26,7 +26,7 @@ export default function DesignPage() {
             <p>{DESIGN.paras[1]}</p>
           </div>
           <div data-reveal>
-            <Figure pic={DESIGN_PICS.hero} ratio="4 / 5" priority sizes="(max-width: 760px) 100vw, 45vw" />
+            <Figure pic={DESIGN_PICS.hero} ratio="4 / 3" priority sizes="(max-width: 760px) 100vw, 45vw" />
           </div>
         </div>
       </section>
@@ -36,9 +36,9 @@ export default function DesignPage() {
           <SectionHead title={DESIGN.gallery.title}>
             <p className="sj-lead">{DESIGN.gallery.text}</p>
           </SectionHead>
-          <div className="sj-project-grid is-two" data-reveal-group>
+          <div className="sj-project-grid" data-reveal-group>
             {PROJECTS.map((p) => (
-              <ProjectCard key={p.slug} project={p} ratio="5 / 4" />
+              <ProjectCard key={p.slug} project={p} />
             ))}
           </div>
         </div>
