@@ -218,18 +218,43 @@ export function Landing({ lang }: { lang: Lang }) {
             Chanukkia ist noch in Produktion: nur Ankuendigung und Weg zum
             Hinterlassen der Kontaktdaten. Der leere Anker "sukkot" haelt alte
             Links (/carlebach#sukkot) am richtigen Ort. */}
-        <section className="chanuka" id="chanuka">
+        <section className="chanuka" id="chanuka" aria-labelledby="chanuka-title">
           <span id="sukkot" aria-hidden="true" />
-          <div className="wrap chanuka-inner" data-reveal>
-            <div className="kicker">{t.chanuka.kicker}</div>
-            <h2>{t.chanuka.title}</h2>
-            <p>{t.chanuka.text}</p>
-            {lang === "he" ? (
-              <div className="chanuka-form">
-                <EnquiryForm kinds={["interest"]} anchor="chanuka-form" defaultPiece="חנוכיית קרליבך: עדכון כשתהיה זמינה" />
+          <div className="chanuka-glow" aria-hidden="true" />
+          <div className="wrap chanuka-grid">
+            <div className="chanuka-copy" data-reveal>
+              {/* Neun Lichter, der Schamasch erhoeht in der Mitte. Bewusst
+                  keine gezeichnete Chanukkia: das Werk ist noch in Produktion,
+                  sein Aussehen soll nicht vorweggenommen werden. */}
+              <div className="chanuka-lights" aria-hidden="true">
+                <span className="chanuka-light" style={{ animationDelay: "0.00s" }} />
+                <span className="chanuka-light" style={{ animationDelay: "0.37s" }} />
+                <span className="chanuka-light" style={{ animationDelay: "0.74s" }} />
+                <span className="chanuka-light" style={{ animationDelay: "1.11s" }} />
+                <span className="chanuka-light is-shamash" style={{ animationDelay: "1.48s" }} />
+                <span className="chanuka-light" style={{ animationDelay: "1.85s" }} />
+                <span className="chanuka-light" style={{ animationDelay: "0.32s" }} />
+                <span className="chanuka-light" style={{ animationDelay: "0.69s" }} />
+                <span className="chanuka-light" style={{ animationDelay: "1.06s" }} />
               </div>
-            ) : (
-              <a href="#order" className="btn-wide">{t.chanuka.cta}</a>
+              <div className="chanuka-kicker">{t.chanuka.kicker}</div>
+              <h2 id="chanuka-title">{t.chanuka.title}</h2>
+              <p>{t.chanuka.text}</p>
+              {lang !== "he" && (
+                <a href="#order" className="chanuka-btn">{t.chanuka.cta}</a>
+              )}
+            </div>
+            {lang === "he" && (
+              <div className="chanuka-form" data-reveal>
+                <p className="chanuka-form-title">{t.chanuka.formTitle}</p>
+                <EnquiryForm
+                  kinds={["interest"]}
+                  anchor="chanuka-form"
+                  defaultPiece="חנוכיית קרליבך: עדכון כשתהיה זמינה"
+                  compact
+                  submitLabel="עדכנו אותי"
+                />
+              </div>
             )}
           </div>
         </section>

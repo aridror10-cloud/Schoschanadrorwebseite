@@ -998,9 +998,118 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   background: linear-gradient(90deg, var(--gold), var(--gold-soft));
 }
 
-/* ===== Chanukka-Hinweis (ersetzt seit 19.10.26 den Sukkot-Bereich) ===== */
-.chanuka { padding: 90px 0; background: linear-gradient(180deg, #fbf9f5, var(--cream)); text-align: center; }
-.chanuka-inner { max-width: 760px; }
-.chanuka h2 { font-family: var(--font-frank), serif; font-weight: 500; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.3; margin-bottom: 14px; }
-.chanuka p { color: #555046; max-width: 560px; margin: 0 auto 26px; }
-.chanuka-form { text-align: start; margin-top: 10px; }
+/* ===== Chanukka-Hinweis (ersetzt seit 19.10.26 den Sukkot-Bereich) =====
+   Dunkles, warmes Lichtband: neun Lichter (Schamasch erhoeht), weiches
+   Goldleuchten, das Formular als helle Karte. Bewegung nur als leises
+   Flackern, bei "Bewegung reduzieren" still. */
+.chanuka {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(72px, 10vw, 120px) 0;
+  background:
+    radial-gradient(1100px 520px at 50% 115%, rgba(199, 150, 64, 0.32), rgba(199, 150, 64, 0) 70%),
+    linear-gradient(180deg, #1d1b18 0%, #26221c 100%);
+  color: #efe7d6;
+}
+.chanuka-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(520px 260px at 50% 30%, rgba(255, 196, 102, 0.12), rgba(255, 196, 102, 0) 70%);
+}
+.chanuka-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+.chanuka-copy { text-align: center; }
+.chanuka-lights {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(12px, 2.2vw, 22px);
+  height: 92px;
+  margin-bottom: 34px;
+}
+.chanuka-light {
+  position: relative;
+  width: 15px;
+  height: 28px;
+  border-radius: 50% 50% 46% 46% / 64% 64% 36% 36%;
+  background: radial-gradient(circle at 50% 72%, #fff7dd 0 18%, #ffd27a 38%, #f0a43c 70%, rgba(240, 164, 60, 0) 100%);
+  box-shadow: 0 0 14px 4px rgba(255, 190, 90, 0.38), 0 0 34px 10px rgba(255, 170, 60, 0.14);
+  transform-origin: 50% 100%;
+  animation: chanukaFlicker 2.6s ease-in-out infinite;
+}
+/* Docht und Lichtfaden unter jeder Flamme */
+.chanuka-light::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 16px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(219, 186, 120, 0.85), rgba(219, 186, 120, 0));
+}
+.chanuka-light.is-shamash { margin-bottom: 26px; }
+@keyframes chanukaFlicker {
+  0%, 100% { transform: scale(1, 1) rotate(0deg); opacity: 1; }
+  30% { transform: scale(0.94, 1.06) rotate(-2deg); opacity: 0.92; }
+  55% { transform: scale(1.04, 0.96) rotate(1.5deg); opacity: 1; }
+  80% { transform: scale(0.97, 1.03) rotate(-1deg); opacity: 0.95; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chanuka-light { animation: none; }
+}
+.chanuka-kicker {
+  color: #dcc18a;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+.chanuka h2 {
+  font-family: var(--font-frank), serif;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  line-height: 1.25;
+  color: #fff;
+  margin: 0 auto 16px;
+  max-width: 560px;
+  text-wrap: balance;
+}
+.chanuka-copy p { color: #d8cfbd; max-width: 480px; margin: 0 auto; line-height: 1.8; }
+.chanuka-btn {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 15px 30px;
+  border-radius: 2px;
+  background: linear-gradient(150deg, #d9bd7c, #b08a3e);
+  color: #241f16;
+  font-weight: 700;
+  transition: transform 0.4s ease;
+  box-shadow: 0 14px 30px -14px rgba(255, 180, 70, 0.5);
+}
+.chanuka-btn:hover { transform: translateY(-2px); }
+.chanuka-form { position: relative; }
+.chanuka-form-title {
+  font-family: var(--font-frank), serif;
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0 0 14px;
+  text-align: start;
+}
+.chanuka-form .eq-card {
+  background: #fbf8f1;
+  border-color: rgba(220, 193, 138, 0.6);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
+}
+.chanuka-form .eq-submit { background: linear-gradient(150deg, #d9bd7c, #b08a3e); color: #241f16; }
+.chanuka-form .eq-submit:hover { background: linear-gradient(150deg, #e4cb90, #c09a4c); }
+@media (max-width: 860px) {
+  .chanuka-grid { grid-template-columns: 1fr; }
+  .chanuka-form-title { text-align: center; }
+}
+.chanuka-form .eq-grid > .eq-field:nth-child(3) { grid-column: 1 / -1; }

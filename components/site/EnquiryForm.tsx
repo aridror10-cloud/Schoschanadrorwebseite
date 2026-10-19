@@ -27,6 +27,8 @@ export function EnquiryForm({
   kinds,
   defaultKind,
   defaultPiece = "",
+  compact = false,
+  submitLabel,
   anchor = "enquiry",
   showCarlebachHint = false,
 }: {
@@ -34,6 +36,9 @@ export function EnquiryForm({
   defaultKind?: EnquiryKind;
   /** Vorbelegtes Werk, z. B. fuer die Chanukkia-Ankuendigung */
   defaultPiece?: string;
+  /** Nur Name und Kontakt (z. B. "Benachrichtigt mich"), Werk laeuft unsichtbar mit */
+  compact?: boolean;
+  submitLabel?: string;
   anchor?: string;
   showCarlebachHint?: boolean;
 }) {
@@ -198,7 +203,7 @@ export function EnquiryForm({
         </svg>
         <h3>{c.done.title}</h3>
         <p>{c.done.text}</p>
-        {kind === "interest" && <p className="eq-note">{c.interestNote}</p>}
+        {kind === "interest" && !compact && <p className="eq-note">{c.interestNote}</p>}
         <button type="button" className="eq-again" onClick={reset}>
           {c.done.again}
         </button>
@@ -229,7 +234,7 @@ export function EnquiryForm({
         </fieldset>
       )}
 
-      {kinds.length === 1 && <p className="eq-kind-single">{c.kinds[kind].desc}</p>}
+      {kinds.length === 1 && !compact && <p className="eq-kind-single">{c.kinds[kind].desc}</p>}
 
       {showCarlebachHint && kind !== "business" && (
         <p className="eq-carlebach">
@@ -283,11 +288,13 @@ export function EnquiryForm({
           { hint: "אפשר למלא טלפון, אימייל או את שניהם" },
         )}
         {kind !== "business" &&
+          !compact &&
           field(
             "piece",
             kind === "order" ? c.fields.pieceOrder : c.fields.piece,
             <input {...aria("piece")} type="text" value={piece} onChange={(e) => setPiece(e.target.value)} />,
           )}
+        {!compact && (
         <div className="eq-wide">
           {field(
             "message",
@@ -296,6 +303,7 @@ export function EnquiryForm({
             { optional: kind !== "business" },
           )}
         </div>
+        )}
         {kind === "business" && (
           <div className="eq-wide">
             {field(
@@ -340,11 +348,11 @@ export function EnquiryForm({
         </label>
       </div>
 
-      {kind === "interest" && <p className="eq-note">{c.interestNote}</p>}
+      {kind === "interest" && !compact && <p className="eq-note">{c.interestNote}</p>}
 
       <div className="eq-actions">
         <button type="submit" className="eq-submit" disabled={status === "sending"}>
-          {status === "sending" ? c.sending : c.submit[kind]}
+          {status === "sending" ? c.sending : (submitLabel ?? c.submit[kind])}
         </button>
       </div>
 
