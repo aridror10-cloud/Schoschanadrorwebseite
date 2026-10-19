@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CallBand, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
+import { Rosette } from "@/components/site/Ornaments";
 import { DESIGN, PROJECTS } from "@/lib/studio";
 import { DESIGN_PICS } from "@/lib/studio-pics";
 
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 export default function DesignPage() {
   return (
     <SiteShell>
-      <section className="sj-page-hero">
+      <section className="sj-page-hero has-rosette">
+        <Rosette className="is-corner" />
         <div className="wrap sj-split">
           <div className="sj-split-text" data-reveal>
             <p className="sj-kicker">{DESIGN.kicker}</p>
@@ -35,7 +37,7 @@ export default function DesignPage() {
 
       <section className="sj-section sj-tint" id="projects">
         <div className="wrap">
-          <SectionHead title={DESIGN.gallery.title}>
+          <SectionHead title={DESIGN.gallery.title} ornament>
             <p className="sj-lead">{DESIGN.gallery.text}</p>
           </SectionHead>
           <div className="sj-project-grid" data-reveal-group>
@@ -48,7 +50,7 @@ export default function DesignPage() {
 
       <section className="sj-section">
         <div className="wrap">
-          <SectionHead title={DESIGN.process.title} center />
+          <SectionHead title={DESIGN.process.title} center ornament />
           <ol className="sj-steps" data-reveal-group>
             {DESIGN.process.steps.map((st) => (
               <li key={st.label} className="sj-step">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLink, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
+import { Rosette } from "@/components/site/Ornaments";
 import { YahrzeitBand } from "@/components/site/YahrzeitBand";
 import { ARTICLES, formatDate } from "@/lib/articles";
 import { COLLECTIONS, HOME, PROJECTS, brand } from "@/lib/studio";
@@ -35,6 +36,7 @@ export default function HomePage() {
         {/* ===== Eroeffnung ===== */}
         <section className="sj-hero">
           <div className="wrap sj-hero-inner">
+            <Rosette className="is-hero" />
             <p className="sj-hero-brand">{brand.name}</p>
             <h1 className="sj-hero-title">{brand.slogan}</h1>
             <p className="sj-hero-tagline">{HOME.hero.tagline}</p>
@@ -75,7 +77,7 @@ export default function HomePage() {
         {/* ===== Vom Gedanken zum Produkt: vier Leistungen (19.10.26) ===== */}
         <section className="sj-section">
           <div className="wrap">
-            <SectionHead title={HOME.services.title}>
+            <SectionHead title={HOME.services.title} ornament>
               <p className="sj-lead">{HOME.services.paras[0]}</p>
               <p>{HOME.services.paras[1]}</p>
             </SectionHead>
@@ -99,7 +101,7 @@ export default function HomePage() {
         {/* ===== Ideen, die zu Produkten wurden ===== */}
         <section className="sj-section sj-tint">
           <div className="wrap">
-            <SectionHead title={HOME.projects.title} />
+            <SectionHead title={HOME.projects.title} ornament />
             <div className="sj-project-grid" data-reveal-group>
               {featured.map((p) => (
                 <ProjectCard key={p.slug} project={p} />

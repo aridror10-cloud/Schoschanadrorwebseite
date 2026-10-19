@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Collection, Pic, Project } from "@/lib/studio";
 import { WORKS } from "@/lib/studio";
+import { Divider } from "./Ornaments";
 
 /**
  * Wiederkehrende Bausteine der Website. Bewusst schlicht: die Werke
@@ -55,15 +56,19 @@ export function SectionHead({
   children,
   as: Tag = "h2",
   center = false,
+  ornament = false,
 }: {
   kicker?: string;
   title: string;
   children?: ReactNode;
   as?: "h1" | "h2";
   center?: boolean;
+  /** Goldlinie mit Stern ueber dem Titel */
+  ornament?: boolean;
 }) {
   return (
     <div className={`sj-head${center ? " is-center" : ""}`} data-reveal>
+      {ornament && <Divider className={center ? "is-center" : ""} />}
       {kicker && <p className="sj-kicker">{kicker}</p>}
       <Tag className="sj-title">{title}</Tag>
       {children}

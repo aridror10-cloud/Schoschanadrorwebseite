@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
+import { Rosette } from "@/components/site/Ornaments";
 import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 import { CONTACT, brand } from "@/lib/studio";
 
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <SiteShell>
-      <section className="sj-page-hero">
+      <section className="sj-page-hero has-rosette">
+        <Rosette className="is-corner" />
         <div className="wrap sj-contact">
           <div className="sj-contact-side">
             <SectionHead as="h1" kicker={CONTACT.kicker} title={CONTACT.title}>

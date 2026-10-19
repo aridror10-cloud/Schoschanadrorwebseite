@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CallBand, Figure } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
+import { Rosette } from "@/components/site/Ornaments";
 import { ABOUT, brand } from "@/lib/studio";
 import { ABOUT_PICS } from "@/lib/studio-pics";
 
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <SiteShell>
-      <section className="sj-page-hero">
+      <section className="sj-page-hero has-rosette">
+        <Rosette className="is-corner" />
         <div className="wrap sj-split">
           <div className="sj-split-text" data-reveal>
             <p className="sj-kicker">{brand.slogan}</p>
