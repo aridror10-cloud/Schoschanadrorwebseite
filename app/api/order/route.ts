@@ -128,6 +128,7 @@ export async function POST(request: Request) {
     [isHebrew ? "טלפון" : "Phone", clamp(data.phone, 60)],
     [isHebrew ? "אימייל" : "Email", email],
     [isHebrew ? "הבקשה" : "Request", clamp(data.notes)],
+    [isHebrew ? "הגיע דרך קישור" : "Referral link", clamp(data.ref, 40)],
   ];
 
   const dir = isHebrew ? "rtl" : "ltr";

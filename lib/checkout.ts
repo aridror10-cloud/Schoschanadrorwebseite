@@ -2,6 +2,7 @@
 
 import type { CartLine } from "@/lib/cart";
 import type { Lang } from "@/lib/content";
+import { rememberCart } from "@/lib/ref";
 
 /**
  * Uebergabe an SUMIT: /api/cart legt den Warenkorb an und liefert die
@@ -12,6 +13,7 @@ import type { Lang } from "@/lib/content";
  * kann (und nur eine, die zu pruefen ist).
  */
 export async function goToCheckout(lines: CartLine[], lang: Lang) {
+  rememberCart(lines);
   const res = await fetch("/api/cart", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { track } from "@/lib/pixel";
+import { readRef } from "@/lib/ref";
 import { CONTACT, brand, type EnquiryKind } from "@/lib/studio";
 
 /**
@@ -25,11 +26,14 @@ type Status = "idle" | "sending" | "sent" | "error" | "rate";
 export function EnquiryForm({
   kinds,
   defaultKind,
+  defaultPiece = "",
   anchor = "enquiry",
   showCarlebachHint = false,
 }: {
   kinds: EnquiryKind[];
   defaultKind?: EnquiryKind;
+  /** Vorbelegtes Werk, z. B. fuer die Chanukkia-Ankuendigung */
+  defaultPiece?: string;
   anchor?: string;
   showCarlebachHint?: boolean;
 }) {
@@ -40,7 +44,7 @@ export function EnquiryForm({
   const [company, setCompany] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [piece, setPiece] = useState("");
+  const [piece, setPiece] = useState(defaultPiece);
   const [message, setMessage] = useState("");
   const [file, setFile] = useState<{ name: string; type: string; data: string } | null>(null);
   const [website, setWebsite] = useState(""); // Honigtopf
@@ -112,6 +116,7 @@ export function EnquiryForm({
           message,
           file: kind === "business" ? file : null,
           website,
+          ref: readRef(),
         }),
       });
       if (res.status === 429) {
@@ -150,7 +155,7 @@ export function EnquiryForm({
     setCompany("");
     setPhone("");
     setEmail("");
-    setPiece("");
+    setPiece(defaultPiece);
     setMessage("");
     setFile(null);
     setErrors({});

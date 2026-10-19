@@ -138,6 +138,7 @@ export async function POST(request: Request) {
     ["אימייל", email],
     [kind === "order" ? "היצירה המבוקשת" : "היצירה", piece],
     [kind === "business" ? "הרעיון או הצורך" : "הערה", message],
+    ["הגיע דרך קישור", clamp(data.ref, 40)],
   ];
 
   const table = rows

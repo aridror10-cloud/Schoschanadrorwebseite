@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { EMAIL, content, type Lang } from "@/lib/content";
+import { readRef } from "@/lib/ref";
 
 /**
  * Karte fuer Sonderwuensche ("התאמה אישית").
@@ -141,6 +142,7 @@ export function OrderForm({ lang }: { lang: Lang }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          ref: readRef(),
           lang,
           model: f.modelOptions.find((o) => o.value === model)?.label ?? model,
           version: version === "with" ? f.labels.versionWith : f.labels.versionWithout,

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { track } from "@/lib/pixel";
+import { reportReferralPurchase } from "@/lib/ref";
 
 /**
  * Meldet auf der Dankesseite einen Kauf an den Meta Pixel.
@@ -13,6 +14,7 @@ import { track } from "@/lib/pixel";
 export function PurchaseEvent() {
   useEffect(() => {
     track("Purchase", { currency: "ILS" });
+    reportReferralPurchase();
   }, []);
   return null;
 }

@@ -997,3 +997,10 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   border-radius: 2px;
   background: linear-gradient(90deg, var(--gold), var(--gold-soft));
 }
+
+/* ===== Chanukka-Hinweis (ersetzt seit 19.10.26 den Sukkot-Bereich) ===== */
+.chanuka { padding: 90px 0; background: linear-gradient(180deg, #fbf9f5, var(--cream)); text-align: center; }
+.chanuka-inner { max-width: 760px; }
+.chanuka h2 { font-family: var(--font-frank), serif; font-weight: 500; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.3; margin-bottom: 14px; }
+.chanuka p { color: #555046; max-width: 560px; margin: 0 auto 26px; }
+.chanuka-form { text-align: start; margin-top: 10px; }

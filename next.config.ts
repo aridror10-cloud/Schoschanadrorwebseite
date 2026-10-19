@@ -32,6 +32,14 @@ const nextConfig: NextConfig = {
   // Erzeugt saubere URLs ohne abschliessenden Schraegstrich
   trailingSlash: false,
 
+  // Sukkot-Teillinks (Sept. 2026) fuehren seit 19.10.26 zur Carlebach-Seite
+  async redirects() {
+    return [
+      { source: "/sukkot", destination: "/carlebach", permanent: false },
+      { source: "/en/sukkot", destination: "/en", permanent: false },
+    ];
+  },
+
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

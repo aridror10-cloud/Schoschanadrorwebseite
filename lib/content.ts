@@ -144,6 +144,8 @@ export interface LandingContent {
      * die ganze Zeile fuehrt zur Sukkot-Sektion.
      */
     sukkot: { lead: string; body: string; cta: string };
+    /** Hinweis auf die kommende Chanukkia (ersetzt seit 19.10.26 Sukkot) */
+    chanuka: { lead: string; body: string; cta: string };
     scroll: string;
   };
   meet: {
@@ -198,6 +200,8 @@ export interface LandingContent {
    * Sukkot-Segen statt des Pasuk, befristet bestellbar. Steht zwischen der
    * Modellwahl und den Nebenteilen der Seite.
    */
+  /** Chanukka-Hinweis anstelle des Sukkot-Bereichs (Shoshana, 19.10.26) */
+  chanuka: { kicker: string; title: string; text: string; cta: string; formTitle?: string };
   sukkot: {
     kicker: string;
     /** Der Vers "we-samachta be-chagecha", auch auf der englischen Seite hebraeisch */
@@ -357,6 +361,11 @@ export const content: Record<Lang, LandingContent> = {
         body: "דגם „שמחה” בשילוב „הרחמן הוא יקים” —",
         cta: "לצפייה",
       },
+      chanuka: {
+        lead: "חדש לקראת חנוכה!",
+        body: "חנוכיית מתכת אמנותית בהשראת ר׳ שלמה קרליבך, בקרוב.",
+        cta: "להשארת פרטים לקבלת עידכון ←",
+      },
       scroll: "גללו להכיר את היצירות ↓",
     },
     meet: {
@@ -447,6 +456,13 @@ export const content: Record<Lang, LandingContent> = {
       sending: "רגע…",
       error: "משהו השתבש — נסו שוב או השתמשו בכפתורי הרכישה.",
     },
+    chanuka: {
+      kicker: "חדש לקראת חנוכה!",
+      title: "חנוכיית מתכת אמנותית בהשראת ר׳ שלמה קרליבך",
+      text: "בקרוב. השאירו פרטים, ונעדכן אתכם כשהחנוכייה תהיה זמינה להזמנה.",
+      cta: "להשארת פרטים לקבלת עידכון",
+      formTitle: "להשארת פרטים לקבלת עידכון",
+    },
     sukkot: {
       kicker: "לכבוד סוכות",
       verse: "וְשָׂמַחְתָּ בְּחַגֶּךָ",
@@ -474,7 +490,7 @@ export const content: Record<Lang, LandingContent> = {
         orderViaForm: "להזמנת הסדרה למהדורת סוכות",
       },
       deadline: "הזמנות למהדורת סוכות עד 17.9 | ו׳ בתשרי — בכפוף לזמינות.",
-      shipping: "המשלוח אינו כלול במחיר. בהזמנת הסדרה, המשלוח עלינו.",
+      shipping: "המשלוח אינו כלול במחיר.",
     },
     details: {
       title: "הפרטים שעושים את ההבדל",
@@ -544,7 +560,7 @@ export const content: Record<Lang, LandingContent> = {
       },
       delivery: [
         { icon: "1", title: "איסוף עצמי ממודיעין עילית", sub: "ללא עלות, בתיאום מראש." },
-        { icon: "2", title: "משלוח עד הבית", sub: "בעלות של 50 ₪, לכל רחבי הארץ. בהזמנת סט (שלושת הדיוקנאות או סדרת סוכות), המשלוח עלינו." },
+        { icon: "2", title: "משלוח עד הבית", sub: "בעלות של 50 ₪, לכל רחבי הארץ. בהזמנת סט שלושת הדיוקנאות, המשלוח עלינו." },
         {
           icon: "○",
           title: "הזמנות עד יום היארצייט — ט״ז בחשוון (27.10.26)",
@@ -700,6 +716,11 @@ Please send me the next steps to complete the order.`,
         body: "the “Joy” design with “HaRachaman Hu Yakim” —",
         cta: "see it",
       },
+      chanuka: {
+        lead: "New for Chanukah!",
+        body: "An artistic metal menorah inspired by Reb Shlomo Carlebach, coming soon.",
+        cta: "Leave your details for an update →",
+      },
       scroll: "Scroll to explore the collection ↓",
     },
     meet: {
@@ -795,6 +816,12 @@ Please send me the next steps to complete the order.`,
       sending: "One moment…",
       error: "Something went wrong — please try again or use the buy buttons.",
     },
+    chanuka: {
+      kicker: "New for Chanukah!",
+      title: "An artistic metal menorah inspired by Reb Shlomo Carlebach",
+      text: "Coming soon. Leave your details and we will let you know when the menorah is available to order.",
+      cta: "Leave your details for an update",
+    },
     sukkot: {
       kicker: "For Sukkot",
       verse: "וְשָׂמַחְתָּ בְּחַגֶּךָ",
@@ -825,7 +852,7 @@ Please send me the next steps to complete the order.`,
         orderViaForm: "Order the Sukkot series",
       },
       deadline: "Orders for the Sukkot edition until September 17 | 6 Tishrei — subject to availability.",
-      shipping: "Shipping is not included in the price. Free home delivery with the series.",
+      shipping: "Shipping is not included in the price.",
     },
     details: {
       title: "Details That Make the Difference",
@@ -900,7 +927,7 @@ Please send me the next steps to complete the order.`,
       },
       delivery: [
         { icon: "1", title: "Self-pickup from Modi'in Illit", sub: "Free of charge, by prior arrangement." },
-        { icon: "2", title: "Home delivery", sub: "₪50, nationwide. Free with a set (the three portraits or the Sukkot series)." },
+        { icon: "2", title: "Home delivery", sub: "₪50, nationwide. Free with the set of three portraits." },
         {
           icon: "○",
           title: "Orders placed by the yahrzeit — October 27, 2026",

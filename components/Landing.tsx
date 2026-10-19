@@ -3,7 +3,7 @@ import { CartBar } from "@/components/CartBar";
 import { OrderForm } from "@/components/OrderForm";
 import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
-import { SukkotSlides } from "@/components/SukkotSlides";
+import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { visibleNav } from "@/components/site/SiteShell";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { ORDERABLE, type ModelKey } from "@/lib/cart";
@@ -121,9 +121,9 @@ export function Landing({ lang }: { lang: Lang }) {
             <p>{t.hero.sub}</p>
             <div className="hero-actions">
               <a href="#choose" className="btn-primary-lg">{t.hero.cta}</a>
-              <a href="#sukkot" className="hero-sukkot">
-                {t.hero.sukkot.lead} <span className="hero-sukkot-gold">✦</span> {t.hero.sukkot.body}{" "}
-                <span className="hero-sukkot-gold">{t.hero.sukkot.cta}</span>
+              <a href="#chanuka" className="hero-sukkot">
+                {t.hero.chanuka.lead} <span className="hero-sukkot-gold">✦</span> {t.hero.chanuka.body}{" "}
+                <span className="hero-sukkot-gold">{t.hero.chanuka.cta}</span>
               </a>
               <a href="#meet" className="scroll-link">{t.hero.scroll}</a>
             </div>
@@ -213,68 +213,24 @@ export function Landing({ lang }: { lang: Lang }) {
           </div>
         </section>
 
-        {/* ===== SUKKOT SPECIAL EDITION =====
-            Befristete Sonderedition in fuenf Schritten (Shoshana, 07.09.26):
-            Eroeffnung, das Einzelwerk als Hero-Produkt, Ueberleitung, die
-            vierteilige Serie mit wechselnden Bildern, Frist. Fehlt ein
-            Produkt bei SUMIT, fuehrt sein Knopf zum Anfrageformular statt
-            in den Korb - siehe ORDERABLE in lib/cart.ts. */}
-        <section className="sukkot" id="sukkot">
-          <div className="wrap">
-            <div className="section-head sukkot-head" data-reveal>
-              <div className="kicker">{t.sukkot.kicker}</div>
-              <h2 className="sukkot-verse" lang="he" dir="rtl">{t.sukkot.verse}</h2>
-              {t.sukkot.verseGloss && <p className="sukkot-gloss">{t.sukkot.verseGloss}</p>}
-              <p className="sukkot-intro">{t.sukkot.intro}</p>
-            </div>
-
-            <div className="sukkot-hero" data-reveal>
-              <div className="ph sukkot-hero-photo">
-                <img src="/carlebach/sukkot.webp" alt={t.sukkot.single.imgAlt} loading="lazy" />
+        {/* ===== CHANUKKA-HINWEIS =====
+            Ersetzt seit 19.10.26 den Sukkot-Bereich (Shoshana). Die
+            Chanukkia ist noch in Produktion: nur Ankuendigung und Weg zum
+            Hinterlassen der Kontaktdaten. Der leere Anker "sukkot" haelt alte
+            Links (/carlebach#sukkot) am richtigen Ort. */}
+        <section className="chanuka" id="chanuka">
+          <span id="sukkot" aria-hidden="true" />
+          <div className="wrap chanuka-inner" data-reveal>
+            <div className="kicker">{t.chanuka.kicker}</div>
+            <h2>{t.chanuka.title}</h2>
+            <p>{t.chanuka.text}</p>
+            {lang === "he" ? (
+              <div className="chanuka-form">
+                <EnquiryForm kinds={["interest"]} anchor="chanuka-form" defaultPiece="חנוכיית קרליבך: עדכון כשתהיה זמינה" />
               </div>
-              <div className="sukkot-hero-text">
-                <h3>{t.sukkot.single.title}</h3>
-                <p className="sukkot-inscription" lang="he" dir="rtl">{t.sukkot.single.inscription}</p>
-                <p className="sukkot-note">{t.sukkot.single.note}</p>
-                <div className="mini-price">{t.sukkot.single.price}</div>
-                {t.sukkot.single.usd && <div className="mini-price-usd">{t.sukkot.single.usd}</div>}
-                {ORDERABLE.sukkot ? (
-                  <PieceControls model="sukkot" lang={lang} />
-                ) : (
-                  <a href="#order" className="pc-add sukkot-cta">{t.sukkot.single.orderViaForm}</a>
-                )}
-              </div>
-            </div>
-
-            <div className="sukkot-bridge" data-reveal>
-              <h3>{t.sukkot.bridge.title}</h3>
-              <p>{t.sukkot.bridge.text}</p>
-            </div>
-
-            <div className="sukkot-series" data-reveal>
-              <SukkotSlides
-                images={["/carlebach/sukkot-set-wall.webp", "/carlebach/sukkot-set-sukkah.webp"]}
-                alts={[t.sukkot.series.imgAltWall, t.sukkot.series.imgAltSukkah]}
-              />
-              <p className="sukkot-items">{t.sukkot.series.items}</p>
-              <div className="sukkot-series-text">
-                <h3>{t.sukkot.series.title}</h3>
-                <p>{t.sukkot.series.text}</p>
-                <div className="mini-price">{t.sukkot.series.price}</div>
-                {t.sukkot.series.usd && <div className="mini-price-usd">{t.sukkot.series.usd}</div>}
-                {t.sukkot.series.note && <div className="price-note">{t.sukkot.series.note}</div>}
-                {ORDERABLE.sukkotSet ? (
-                  <PieceControls model="sukkotSet" lang={lang} />
-                ) : (
-                  <a href="#order" className="pc-add sukkot-cta">{t.sukkot.series.orderViaForm}</a>
-                )}
-              </div>
-            </div>
-
-            <div className="sukkot-deadline-box" data-reveal>
-              <p className="sukkot-deadline">{t.sukkot.deadline}</p>
-              <p className="sukkot-shipping">{t.sukkot.shipping}</p>
-            </div>
+            ) : (
+              <a href="#order" className="btn-wide">{t.chanuka.cta}</a>
+            )}
           </div>
         </section>
 
