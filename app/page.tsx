@@ -38,7 +38,16 @@ export default function HomePage() {
             <p className="sj-hero-brand">{brand.name}</p>
             <h1 className="sj-hero-title">{brand.slogan}</h1>
             <p className="sj-hero-tagline">{HOME.hero.tagline}</p>
-            <p className="sj-hero-sub">{HOME.hero.sub}</p>
+            {HOME.hero.paras.map((t) => (
+              <p key={t.slice(0, 20)} className="sj-hero-sub">
+                {t}
+              </p>
+            ))}
+            <div className="sj-hero-cta">
+              <Link href="/contact?type=business" className="sj-btn">
+                {HOME.hero.cta}
+              </Link>
+            </div>
           </div>
 
           <div className="wrap sj-doors">
@@ -63,17 +72,26 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ===== Hier nehmen Ideen Gestalt an ===== */}
+        {/* ===== Vom Gedanken zum Produkt: vier Leistungen (19.10.26) ===== */}
         <section className="sj-section">
-          <div className="wrap sj-split">
-            <div className="sj-split-text" data-reveal>
-              <h2 className="sj-title">{HOME.ideas.title}</h2>
-              <p className="sj-lead">{HOME.ideas.paras[0]}</p>
-              <p>{HOME.ideas.paras[1]}</p>
-              <ArrowLink href="/design">{HOME.ideas.cta}</ArrowLink>
-            </div>
-            <div data-reveal>
-              <Figure pic={HOME_PICS.ideas} ratio="5 / 4" sizes="(max-width: 760px) 100vw, 50vw" />
+          <div className="wrap">
+            <SectionHead title={HOME.services.title}>
+              <p className="sj-lead">{HOME.services.paras[0]}</p>
+              <p>{HOME.services.paras[1]}</p>
+            </SectionHead>
+            <ol className="sj-service-grid" data-reveal-group>
+              {HOME.services.cards.map((c, i) => (
+                <li key={c.title} className="sj-service">
+                  <span className="sj-service-num" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3>{c.title}</h3>
+                  <p>{c.text}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="sj-after" data-reveal>
+              <ArrowLink href="/design">{HOME.services.cta}</ArrowLink>
             </div>
           </div>
         </section>

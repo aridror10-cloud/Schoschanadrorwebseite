@@ -25,7 +25,7 @@ export default function AboutPage() {
             <p className="sj-lead">{ABOUT.intro}</p>
           </div>
           <div data-reveal>
-            <Figure pic={ABOUT_PICS.hero} ratio="5 / 4" priority sizes="(max-width: 760px) 100vw, 45vw" className="is-blend" />
+            <Figure pic={ABOUT_PICS.hero} ratio="16 / 9" priority sizes="(max-width: 760px) 100vw, 50vw" />
           </div>
         </div>
       </section>
@@ -38,7 +38,7 @@ export default function AboutPage() {
             </h2>
             <div className="sj-about-copy" data-reveal>
               {s.paras.map((p, j) => (
-                <p key={p.slice(0, 24)} className={i === 2 && j === s.paras.length - 1 ? "sj-credo" : undefined}>
+                <p key={p.slice(0, 24)} className={s.title === "יצירה מקורית" && j === s.paras.length - 1 ? "sj-credo" : undefined}>
                   {p}
                 </p>
               ))}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
+import Link from "next/link";
+import { CallBand, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
 import { DESIGN, PROJECTS } from "@/lib/studio";
 import { DESIGN_PICS } from "@/lib/studio-pics";
@@ -9,9 +9,9 @@ import { DESIGN_PICS } from "@/lib/studio-pics";
 
 export const metadata: Metadata = {
   title: DESIGN.kicker,
-  description: DESIGN.paras[1],
+  description: DESIGN.paras[2],
   alternates: { canonical: "/design" },
-  openGraph: { title: DESIGN.kicker, description: DESIGN.paras[1], url: "/design" },
+  openGraph: { title: DESIGN.kicker, description: DESIGN.paras[2], url: "/design" },
 };
 
 export default function DesignPage() {
@@ -23,7 +23,9 @@ export default function DesignPage() {
             <p className="sj-kicker">{DESIGN.kicker}</p>
             <h1 className="sj-title sj-title-xl">{DESIGN.title}</h1>
             <p className="sj-lead">{DESIGN.paras[0]}</p>
-            <p>{DESIGN.paras[1]}</p>
+            {DESIGN.paras.slice(1).map((t) => (
+              <p key={t.slice(0, 20)}>{t}</p>
+            ))}
           </div>
           <div data-reveal>
             <Figure pic={DESIGN_PICS.hero} ratio="4 / 3" priority sizes="(max-width: 760px) 100vw, 45vw" />
@@ -45,30 +47,33 @@ export default function DesignPage() {
       </section>
 
       <section className="sj-section">
-        <div className="wrap sj-narrow">
-          <SectionHead title={DESIGN.together.title} center>
-            <p className="sj-lead">{DESIGN.together.text}</p>
-          </SectionHead>
-          <ul className="sj-tags" data-reveal-group>
-            {DESIGN.together.tags.map((t) => (
-              <li key={t} dir="auto">
-                {t}
+        <div className="wrap">
+          <SectionHead title={DESIGN.process.title} center />
+          <ol className="sj-steps" data-reveal-group>
+            {DESIGN.process.steps.map((st) => (
+              <li key={st.label} className="sj-step">
+                <span className="sj-step-label">{st.label}</span>
+                <h3>{st.title}</h3>
+                <p>{st.text}</p>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       </section>
 
-      <section className="sj-section sj-tint" id="contact-business">
+      <section className="sj-section sj-tint">
         <div className="wrap sj-narrow">
-          <SectionHead title={DESIGN.cta.title} center>
-            <p className="sj-lead">{DESIGN.cta.text}</p>
+          <SectionHead title={DESIGN.audience.title} center>
+            <p className="sj-lead">{DESIGN.audience.text}</p>
           </SectionHead>
-          <div data-reveal>
-            <EnquiryForm kinds={["business"]} anchor="enquiry" />
-          </div>
         </div>
       </section>
+
+      <CallBand title={DESIGN.closing.title} text={DESIGN.closing.text}>
+        <Link href="/contact?type=business" className="sj-btn">
+          {DESIGN.closing.cta}
+        </Link>
+      </CallBand>
     </SiteShell>
   );
 }

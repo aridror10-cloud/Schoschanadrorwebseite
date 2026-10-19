@@ -8,10 +8,10 @@ import { CONTACT, brand } from "@/lib/studio";
 /** Seite "יצירת קשר" mit den drei Anfragearten (Abschnitt 8). */
 
 export const metadata: Metadata = {
-  title: CONTACT.title,
+  title: CONTACT.kicker,
   description: CONTACT.lead,
   alternates: { canonical: "/contact" },
-  openGraph: { title: CONTACT.title, description: CONTACT.lead, url: "/contact" },
+  openGraph: { title: CONTACT.kicker, description: CONTACT.lead, url: "/contact" },
 };
 
 export default function ContactPage() {
@@ -20,8 +20,9 @@ export default function ContactPage() {
       <section className="sj-page-hero">
         <div className="wrap sj-contact">
           <div className="sj-contact-side">
-            <SectionHead as="h1" kicker={brand.name} title={CONTACT.title}>
+            <SectionHead as="h1" kicker={CONTACT.kicker} title={CONTACT.title}>
               <p className="sj-lead">{CONTACT.lead}</p>
+              <p>{CONTACT.hint}</p>
             </SectionHead>
             <dl className="sj-direct" data-reveal>
               <div>

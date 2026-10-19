@@ -49,7 +49,11 @@ export function SiteHeader({
           <ul>
             {items.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+                <Link
+                  href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={item.href === "/contact" ? "site-links-cta" : undefined}
+                >
                   {item.label}
                 </Link>
               </li>
@@ -59,6 +63,11 @@ export function SiteHeader({
 
         <div className="nav-right">
           {actions}
+          {!collapsed && (
+            <Link href="/contact" className="nav-cta site-contact-btn">
+              יצירת קשר
+            </Link>
+          )}
           <button
             type="button"
             className="menu-toggle"

@@ -158,9 +158,9 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </article>
 
-      <CallBand title={DESIGN.cta.title} text={DESIGN.cta.text}>
-        <Link href="/design#enquiry" className="sj-btn">
-          {DESIGN.project.contact}
+      <CallBand title={DESIGN.projectCta.title} text={DESIGN.projectCta.text}>
+        <Link href="/contact?type=business" className="sj-btn">
+          {DESIGN.projectCta.cta}
         </Link>
       </CallBand>
     </SiteShell>

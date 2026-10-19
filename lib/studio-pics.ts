@@ -40,10 +40,10 @@ const set: Pic = {
 
 /** Illustration aus ihrem Material: sie entwirft am Bildschirm den Carlebach-Dioken */
 const atWork: Pic = {
-  src: "/carlebach/artist.webp",
-  alt: "איור: מעצבת יושבת מול מסך ומשרטטת דיוקן, ומעליה הדיוקן כיצירת מתכת על הקיר",
-  w: 1200,
-  h: 977,
+  src: "/studio/about-studio.webp",
+  alt: "סטודיו חמים לעיצוב: מעצבת מול מסך עם עיצוב הכיתוב לחיים, ולידה קופסת עץ חרוטה, כתובה ממוסגרת ויצירות נוספות",
+  w: 1600,
+  h: 901,
 };
 
 export const HOME_PICS = {

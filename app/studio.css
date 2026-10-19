@@ -714,3 +714,60 @@ main:focus { outline: none; }
 .lb-grid.is-two { grid-template-columns: repeat(2, 1fr); }
 .sj-project-extra .lb-thumb { aspect-ratio: 4 / 3; background: #1d1b18; }
 .sj-project-extra .lb-thumb img { height: 100%; object-fit: contain; }
+
+/* ---------- 19.10.26: Leistungen, Arbeitsschritte, Kontakt-Knoepfe ---------- */
+.sj-hero-cta { margin-top: 30px; }
+.sj-hero .sj-hero-sub + .sj-hero-sub { margin-top: 8px; }
+
+.sj-service-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(14px, 2vw, 22px);
+}
+.sj-service {
+  background: #fff;
+  border: 1px solid rgba(171, 145, 73, 0.3);
+  border-radius: 4px;
+  padding: 26px 22px 24px;
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+.sj-service:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 24px 40px -30px rgba(46, 46, 46, 0.45); }
+.sj-service-num { display: block; font-family: var(--font-frank), serif; font-size: 1.6rem; color: var(--gold); margin-bottom: 10px; }
+.sj-service h3 { font-family: var(--font-frank), serif; font-weight: 500; font-size: 1.22rem; line-height: 1.35; margin-bottom: 8px; }
+.sj-service p { font-size: 0.95rem; }
+
+.sj-steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2.4vw, 28px);
+  counter-reset: step;
+}
+.sj-step { position: relative; padding-top: 22px; border-top: 2px solid var(--gold); }
+.sj-step-label { display: block; font-weight: 700; color: var(--gold-text); font-size: 0.9rem; margin-bottom: 6px; }
+.sj-step h3 { font-family: var(--font-frank), serif; font-weight: 500; font-size: 1.25rem; margin-bottom: 8px; }
+.sj-step p { font-size: 0.95rem; }
+
+/* Kontakt im Menue als Knopf hervorgehoben */
+.site-links .site-links-cta { display: none; }
+.site-contact-btn { display: none; }
+@media (min-width: 1100px) {
+  .site-nav:not(.is-collapsed) .site-contact-btn { display: inline-block; }
+}
+@media (max-width: 1099px) {
+  .site-nav .nav-right .site-contact-btn { display: inline-block; padding: 9px 14px; }
+}
+@media (max-width: 420px) {
+  .site-nav .nav-right .site-contact-btn { padding: 8px 10px; font-size: 0.8rem; }
+}
+.sj-band h2 { text-wrap: balance; }
+
+@media (max-width: 1000px) {
+  .sj-service-grid,
+  .sj-steps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .sj-service-grid,
+  .sj-steps { grid-template-columns: 1fr; }
+}
