@@ -4,6 +4,7 @@ import { OrderForm } from "@/components/OrderForm";
 import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
+import { CHANUKA_PICS } from "@/lib/chanuka-pics";
 import { visibleNav } from "@/components/site/SiteShell";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { ORDERABLE, type ModelKey } from "@/lib/cart";
@@ -221,41 +222,79 @@ export function Landing({ lang }: { lang: Lang }) {
         <section className="chanuka" id="chanuka" aria-labelledby="chanuka-title">
           <span id="sukkot" aria-hidden="true" />
           <div className="chanuka-glow" aria-hidden="true" />
-          <div className="wrap chanuka-grid">
-            <div className="chanuka-copy" data-reveal>
-              {/* Neun Lichter, der Schamasch erhoeht in der Mitte. Bewusst
-                  keine gezeichnete Chanukkia: das Werk ist noch in Produktion,
-                  sein Aussehen soll nicht vorweggenommen werden. */}
-              <div className="chanuka-lights" aria-hidden="true">
-                <span className="chanuka-light" style={{ animationDelay: "0.00s" }} />
-                <span className="chanuka-light" style={{ animationDelay: "0.37s" }} />
-                <span className="chanuka-light" style={{ animationDelay: "0.74s" }} />
-                <span className="chanuka-light" style={{ animationDelay: "1.11s" }} />
-                <span className="chanuka-light is-shamash" style={{ animationDelay: "1.48s" }} />
-                <span className="chanuka-light" style={{ animationDelay: "1.85s" }} />
-                <span className="chanuka-light" style={{ animationDelay: "0.32s" }} />
-                <span className="chanuka-light" style={{ animationDelay: "0.69s" }} />
-                <span className="chanuka-light" style={{ animationDelay: "1.06s" }} />
-              </div>
+          <div className="wrap">
+            {/* Kopf: Geschichte des Niggun (Shoshana, 21.10.26) */}
+            <header className="chanuka-head" data-reveal>
               <div className="chanuka-kicker">{t.chanuka.kicker}</div>
               <h2 id="chanuka-title">{t.chanuka.title}</h2>
-              <p>{t.chanuka.text}</p>
-              {lang !== "he" && (
-                <a href="#order" className="chanuka-btn">{t.chanuka.cta}</a>
-              )}
-            </div>
-            {lang === "he" && (
-              <div className="chanuka-form" data-reveal>
-                <p className="chanuka-form-title">{t.chanuka.formTitle}</p>
-                <EnquiryForm
-                  kinds={["interest"]}
-                  anchor="chanuka-form"
-                  defaultPiece="חנוכיית קרליבך: עדכון כשתהיה זמינה"
-                  compact
-                  submitLabel="עדכנו אותי"
-                />
+              <p className="chanuka-verse" lang="he" dir="rtl">{t.chanuka.verse}</p>
+              {t.chanuka.verseGloss && <p className="chanuka-gloss">{t.chanuka.verseGloss}</p>}
+              {t.chanuka.story.map((p) => (
+                <p key={p.slice(0, 20)} className="chanuka-story">{p}</p>
+              ))}
+              <a href={t.chanuka.listen.href} className="chanuka-listen" target="_blank" rel="noopener">
+                <span aria-hidden="true">♪</span> {t.chanuka.listen.label}
+              </a>
+            </header>
+
+            {/* Produkt: Foto (sobald vorhanden, sonst die neun Lichter), Text, Preis, Bestellung */}
+            <div className="chanuka-product" data-reveal>
+              <div className="chanuka-media">
+                {CHANUKA_PICS[0] ? (
+                  <img
+                    src={CHANUKA_PICS[0].src}
+                    alt={t.chanuka.product.imgAlt}
+                    width={CHANUKA_PICS[0].w}
+                    height={CHANUKA_PICS[0].h}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="chanuka-lights" aria-hidden="true">
+                    <span className="chanuka-light" style={{ animationDelay: "0.00s" }} />
+                    <span className="chanuka-light" style={{ animationDelay: "0.37s" }} />
+                    <span className="chanuka-light" style={{ animationDelay: "0.74s" }} />
+                    <span className="chanuka-light" style={{ animationDelay: "1.11s" }} />
+                    <span className="chanuka-light is-shamash" style={{ animationDelay: "1.48s" }} />
+                    <span className="chanuka-light" style={{ animationDelay: "1.85s" }} />
+                    <span className="chanuka-light" style={{ animationDelay: "0.32s" }} />
+                    <span className="chanuka-light" style={{ animationDelay: "0.69s" }} />
+                    <span className="chanuka-light" style={{ animationDelay: "1.06s" }} />
+                  </div>
+                )}
+                {CHANUKA_PICS.length > 1 && (
+                  <div className="chanuka-thumbs">
+                    {CHANUKA_PICS.slice(1, 4).map((p) => (
+                      <img key={p.src} src={p.src} alt="" width={p.w} height={p.h} loading="lazy" />
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
+              <div className="chanuka-buy">
+                <h3>{t.chanuka.product.title}</h3>
+                {t.chanuka.product.text.map((p) => (
+                  <p key={p.slice(0, 20)}>{p}</p>
+                ))}
+                <div className="chanuka-price">{t.chanuka.product.price}</div>
+                {t.chanuka.product.usd && <div className="chanuka-usd">{t.chanuka.product.usd}</div>}
+                {ORDERABLE.chanuka ? (
+                  <PieceControls model="chanuka" lang={lang} />
+                ) : lang === "he" ? (
+                  <div className="chanuka-form">
+                    <p className="chanuka-form-title">{t.chanuka.formTitle}</p>
+                    {t.chanuka.formNote && <p className="chanuka-form-note">{t.chanuka.formNote}</p>}
+                    <EnquiryForm
+                      kinds={["order"]}
+                      anchor="chanuka-form"
+                      defaultPiece="חנוכיית קרליבך, דגם שמחה (290 ₪)"
+                      compact
+                      submitLabel={t.chanuka.cta}
+                    />
+                  </div>
+                ) : (
+                  <a href="#order" className="chanuka-btn">{t.chanuka.cta}</a>
+                )}
+              </div>
+            </div>
           </div>
         </section>
 

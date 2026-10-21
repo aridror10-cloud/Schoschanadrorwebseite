@@ -187,7 +187,7 @@ export interface LandingContent {
     more: string;
     add: string;
     added: string;
-    names: Record<"simcha" | "regesh" | "shrika" | "set" | "sukkot" | "sukkotSet", string>;
+    names: Record<"simcha" | "regesh" | "shrika" | "set" | "sukkot" | "sukkotSet" | "chanuka", string>;
     title: string;
     remove: string;
     checkout: string;
@@ -201,7 +201,26 @@ export interface LandingContent {
    * Modellwahl und den Nebenteilen der Seite.
    */
   /** Chanukka-Hinweis anstelle des Sukkot-Bereichs (Shoshana, 19.10.26) */
-  chanuka: { kicker: string; title: string; text: string; cta: string; formTitle?: string };
+  chanuka: {
+    kicker: string;
+    title: string;
+    /** Vers, auf beiden Sprachseiten hebraeisch */
+    verse: string;
+    /** Nur EN: Uebersetzung des Verses */
+    verseGloss?: string;
+    story: string[];
+    product: {
+      title: string;
+      text: string[];
+      price: string;
+      usd?: string;
+      imgAlt: string;
+    };
+    listen: { label: string; href: string };
+    cta: string;
+    formTitle?: string;
+    formNote?: string;
+  };
   sukkot: {
     kicker: string;
     /** Der Vers "we-samachta be-chagecha", auch auf der englischen Seite hebraeisch */
@@ -362,9 +381,9 @@ export const content: Record<Lang, LandingContent> = {
         cta: "לצפייה",
       },
       chanuka: {
-        lead: "חדש לקראת חנוכה!",
-        body: "חנוכיית מתכת אמנותית בהשראת ר׳ שלמה קרליבך, בקרוב.",
-        cta: "להשארת פרטים לקבלת עידכון ←",
+        lead: "חדש לחנוכה!",
+        body: "חנוכיית קרליבך, דגם „שמחה”, 290 ₪.",
+        cta: "להזמנה ←",
       },
       scroll: "גללו להכיר את היצירות ↓",
     },
@@ -448,7 +467,7 @@ export const content: Record<Lang, LandingContent> = {
       more: "עוד אחד",
       add: "הוספה לסל",
       added: "נוסף לסל ✓",
-      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה", sukkotSet: "סדרת סוכות (4 חלקים)" },
+      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה", sukkotSet: "סדרת סוכות (4 חלקים)", chanuka: "חנוכיית קרליבך, דגם שמחה" },
       title: "הסל שלכם",
       remove: "הסרה מהסל",
       checkout: "מעבר לתשלום",
@@ -457,11 +476,26 @@ export const content: Record<Lang, LandingContent> = {
       error: "משהו השתבש — נסו שוב או השתמשו בכפתורי הרכישה.",
     },
     chanuka: {
-      kicker: "חדש לקראת חנוכה!",
-      title: "חנוכיית מתכת אמנותית בהשראת ר׳ שלמה קרליבך",
-      text: "בקרוב. השאירו פרטים, ונעדכן אתכם כשהחנוכייה תהיה זמינה להזמנה.",
-      cta: "להשארת פרטים לקבלת עידכון",
-      formTitle: "להשארת פרטים לקבלת עידכון",
+      kicker: "חנוכה עם ר׳ שלמה קרליבך",
+      title: "מתוך הכאב, תפילה לאור ולישועה",
+      verse: "״אֹרֶךְ יָמִים אַשְׂבִּיעֵהוּ וְאַרְאֵהוּ בִּישׁוּעָתִי״",
+      story: [
+        "את הפסוק הזה הלחין ר׳ שלמה קרליבך לכבוד חנוכה, מתוך כאב על הבנים שנפלו במלחמות ישראל ולא יזכו עוד להדליק את נרות החנוכה, ועל אלו שאיבדו את מאור עיניהם ולא יוכלו לראות את אור הנרות.",
+        "מתוך הכאב נולד ניגון שהוא תפילה: שנזכה כולנו לראות בישועת ה׳.",
+      ],
+      product: {
+        title: "חנוכיית קרליבך | דגם „שמחה”",
+        text: [
+          "חנוכיית מתכת בגוון כסוף טבעי, המשלבת את דיוקנו של ר׳ שלמה קרליבך ואת מילות הפסוק. חנוכייה הנושאת עמה את הניגון, את התפילה ואת התקווה לאור ולישועה.",
+          "החנוכייה מגיעה עם כוסיות שמן תואמות.",
+        ],
+        price: "290 ₪",
+        imgAlt: "חנוכיית קרליבך, דגם שמחה: חנוכיית מתכת בגוון כסוף עם דיוקנו של ר׳ שלמה קרליבך ומילות הפסוק",
+      },
+      listen: { label: "להאזנה לניגון „אורך ימים”, ר׳ שלמה קרליבך", href: "https://www.youtube.com/watch?v=YOCLb8EFI7g" },
+      cta: "להזמנת החנוכייה",
+      formTitle: "להזמנת החנוכייה",
+      formNote: "השאירו פרטים, ואחזור אליכם לתיאום ההזמנה והתשלום.",
     },
     sukkot: {
       kicker: "לכבוד סוכות",
@@ -718,8 +752,8 @@ Please send me the next steps to complete the order.`,
       },
       chanuka: {
         lead: "New for Chanukah!",
-        body: "An artistic metal menorah inspired by Reb Shlomo Carlebach, coming soon.",
-        cta: "Leave your details for an update →",
+        body: "The Carlebach Menorah, “Joy” design, ₪290.",
+        cta: "Order →",
       },
       scroll: "Scroll to explore the collection ↓",
     },
@@ -808,7 +842,7 @@ Please send me the next steps to complete the order.`,
       more: "One more",
       add: "Add to basket",
       added: "Added ✓",
-      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set", sukkot: "Joy, Sukkot edition", sukkotSet: "Sukkot series (4 pieces)" },
+      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set", sukkot: "Joy, Sukkot edition", sukkotSet: "Sukkot series (4 pieces)", chanuka: "Carlebach Menorah, Joy design" },
       title: "Your basket",
       remove: "Remove from basket",
       checkout: "Checkout",
@@ -817,10 +851,26 @@ Please send me the next steps to complete the order.`,
       error: "Something went wrong — please try again or use the buy buttons.",
     },
     chanuka: {
-      kicker: "New for Chanukah!",
-      title: "An artistic metal menorah inspired by Reb Shlomo Carlebach",
-      text: "Coming soon. Leave your details and we will let you know when the menorah is available to order.",
-      cta: "Leave your details for an update",
+      kicker: "Chanukah with Reb Shlomo Carlebach",
+      title: "From the pain, a prayer for light and salvation",
+      verse: "״אֹרֶךְ יָמִים אַשְׂבִּיעֵהוּ וְאַרְאֵהוּ בִּישׁוּעָתִי״",
+      verseGloss: "“With long life I will satisfy him, and show him My salvation”",
+      story: [
+        "Reb Shlomo Carlebach composed this verse as a melody for Chanukah, out of pain for the sons who fell in Israel’s wars and will never again light the Chanukah candles, and for those who lost their sight and can no longer see the light of the candles.",
+        "From that pain came a melody that is a prayer: that we may all merit to see God’s salvation.",
+      ],
+      product: {
+        title: "The Carlebach Menorah | “Joy” design",
+        text: [
+          "A metal menorah in a natural silver tone, bringing together the portrait of Reb Shlomo Carlebach and the words of the verse. A menorah that carries the melody, the prayer and the hope for light and salvation.",
+          "The menorah comes with matching oil cups.",
+        ],
+        price: "₪290",
+        usd: "~$97 USD",
+        imgAlt: "The Carlebach Menorah, Joy design: a silver-toned metal menorah with the portrait of Reb Shlomo Carlebach and the words of the verse",
+      },
+      listen: { label: "Listen to “Orech Yamim” by Reb Shlomo Carlebach", href: "https://www.youtube.com/watch?v=YOCLb8EFI7g" },
+      cta: "Order the menorah",
     },
     sukkot: {
       kicker: "For Sukkot",

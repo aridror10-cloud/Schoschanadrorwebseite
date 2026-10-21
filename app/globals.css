@@ -1113,3 +1113,63 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   .chanuka-form-title { text-align: center; }
 }
 .chanuka-form .eq-grid > .eq-field:nth-child(3) { grid-column: 1 / -1; }
+
+/* ----- Chanukka-Verkauf (21.10.26): Kopf mit Vers, darunter das Produkt ----- */
+.chanuka-head { position: relative; text-align: center; max-width: 760px; margin: 0 auto; }
+.chanuka-verse {
+  font-family: var(--font-frank), serif;
+  font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+  line-height: 1.5;
+  color: #f3dfaa !important;
+  margin: 18px auto 6px !important;
+  max-width: none !important;
+  text-shadow: 0 0 24px rgba(255, 190, 90, 0.25);
+}
+.chanuka-gloss { font-style: italic; color: #cbbf9f !important; margin-bottom: 18px !important; }
+.chanuka-story { margin-top: 14px !important; color: #d8cfbd !important; max-width: 640px !important; line-height: 1.9 !important; }
+.chanuka-listen {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  color: #dcc18a;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(220, 193, 138, 0.45);
+  padding-bottom: 2px;
+}
+.chanuka-listen:hover { color: #fff; border-color: #fff; }
+
+.chanuka-product {
+  position: relative;
+  margin-top: clamp(48px, 7vw, 80px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(220, 193, 138, 0.22);
+  border-radius: 6px;
+  padding: clamp(22px, 4vw, 44px);
+}
+.chanuka-media {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: radial-gradient(420px 260px at 50% 60%, rgba(255, 196, 102, 0.14), rgba(255, 196, 102, 0) 70%);
+}
+.chanuka-media img { width: 100%; height: auto; border-radius: 4px; display: block; }
+.chanuka-media .chanuka-lights { margin: 0; transform: scale(1.35); }
+.chanuka-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; width: 100%; }
+.chanuka-buy h3 { font-family: var(--font-frank), serif; font-weight: 500; font-size: clamp(1.4rem, 2.6vw, 1.9rem); color: #fff; margin-bottom: 12px; }
+.chanuka-buy p { color: #d8cfbd; line-height: 1.85; }
+.chanuka-buy p + p { margin-top: 10px; }
+.chanuka-price { font-family: var(--font-frank), serif; font-size: 2.2rem; color: #e7cf92; margin-top: 18px; }
+.chanuka-usd { color: #b9ae96; font-size: 0.9rem; }
+.chanuka-buy .pc { margin-top: 16px; }
+.chanuka-buy .chanuka-form { margin-top: 18px; }
+.chanuka-form-note { font-size: 0.92rem; margin: -6px 0 12px !important; color: #cbbf9f !important; }
+@media (max-width: 860px) {
+  .chanuka-product { grid-template-columns: 1fr; }
+  .chanuka-media { min-height: 200px; }
+}
