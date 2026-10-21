@@ -5,6 +5,7 @@ import { PieceControls } from "@/components/PieceControls";
 import { ScrollFx } from "@/components/ScrollFx";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { CHANUKA_PICS } from "@/lib/chanuka-pics";
+import { YouTubeFacade } from "@/components/YouTubeFacade";
 import { visibleNav } from "@/components/site/SiteShell";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { ORDERABLE, type ModelKey } from "@/lib/cart";
@@ -232,9 +233,9 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.chanuka.story.map((p) => (
                 <p key={p.slice(0, 20)} className="chanuka-story">{p}</p>
               ))}
-              <a href={t.chanuka.listen.href} className="chanuka-listen" target="_blank" rel="noopener">
-                <span aria-hidden="true">♪</span> {t.chanuka.listen.label}
-              </a>
+              <div className="chanuka-video">
+                <YouTubeFacade id="YOCLb8EFI7g" title={t.chanuka.listen.label} playLabel={lang === "he" ? "הפעלת הסרטון" : "Play video"} />
+              </div>
             </header>
 
             {/* Produkt: Foto (sobald vorhanden, sonst die neun Lichter), Text, Preis, Bestellung */}

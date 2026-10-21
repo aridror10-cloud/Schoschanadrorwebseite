@@ -37,6 +37,9 @@ export default function PrivacyPage() {
           <p>
             <strong>מדידה ופרסום:</strong> האתר משתמש בפיקסל של מטא (פייסבוק). הוא מדווח למטא על פעולות באתר, כמו צפייה בדף, הוספה לסל, מעבר לתשלום ושליחת טופס פנייה, כדי למדוד את יעילות הפרסום ולהציג פרסומות רלוונטיות בפייסבוק ובאינסטגרם. מטא עשויה לקשר את המידע לחשבון שלכם אצלה. לא נשלחים אליה פרטי תשלום.
           </p>
+          <p>
+            <strong>סרטון:</strong> בעמוד הדיוקנאות מוצג סרטון מיוטיוב. הוא נטען רק אחרי לחיצה על כפתור ההפעלה, ורק אז נשלח מידע ליוטיוב (גוגל).
+          </p>
           <h2>מה לא נעשה</h2>
           <p>
             הפרטים שלכם לא נמכרים ולא מועברים לאף גורם מלבד השירותים שצוינו כאן, ורק לצורך שלשמו נמסרו.
@@ -67,6 +70,9 @@ export default function PrivacyPage() {
             </p>
             <p>
               <strong>Measurement and advertising:</strong> this site uses the Meta (Facebook) Pixel. It reports actions on the site to Meta, such as viewing a page, adding to the basket, proceeding to checkout and sending an enquiry form, to measure advertising and show relevant ads on Facebook and Instagram. Meta may link this to your Meta account. No payment details are sent.
+            </p>
+            <p>
+              <strong>Video:</strong> the portrait page shows a YouTube video. It only loads after you press play, and only then is data sent to YouTube (Google).
             </p>
             <h3>What is not done</h3>
             <p>
