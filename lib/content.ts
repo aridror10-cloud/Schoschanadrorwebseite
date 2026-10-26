@@ -173,6 +173,16 @@ export interface LandingContent {
     };
   };
   /**
+   * "So passen die Portraets ins Zuhause": vier Raumfotos von Shoshana,
+   * direkt nach Modellen und Preisen (Shoshana, 26.10.26).
+   */
+  homes: {
+    kicker: string;
+    title: string;
+    items: { img: string; w: number; h: number; alt: string; name: string; room: string; href: string; linkLabel: string }[];
+    labels: { enlarge: string; prev: string; next: string; close: string };
+  };
+  /**
    * Sammel-Bestellung direkt auf der Website: an jeder Werkkarte die Wahl
    * der Fassung (mit/ohne Pasuk) und der Stueckzahl, dazu die Korb-Leiste.
    * Beim Bezahlen baut /api/cart den SUMIT-Warenkorb und leitet zur
@@ -457,6 +467,17 @@ export const content: Record<Lang, LandingContent> = {
         note: "משלוח עד הבית ללא עלות",
         save: "חיסכון של 280 ₪ לעומת רכישה נפרדת",
       },
+    },
+    homes: {
+      kicker: "השראה לבית",
+      title: "כך הדיוקנאות משתלבים בבית",
+      items: [
+        { img: "/carlebach/home-set.webp", w: 2000, h: 1500, alt: "שלושת הדיוקנאות מעל ספה בסלון ביתי מואר באור טבעי", name: "הסדרה המלאה", room: "בסלון מואר", href: "#model-set", linkLabel: "לסדרה המלאה" },
+        { img: "/carlebach/home-shrika.webp", w: 1448, h: 1086, alt: "דגם שריקה על קיר בסלון בוהו נעים באור טבעי", name: "שריקה", room: "בפינת ישיבה", href: "#model-shrika", linkLabel: "לדגם" },
+        { img: "/carlebach/home-simcha.webp", w: 1448, h: 1086, alt: "דגם שמחה על קיר בפינת אוכל ביתית עם פרחים וספרים", name: "שמחה", room: "בפינת האוכל", href: "#model-simcha", linkLabel: "לדגם" },
+        { img: "/carlebach/home-regesh.webp", w: 1448, h: 1086, alt: "דגם רגש מעל פסנתר בפינת מוזיקה בחדר שינה", name: "רגש", room: "בפינת המוזיקה", href: "#model-regesh", linkLabel: "לדגם" },
+      ],
+      labels: { enlarge: "הגדלת התמונה", prev: "התמונה הקודמת", next: "התמונה הבאה", close: "סגירה" },
     },
     cart: {
       versionLabel: "גרסה",
@@ -832,6 +853,17 @@ Please send me the next steps to complete the order.`,
         note: "Free home delivery in Israel",
         save: "Save ₪280 with the complete collection",
       },
+    },
+    homes: {
+      kicker: "Inspiration for Your Home",
+      title: "How the Portraits Feel at Home",
+      items: [
+        { img: "/carlebach/home-set.webp", w: 2000, h: 1500, alt: "All three portraits above a sofa in a bright living room", name: "The Full Set", room: "in a bright living room", href: "#model-set", linkLabel: "See the set" },
+        { img: "/carlebach/home-shrika.webp", w: 1448, h: 1086, alt: "The Whistling design on the wall of a cosy boho living room", name: "Whistling", room: "in a sitting corner", href: "#model-shrika", linkLabel: "See design" },
+        { img: "/carlebach/home-simcha.webp", w: 1448, h: 1086, alt: "The Joy design on the wall of a family dining nook with flowers", name: "Joy", room: "in the dining nook", href: "#model-simcha", linkLabel: "See design" },
+        { img: "/carlebach/home-regesh.webp", w: 1448, h: 1086, alt: "The Soul design above a piano in a music corner", name: "Soul", room: "in a music corner", href: "#model-regesh", linkLabel: "See design" },
+      ],
+      labels: { enlarge: "Enlarge photo", prev: "Previous photo", next: "Next photo", close: "Close" },
     },
     cart: {
       versionLabel: "Version",

@@ -1186,3 +1186,136 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
 .yt-poster:hover .yt-play path:first-child { fill: #c00; fill-opacity: 1; }
 .yt-caption { position: absolute; inset-inline: 0; bottom: 0; padding: 26px 16px 12px; color: #fff; font-weight: 600; font-size: 0.95rem; text-align: start; background: linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)); }
 .yt-poster:focus-visible { outline: 3px solid var(--gold-soft); outline-offset: -3px; }
+
+/* ================= SO PASSEN DIE PORTRAETS INS ZUHAUSE (26.10.26) =================
+   Ein grosses Raumbild mit dem ganzen Set, darunter drei Einzelwerke.
+   Goldene Passepartout-Linie, Modellname in Gold, Weg zur Werkkarte. */
+.homes {
+  position: relative;
+  padding: 96px 0 104px;
+  background:
+    radial-gradient(760px 340px at 50% 0, rgba(199, 176, 116, 0.12), rgba(199, 176, 116, 0) 70%),
+    linear-gradient(180deg, #fff 0%, var(--cream) 100%);
+  scroll-margin-top: 40px;
+}
+.homes::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(420px, 70vw);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, rgba(171, 145, 73, 0), rgba(171, 145, 73, 0.55), rgba(171, 145, 73, 0));
+}
+.homes .section-head { margin-bottom: 44px; }
+.homes-feature, .homes-row { max-width: 1080px; margin: 0 auto; }
+.homes-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 40px; }
+
+.home-shot { margin: 0; }
+.home-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #efebe2;
+  cursor: zoom-in;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow: 0 26px 50px -34px rgba(46, 40, 28, 0.55);
+  transition: box-shadow 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Grosses Bild etwas flacher, damit es auf einen Bildschirm passt;
+   die Werke sitzen im oberen Teil und bleiben ganz sichtbar.
+   In der Grossansicht erscheint das ganze Foto. */
+.home-shot.is-feature .home-frame { aspect-ratio: 3 / 2; }
+.home-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  display: block;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* feine Goldlinie innen, wie ein Passepartout */
+.home-frame::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(232, 214, 166, 0.8);
+  border-radius: 2px;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.home-shot.is-feature .home-frame::after { inset: 18px; }
+.home-frame:hover, .home-frame:focus-visible { transform: translateY(-3px); box-shadow: 0 36px 60px -34px rgba(46, 40, 28, 0.6); }
+.home-frame:hover img, .home-frame:focus-visible img { transform: scale(1.03); }
+.home-frame:hover::after, .home-frame:focus-visible::after { opacity: 1; transform: none; }
+.home-zoom {
+  position: absolute;
+  top: 14px;
+  inset-inline-end: 14px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--charcoal-deep);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home-shot.is-feature .home-zoom { top: 26px; inset-inline-end: 26px; }
+.home-frame:hover .home-zoom, .home-frame:focus-visible .home-zoom { opacity: 1; transform: none; }
+
+/* Unterschrift: Name in Gold, Raum leiser, darunter der Weg zum Modell */
+.home-shot figcaption { margin-top: 16px; text-align: center; }
+.home-name { font-family: var(--font-frank), serif; font-weight: 700; font-size: 1.15rem; color: var(--gold-text); }
+.home-shot.is-feature .home-name { font-size: 1.4rem; }
+.home-room { font-family: var(--font-frank), serif; font-size: 1.02rem; color: #5c5c5c; margin-inline-start: 8px; }
+.home-shot.is-feature .home-room { font-size: 1.15rem; }
+.home-link {
+  display: table;
+  margin: 8px auto 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--charcoal-deep);
+  border-bottom: 1px solid rgba(171, 145, 73, 0.45);
+  padding-bottom: 1px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.home-link::after { content: " ←"; color: var(--gold); }
+.page[dir="ltr"] .home-link::after { content: " →"; }
+.home-link:hover { color: var(--gold-text); border-color: var(--gold); }
+
+/* Sprungziele unter dem festen Kopf */
+.piece[id], .set-photo[id] { scroll-margin-top: 110px; }
+
+@media (max-width: 760px) {
+  .homes { padding: 68px 0 74px; }
+  .homes .section-head { margin-bottom: 30px; }
+  .home-shot.is-feature .home-frame { aspect-ratio: 4 / 3; }
+  .home-shot.is-feature .home-frame::after { inset: 10px; }
+  /* Einzelwerke als Wischreihe */
+  .homes-row {
+    display: flex;
+    gap: 14px;
+    margin: 30px -16px 0;
+    padding: 0 16px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .homes-row::-webkit-scrollbar { display: none; }
+  .homes-row .home-shot { flex: 0 0 78%; scroll-snap-align: center; }
+  .home-zoom { opacity: 1; transform: none; width: 32px; height: 32px; }
+  .home-shot.is-feature .home-zoom { top: 14px; inset-inline-end: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-frame, .home-frame img, .home-frame::after, .home-zoom { transition: none; }
+}

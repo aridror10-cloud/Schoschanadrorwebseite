@@ -6,6 +6,7 @@ import { ScrollFx } from "@/components/ScrollFx";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { CHANUKA_PICS } from "@/lib/chanuka-pics";
 import { YouTubeFacade } from "@/components/YouTubeFacade";
+import { HomesGallery } from "@/components/HomesGallery";
 import { visibleNav } from "@/components/site/SiteShell";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { ORDERABLE, type ModelKey } from "@/lib/cart";
@@ -170,7 +171,7 @@ export function Landing({ lang }: { lang: Lang }) {
 
             <div className="pieces" data-reveal-group>
               {t.choose.pieces.map((piece) => (
-                <div className="piece" key={piece.img}>
+                <div className="piece" key={piece.img} id={`model-${modelOf(piece.img)}`}>
                   <div className="ph">
                     <img
                       src={piece.img}
@@ -196,7 +197,7 @@ export function Landing({ lang }: { lang: Lang }) {
             </div>
 
             <h3 className="bundle-heading" data-reveal>{t.choose.bundleHeading}</h3>
-            <div className="ph set-photo" data-reveal>
+            <div className="ph set-photo" id="model-set" data-reveal>
               <img
                 src="/carlebach/set.webp"
                 alt={t.choose.setAlt}
@@ -212,6 +213,18 @@ export function Landing({ lang }: { lang: Lang }) {
               <PieceControls model="set" lang={lang} plainImg="/carlebach/set-plain.webp" />
               {customLink}
             </div>
+          </div>
+        </section>
+
+        {/* ===== SO PASSEN DIE PORTRAETS INS ZUHAUSE (Shoshana, 26.10.26) =====
+            Nach Modellen und Preisen, vor allem Weiteren zur Bestellung. */}
+        <section className="homes" id="homes" aria-labelledby="homes-title">
+          <div className="wrap">
+            <div className="section-head" data-reveal>
+              <div className="kicker">{t.homes.kicker}</div>
+              <h2 id="homes-title">{t.homes.title}</h2>
+            </div>
+            <HomesGallery items={t.homes.items} labels={t.homes.labels} dir={t.dir} />
           </div>
         </section>
 
