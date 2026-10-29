@@ -72,7 +72,7 @@ export async function POST(request: Request) {
           rows.length
             ? `<p style="font-size:14px;color:#2e2e2e;margin:0 0 4px"><b>הסל:</b></p><ul style="font-size:14px;color:#2e2e2e;margin:0 0 10px;padding-inline-start:20px">${rows
                 .map((r) => `<li>${esc(r)}</li>`)
-                .join("")}</ul><p style="font-size:14px;color:#2e2e2e;margin:0 0 14px"><b>סכום המוצרים:</b> ₪${total.toLocaleString("en-US")} (ללא משלוח)</p>`
+                .join("")}</ul><p style="font-size:14px;color:#2e2e2e;margin:0 0 4px"><b>סכום המוצרים:</b> ₪${total.toLocaleString("en-US")} (ללא משלוח)</p><p style="font-size:15px;color:#806a2b;margin:0 0 14px"><b>עמלה של 10% ל־${esc(ref)}:</b> ₪${Math.round(total / 10).toLocaleString("en-US")}</p>`
             : ""
         }
         <p style="font-size:13px;color:#77736a;margin:0">את הקבלה המדויקת אפשר לראות בסאמיט, בהזמנה מאותה שעה.</p>
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: [TO], subject: `רכישה דרך הקישור של ${ref}`, html }),
+      body: JSON.stringify({ from: FROM, to: [TO], subject: total ? `רכישה דרך הקישור של ${ref}, עמלה ₪${Math.round(total / 10)}` : `רכישה דרך הקישור של ${ref}`, html }),
     });
     if (!res.ok) throw new Error(String(res.status));
   } catch {
