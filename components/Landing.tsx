@@ -6,6 +6,7 @@ import { ScrollFx } from "@/components/ScrollFx";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { CHANUKA_PICS } from "@/lib/chanuka-pics";
 import { YouTubeFacade } from "@/components/YouTubeFacade";
+import { ChanukaGallery } from "@/components/ChanukaGallery";
 import { HomesGallery } from "@/components/HomesGallery";
 import { visibleNav } from "@/components/site/SiteShell";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -253,14 +254,13 @@ export function Landing({ lang }: { lang: Lang }) {
 
             {/* Produkt: Foto (sobald vorhanden, sonst die neun Lichter), Text, Preis, Bestellung */}
             <div className="chanuka-product" data-reveal>
-              <div className="chanuka-media">
-                {CHANUKA_PICS[0] ? (
-                  <img
-                    src={CHANUKA_PICS[0].src}
-                    alt={t.chanuka.product.imgAlt}
-                    width={CHANUKA_PICS[0].w}
-                    height={CHANUKA_PICS[0].h}
-                    loading="lazy"
+              <div className={`chanuka-media${CHANUKA_PICS.length ? " has-pics" : ""}`}>
+                {CHANUKA_PICS.length ? (
+                  <ChanukaGallery
+                    pics={CHANUKA_PICS}
+                    lang={lang}
+                    dir={t.dir}
+                    labels={t.chanuka.gallery}
                   />
                 ) : (
                   <div className="chanuka-lights" aria-hidden="true">
@@ -273,13 +273,6 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="chanuka-light" style={{ animationDelay: "0.32s" }} />
                     <span className="chanuka-light" style={{ animationDelay: "0.69s" }} />
                     <span className="chanuka-light" style={{ animationDelay: "1.06s" }} />
-                  </div>
-                )}
-                {CHANUKA_PICS.length > 1 && (
-                  <div className="chanuka-thumbs">
-                    {CHANUKA_PICS.slice(1, 4).map((p) => (
-                      <img key={p.src} src={p.src} alt="" width={p.w} height={p.h} loading="lazy" />
-                    ))}
                   </div>
                 )}
               </div>
@@ -299,7 +292,7 @@ export function Landing({ lang }: { lang: Lang }) {
                     <EnquiryForm
                       kinds={["order"]}
                       anchor="chanuka-form"
-                      defaultPiece="חנוכיית קרליבך, דגם שמחה (290 ₪)"
+                      defaultPiece="חנוכיה קרליבך, דגם שמחה (290 ₪)"
                       compact
                       submitLabel={t.chanuka.cta}
                     />

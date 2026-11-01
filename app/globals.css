@@ -1160,7 +1160,6 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
 }
 .chanuka-media img { width: 100%; height: auto; border-radius: 4px; display: block; }
 .chanuka-media .chanuka-lights { margin: 0; transform: scale(1.35); }
-.chanuka-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; width: 100%; }
 .chanuka-buy h3 { font-family: var(--font-frank), serif; font-weight: 500; font-size: clamp(1.4rem, 2.6vw, 1.9rem); color: #fff; margin-bottom: 12px; }
 .chanuka-buy p { color: #d8cfbd; line-height: 1.85; }
 .chanuka-buy p + p { margin-top: 10px; }
@@ -1319,3 +1318,47 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
 @media (prefers-reduced-motion: reduce) {
   .home-frame, .home-frame img, .home-frame::after, .home-zoom { transition: none; }
 }
+
+/* ================= Chanukkia-Fotos (01.11.26) =================
+   Goldenes Bild gross, die anderen klein und gleich gross darunter. */
+.chanuka-media.has-pics { display: block; min-height: 0; background: none; }
+.chanuka-gallery { width: 100%; }
+.chanuka-main {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #1d1b18;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: zoom-in;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(220, 193, 138, 0.25);
+}
+.chanuka-main img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+.chanuka-main:hover img, .chanuka-main:focus-visible img { transform: scale(1.025); }
+.chanuka-main:hover .home-zoom, .chanuka-main:focus-visible .home-zoom { opacity: 1; transform: none; }
+.chanuka-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; width: 100%; }
+.chanuka-thumb {
+  padding: 0;
+  border: 0;
+  background: #1d1b18;
+  border-radius: 3px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
+  opacity: 0.62;
+  box-shadow: 0 0 0 1px rgba(220, 193, 138, 0.22);
+  transition: opacity 0.35s ease, box-shadow 0.35s ease;
+}
+.chanuka-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.chanuka-thumb:hover, .chanuka-thumb:focus-visible { opacity: 0.9; }
+.chanuka-thumb.is-on { opacity: 1; box-shadow: 0 0 0 2px #dcc18a; }
+@media (max-width: 760px) {
+  .chanuka-main .home-zoom { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chanuka-main img, .chanuka-thumb { transition: none; }
+}
+.chanuka-product:has(.chanuka-media.has-pics) { align-items: start; }

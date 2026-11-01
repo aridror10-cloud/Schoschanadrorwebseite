@@ -227,6 +227,7 @@ export interface LandingContent {
       imgAlt: string;
     };
     listen: { label: string; href: string };
+    gallery: { enlarge: string; show: string; prev: string; next: string; close: string };
     cta: string;
     formTitle?: string;
     formNote?: string;
@@ -392,7 +393,7 @@ export const content: Record<Lang, LandingContent> = {
       },
       chanuka: {
         lead: "חדש לחנוכה!",
-        body: "חנוכיית קרליבך, דגם „שמחה”, 290 ₪.",
+        body: "חנוכיה קרליבך, דגם „שמחה”, 290 ₪.",
         cta: "להזמנה ←",
       },
       scroll: "גללו להכיר את היצירות ↓",
@@ -488,7 +489,7 @@ export const content: Record<Lang, LandingContent> = {
       more: "עוד אחד",
       add: "הוספה לסל",
       added: "נוסף לסל ✓",
-      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה", sukkotSet: "סדרת סוכות (4 חלקים)", chanuka: "חנוכיית קרליבך, דגם שמחה" },
+      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה", sukkotSet: "סדרת סוכות (4 חלקים)", chanuka: "חנוכיה קרליבך, דגם שמחה" },
       title: "הסל שלכם",
       remove: "הסרה מהסל",
       checkout: "מעבר לתשלום",
@@ -505,17 +506,17 @@ export const content: Record<Lang, LandingContent> = {
         "מתוך הכאב נולד ניגון שהוא תפילה: שנזכה כולנו לראות בישועת ה׳.",
       ],
       product: {
-        title: "חנוכיית קרליבך | דגם „שמחה”",
+        title: "חנוכיה קרליבך | דגם „שמחה”",
         text: [
-          "חנוכיית מתכת בגוון כסוף טבעי, המשלבת את דיוקנו של ר׳ שלמה קרליבך ואת מילות הפסוק. חנוכייה הנושאת עמה את הניגון, את התפילה ואת התקווה לאור ולישועה.",
-          "החנוכייה מגיעה עם כוסיות שמן תואמות.",
+          "חנוכיה ממתכת בגוון כסוף טבעי, המשלבת את דיוקנו של ר׳ שלמה קרליבך ואת מילות הפסוק. חנוכיה הנושאת עמה את הניגון, את התפילה ואת התקווה לאור ולישועה.",
         ],
         price: "290 ₪",
-        imgAlt: "חנוכיית קרליבך, דגם שמחה: חנוכיית מתכת בגוון כסוף עם דיוקנו של ר׳ שלמה קרליבך ומילות הפסוק",
+        imgAlt: "חנוכיה קרליבך, דגם שמחה: חנוכיה ממתכת בגוון כסוף עם דיוקנו של ר׳ שלמה קרליבך ומילות הפסוק",
       },
       listen: { label: "להאזנה לניגון „אורך ימים”, ר׳ שלמה קרליבך", href: "https://www.youtube.com/watch?v=YOCLb8EFI7g" },
-      cta: "להזמנת החנוכייה",
-      formTitle: "להזמנת החנוכייה",
+      gallery: { enlarge: "הגדלת התמונה", show: "הצגת התמונה", prev: "התמונה הקודמת", next: "התמונה הבאה", close: "סגירה" },
+      cta: "להזמנת החנוכיה",
+      formTitle: "להזמנת החנוכיה",
       formNote: "השאירו פרטים, ואחזור אליכם לתיאום ההזמנה והתשלום.",
     },
     sukkot: {
@@ -895,13 +896,13 @@ Please send me the next steps to complete the order.`,
         title: "The Carlebach Menorah | “Joy” design",
         text: [
           "A metal menorah in a natural silver tone, bringing together the portrait of Reb Shlomo Carlebach and the words of the verse. A menorah that carries the melody, the prayer and the hope for light and salvation.",
-          "The menorah comes with matching oil cups.",
         ],
         price: "₪290",
         usd: "~$97 USD",
         imgAlt: "The Carlebach Menorah, Joy design: a silver-toned metal menorah with the portrait of Reb Shlomo Carlebach and the words of the verse",
       },
       listen: { label: "Listen to “Orech Yamim” by Reb Shlomo Carlebach", href: "https://www.youtube.com/watch?v=YOCLb8EFI7g" },
+      gallery: { enlarge: "Enlarge photo", show: "Show photo", prev: "Previous photo", next: "Next photo", close: "Close" },
       cta: "Order the menorah",
     },
     sukkot: {
