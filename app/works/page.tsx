@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLink, Figure, SectionHead, StatusChip } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
-import { Rosette } from "@/components/site/Ornaments";
+import { BrandMark } from "@/components/site/Ornaments";
 import { COLLECTIONS, WORKS, brand } from "@/lib/studio";
 
 /** Seite "יצירות וקולקציות" (Abschnitt 5): Uebersicht der vier Werkgruppen. */
@@ -18,7 +18,7 @@ export default function WorksPage() {
   return (
     <SiteShell>
       <section className="sj-page-hero is-center has-rosette">
-        <Rosette className="is-corner" />
+        <BrandMark className="is-corner" />
         <div className="wrap sj-narrow">
           <SectionHead as="h1" kicker={brand.slogan} title={WORKS.title} center ornament>
             <p className="sj-lead">{WORKS.paras[0]}</p>

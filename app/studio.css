@@ -773,54 +773,62 @@ main:focus { outline: none; }
 }
 
 /* ================= Verzierungen (19.10.26) =================
-   Aus Shoshanas Formsprache: Schnittlinien, Davidstern, Gold als Linie.
+   Aus Shoshanas Formsprache: die Boegen und der Tropfen aus ihrem Logo, Gold als Linie.
    Immer zart und hinter dem Inhalt, nie ueber den Werken. */
 
-/* Rosette: zeichnet sich beim Laden einmal ein, wie ein Laserschnitt */
-.sj-rosette { position: absolute; pointer-events: none; overflow: visible; }
-.sj-rosette path {
-  fill: none;
-  stroke: var(--gold);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: sjCut 2.6s cubic-bezier(0.45, 0, 0.2, 1) forwards;
-}
-@keyframes sjCut { to { stroke-dashoffset: 0; } }
+/* Shoshanas Zeichen (Boegen + Tropfen) als zarter Hintergrund, 02.11.26 */
+.sj-mark { position: absolute; pointer-events: none; overflow: visible; height: auto; }
+.sj-mark-bands { fill: var(--gold); opacity: 0.16; }
+.sj-mark-drop { fill: var(--gold); opacity: 0.55; }
+.sj-mark { animation: sjMarkIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.sj-mark-drop { animation: sjDropIn 1.2s ease 0.9s both; }
+@keyframes sjMarkIn { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+@keyframes sjDropIn { from { opacity: 0; } to { opacity: 0.55; } }
 @media (prefers-reduced-motion: reduce) {
-  .sj-rosette path { animation: none; stroke-dashoffset: 0; }
+  .sj-mark, .sj-mark-drop { animation: none; }
 }
 .sj-hero-inner { position: relative; }
-.sj-hero-inner > :not(.sj-rosette) { position: relative; }
-.sj-rosette.is-hero {
-  width: min(560px, 92vw);
-  height: auto;
+.sj-hero-inner > :not(.sj-mark) { position: relative; }
+.sj-mark.is-hero {
+  width: min(300px, 58vw);
   left: 50%;
-  top: 46%;
+  top: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.22;
 }
+.sj-mark.is-hero .sj-mark-bands { opacity: 0.1; }
+.sj-mark.is-hero .sj-mark-drop { opacity: 0.4; }
 .sj-page-hero.has-rosette { position: relative; overflow: hidden; }
 .sj-page-hero.has-rosette > .wrap { position: relative; }
-.sj-rosette.is-corner {
-  width: 380px;
-  height: 380px;
-  inset-inline-end: -120px;
-  top: -110px;
-  opacity: 0.22;
+.sj-mark.is-corner {
+  width: 230px;
+  inset-inline-end: 4%;
+  top: 50%;
+  transform: translateY(-50%);
 }
-.sj-page-hero.is-center .sj-rosette.is-corner { inset-inline-end: auto; inset-inline-start: -130px; }
+.sj-page-hero.is-center .sj-mark.is-corner { inset-inline-end: auto; inset-inline-start: 4%; }
+/* Seitenkoepfe mit zwei Spalten (Kontakt, Ueber mich, Design): Zeichen in
+   den freien Rand neben dem Text, nie hinter Formular oder Bild */
+@media (min-width: 761px) {
+  .sj-page-hero:not(.is-center) .sj-mark.is-corner {
+    inset-inline-end: auto;
+    inset-inline-start: calc((100vw - 1160px) / 4 + 14px - 55px);
+    width: 110px;
+    top: 64px;
+    transform: none;
+  }
+}
+@media (min-width: 761px) and (max-width: 1379px) {
+  .sj-page-hero:not(.is-center) .sj-mark.is-corner { display: none; }
+}
 
-/* Trenner: Linie, Stern, Linie */
+/* Trenner: Linie, goldener Tropfen, Linie */
 .sj-divider { display: flex; align-items: center; gap: 12px; width: 160px; margin-bottom: 18px; }
 .sj-divider.is-center { margin-inline: auto; }
 .sj-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(171, 145, 73, 0), var(--gold)); }
 .sj-divider-line:last-child { background: linear-gradient(90deg, var(--gold), rgba(171, 145, 73, 0)); }
 .sj-divider svg { flex: 0 0 auto; overflow: visible; }
-.sj-divider path { fill: none; stroke: var(--gold); stroke-width: 1; stroke-linejoin: round; }
-.sj-divider circle { fill: var(--gold); }
-.sj-dark .sj-divider path { stroke: var(--gold-soft); }
+.sj-divider path { fill: var(--gold); }
+.sj-dark .sj-divider path { fill: var(--gold-soft); }
 
 /* Dunkles Werk-Band: Gittermuster wie ein lasergeschnittenes Gelaender */
 .sj-dark {
@@ -914,8 +922,8 @@ main:focus { outline: none; }
 }
 
 @media (max-width: 760px) {
-  .sj-rosette.is-corner { width: 240px; height: 240px; inset-inline-end: -90px; top: -80px; }
-  .sj-rosette.is-hero { opacity: 0.24; }
+  .sj-mark.is-corner { width: 150px; inset-inline-end: -20px; top: 24px; transform: none; }
+  .sj-mark.is-corner .sj-mark-bands { opacity: 0.12; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sj-project-link::before, .sj-project-link::after, .sj-door::before, .sj-door::after, .sj-project .sj-fig::after { transition: none; }
