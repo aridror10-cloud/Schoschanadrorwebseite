@@ -60,7 +60,7 @@ export const ORDERABLE: Record<ModelKey, boolean> = {
   /** Wird true, sobald die Chanukkia in beiden SUMIT-Katalogen angelegt ist
    *  und ihre Nummern in app/api/cart/route.ts stehen. Bis dahin Bestellung
    *  ueber das kurze Formular im Chanukka-Abschnitt. */
-  chanuka: false,
+  chanuka: process.env.NEXT_PUBLIC_CHECKOUT === "payplus",
 };
 
 /** Eine Zeile im Korb: Werk, Fassung, Stueckzahl */

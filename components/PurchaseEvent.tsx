@@ -14,7 +14,8 @@ import { reportReferralPurchase } from "@/lib/ref";
 export function PurchaseEvent() {
   useEffect(() => {
     track("Purchase", { currency: "ILS" });
-    reportReferralPurchase();
+    // Bei PayPlus meldet der Server den Kauf samt Provision (api/payplus/callback)
+    if (new URLSearchParams(window.location.search).get("kasse") !== "payplus") reportReferralPurchase();
   }, []);
   return null;
 }
