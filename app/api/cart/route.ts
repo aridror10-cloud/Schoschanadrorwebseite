@@ -40,7 +40,7 @@ const SUMIT: Record<Lang, { catalog: string; items: ItemTable }> = {
       // Sukkot-Serie: drei Werke plus typografischer Pasuk, eine Fassung
       sukkotSet: { with: 2338520016, without: null },
       // Chanukkia: Nummer eintragen, sobald das Produkt bei SUMIT existiert
-      chanuka: { with: null, without: null },
+      chanuka: { with: 2553175857, without: null },
     },
   },
   en: {
@@ -52,7 +52,7 @@ const SUMIT: Record<Lang, { catalog: string; items: ItemTable }> = {
       set: { with: 2339425339, without: 2339425486 },
       sukkot: { with: 2339426974, without: null },
       sukkotSet: { with: 2339429071, without: null },
-      chanuka: { with: null, without: null },
+      chanuka: { with: 2553175862, without: null },
     },
   },
 };

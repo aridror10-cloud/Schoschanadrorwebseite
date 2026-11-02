@@ -1362,3 +1362,14 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
   .chanuka-main img, .chanuka-thumb { transition: none; }
 }
 .chanuka-product:has(.chanuka-media.has-pics) { align-items: start; }
+
+/* Chanukkia im Korb (02.11.26): Knoepfe hell auf dem dunklen Chanukka-Grund */
+.chanuka-buy .pc { max-width: 380px; }
+.chanuka-buy .pc-qty { background: rgba(255, 255, 255, 0.06); border-color: rgba(220, 193, 138, 0.45); }
+.chanuka-buy .pc-qty button { color: #dcc18a; }
+.chanuka-buy .pc-qty button:disabled { color: rgba(220, 193, 138, 0.35); }
+.chanuka-buy .pc-qty button:not(:disabled):hover { color: #fff; }
+.chanuka-buy .pc-qty-num { color: #fff; }
+.chanuka-buy .pc-add { background: linear-gradient(150deg, #cdb87f, var(--gold)); border-color: var(--gold); color: #241f16; }
+.chanuka-buy .pc-add:hover { background: #e7cf92; border-color: #e7cf92; }
+.chanuka-buy .pc-error { color: #f0b9a6; }
