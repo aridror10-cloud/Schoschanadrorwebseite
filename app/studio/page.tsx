@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { dbReady, dbRpc, dbSelect } from "@/lib/db";
-import { isStudioUser } from "@/lib/studio-auth";
+import { dbRpc } from "@/lib/db";
+import { hasPassword, studioToken } from "@/lib/studio-auth";
 import "./studio-dash.css";
 
 /**
@@ -81,38 +81,59 @@ const when = (iso: string) =>
 export default async function StudioPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const sp = await searchParams;
 
-  if (!(await isStudioUser())) {
+  const days = [7, 30, 90].includes(Number(sp.d)) ? Number(sp.d) : 7;
+  const token = await studioToken();
+  let stats: Stats | null = null;
+  let leads: Lead[] = [];
+  let error = "";
+  let dash: { stats: Stats; leads: Lead[] } | null = null;
+  try {
+    dash = token ? await dbRpc<{ stats: Stats; leads: Lead[] }>("studio_dashboard", { p_token: token, p_days: days }) : null;
+  } catch (e) {
+    error = `Datenbank nicht erreichbar (${(e as Error).message}).`;
+  }
+
+  if (!dash) {
+    let first = false;
+    try {
+      first = !(await hasPassword());
+    } catch {
+      /* Fehlertext steht schon oben */
+    }
+    const msg: Record<string, string> = {
+      falsch: "Passwort stimmt nicht.",
+      "zu-viele": "Zu viele Versuche, bitte 15 Minuten warten.",
+      kurz: "Bitte mindestens 8 Zeichen.",
+      ungleich: "Die beiden Passwörter sind nicht gleich.",
+      gesetzt: "Das Passwort ist schon festgelegt. Bitte anmelden.",
+      db: "Datenbank gerade nicht erreichbar, bitte nochmals versuchen.",
+    };
     return (
       <div className="sd" dir="ltr" lang="de">
         <form className="sd-login" method="post" action="/api/studio">
           <h1>Studio</h1>
-          <p>Übersicht für shoshanajudaica.co.il</p>
-          {!process.env.STUDIO_PASSWORD && <p className="sd-warn">STUDIO_PASSWORD ist in Vercel noch nicht gesetzt.</p>}
-          {sp.e === "falsch" && <p className="sd-warn">Passwort stimmt nicht.</p>}
-          {sp.e === "zu-viele" && <p className="sd-warn">Zu viele Versuche, bitte 15 Minuten warten.</p>}
-          <input type="hidden" name="action" value="login" />
-          <input type="password" name="password" placeholder="Passwort" autoComplete="current-password" required autoFocus />
-          <button type="submit">Anmelden</button>
+          <p>{first ? "Erster Besuch: Lege jetzt dein eigenes Passwort fest." : "Übersicht für shoshanajudaica.co.il"}</p>
+          {error && <p className="sd-warn">{error}</p>}
+          {sp.e && msg[sp.e] && <p className="sd-warn">{msg[sp.e]}</p>}
+          <input type="hidden" name="action" value={first ? "setup" : "login"} />
+          <input
+            type="password"
+            name="password"
+            placeholder={first ? "Neues Passwort (mind. 8 Zeichen)" : "Passwort"}
+            autoComplete={first ? "new-password" : "current-password"}
+            minLength={first ? 8 : undefined}
+            required
+            autoFocus
+          />
+          {first && <input type="password" name="password2" placeholder="Passwort wiederholen" autoComplete="new-password" minLength={8} required />}
+          <button type="submit">{first ? "Passwort festlegen" : "Anmelden"}</button>
         </form>
       </div>
     );
   }
 
-  const days = [7, 30, 90].includes(Number(sp.d)) ? Number(sp.d) : 7;
-  let stats: Stats | null = null;
-  let leads: Lead[] = [];
-  let error = "";
-  if (!dbReady()) error = "SUPABASE_SERVICE_ROLE_KEY ist in Vercel noch nicht gesetzt.";
-  else {
-    try {
-      [stats, leads] = await Promise.all([
-        dbRpc<Stats>("studio_stats", { days }),
-        dbSelect<Lead>("leads", "select=*&order=created_at.desc&limit=60"),
-      ]);
-    } catch (e) {
-      error = `Datenbank nicht erreichbar (${(e as Error).message}).`;
-    }
-  }
+  stats = dash.stats;
+  leads = dash.leads ?? [];
   const s = stats;
   const maxDay = Math.max(1, ...(s?.by_day ?? []).map((d) => d.sessions));
   const open = leads.filter((l) => l.status === "neu").length;

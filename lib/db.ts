@@ -2,70 +2,38 @@
  * Supabase (Projekt "shoshana-judaica", Frankfurt) - nur auf dem Server benutzen.
  * Speichert Anfragen (leads) und anonyme Ereignisse (events) fuer /studio.
  *
- * Umgebungsvariablen in Vercel:
- *   SUPABASE_SERVICE_ROLE_KEY  geheim, aus Supabase > Project Settings > API Keys
- *   SUPABASE_URL               optional, Standard unten
+ * Seit 02.11.26 ohne geheimen Schluessel: Die Tabellen sind fuer alle
+ * gesperrt. Die Website ruft nur Datenbank-Funktionen auf (log_event,
+ * log_lead, studio_*), die selbst pruefen, was hinein darf. Lesen geht
+ * nur mit einer Studio-Sitzung, die man mit dem Passwort bekommt.
+ * Der Schluessel unten ist der oeffentliche "publishable" Schluessel,
+ * der ausdruecklich offen liegen darf.
  *
- * Ohne Schluessel passiert nichts: die Website laeuft wie vorher, nur ohne
- * Speicherung. Fehler der Datenbank brechen nie ein Formular ab.
+ * Fehler der Datenbank brechen nie ein Formular ab.
  */
 
 const URL = process.env.SUPABASE_URL ?? "https://lgglnvvdjmwgsqbrgjdb.supabase.co";
-const KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-export const dbReady = () => Boolean(KEY);
-
-function headers(extra: Record<string, string> = {}): Record<string, string> {
-  const h: Record<string, string> = { apikey: KEY ?? "", "Content-Type": "application/json", ...extra };
-  // Neue Schluessel (sb_secret_...) sind kein JWT und gehoeren nur in "apikey";
-  // alte service_role-Schluessel (JWT) zusaetzlich als Bearer.
-  if (KEY && !KEY.startsWith("sb_")) h.Authorization = `Bearer ${KEY}`;
-  return h;
-}
-
-export async function dbInsert(table: "leads" | "events", row: Record<string, unknown>) {
-  if (!KEY) return;
-  try {
-    const res = await fetch(`${URL}/rest/v1/${table}`, {
-      method: "POST",
-      headers: headers({ Prefer: "return=minimal" }),
-      body: JSON.stringify(row),
-      cache: "no-store",
-    });
-    if (!res.ok) console.error("db insert", table, res.status, await res.text().catch(() => ""));
-  } catch (e) {
-    console.error("db insert", table, e);
-  }
-}
-
-export async function dbSelect<T>(table: string, query: string): Promise<T[]> {
-  if (!KEY) return [];
-  const res = await fetch(`${URL}/rest/v1/${table}?${query}`, { headers: headers(), cache: "no-store" });
-  if (!res.ok) throw new Error(`db select ${table} ${res.status}`);
-  return (await res.json()) as T[];
-}
-
-export async function dbUpdate(table: string, query: string, patch: Record<string, unknown>) {
-  if (!KEY) return;
-  const res = await fetch(`${URL}/rest/v1/${table}?${query}`, {
-    method: "PATCH",
-    headers: headers({ Prefer: "return=minimal" }),
-    body: JSON.stringify(patch),
-    cache: "no-store",
-  });
-  if (!res.ok) throw new Error(`db update ${table} ${res.status}`);
-}
+const KEY = process.env.SUPABASE_PUBLISHABLE_KEY ?? "sb_publishable_GwaOUZPdeWmx3nvr6ggDTA_dbw518Jb";
 
 export async function dbRpc<T>(fn: string, args: Record<string, unknown>): Promise<T | null> {
-  if (!KEY) return null;
   const res = await fetch(`${URL}/rest/v1/rpc/${fn}`, {
     method: "POST",
-    headers: headers(),
+    headers: { apikey: KEY, "Content-Type": "application/json" },
     body: JSON.stringify(args),
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(`db rpc ${fn} ${res.status}`);
-  return (await res.json()) as T;
+  if (!res.ok) throw new Error(`db ${fn} ${res.status} ${(await res.text().catch(() => "")).slice(0, 200)}`);
+  const text = await res.text();
+  return text ? (JSON.parse(text) as T) : null;
+}
+
+/** Speichern ohne Risiko fuer das Formular: Fehler landen nur im Log */
+export async function dbInsert(table: "leads" | "events", row: Record<string, unknown>) {
+  try {
+    await dbRpc(table === "leads" ? "log_lead" : "log_event", { p: row });
+  } catch (e) {
+    console.error("db insert", table, e);
+  }
 }
 
 /** Geraet grob aus dem User-Agent, ohne ihn zu speichern */

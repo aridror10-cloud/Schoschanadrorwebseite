@@ -1,34 +1,18 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { dbRpc } from "@/lib/db";
 
 /**
- * Zugang zu /studio: ein Passwort in Vercel (STUDIO_PASSWORD).
- * Nach der Anmeldung liegt nur ein daraus abgeleiteter Wert im Cookie,
- * nie das Passwort selbst. Neues Passwort = alle sind abgemeldet.
+ * Zugang zu /studio (seit 02.11.26 ohne Passwort in Vercel):
+ * Beim ersten Besuch legt Bernard selbst ein Passwort fest. Supabase
+ * speichert nur dessen bcrypt-Abdruck und gibt nach der Anmeldung eine
+ * zufaellige Sitzungsnummer zurueck, die 30 Tage im Cookie liegt.
  */
-const COOKIE = "sj_studio";
+export const STUDIO_COOKIE = "sj_studio";
 
-function token(): string | null {
-  const pw = process.env.STUDIO_PASSWORD;
-  if (!pw) return null;
-  return createHmac("sha256", pw).update("shoshana-studio-v1").digest("hex");
+export async function studioToken(): Promise<string | null> {
+  return (await cookies()).get(STUDIO_COOKIE)?.value || null;
 }
 
-export function passwordMatches(input: string): boolean {
-  const pw = process.env.STUDIO_PASSWORD;
-  if (!pw) return false;
-  const a = Buffer.from(input);
-  const b = Buffer.from(pw);
-  return a.length === b.length && timingSafeEqual(a, b);
+export async function hasPassword(): Promise<boolean> {
+  return Boolean(await dbRpc<boolean>("studio_has_password", {}));
 }
-
-export async function isStudioUser(): Promise<boolean> {
-  const t = token();
-  if (!t) return false;
-  const c = (await cookies()).get(COOKIE)?.value ?? "";
-  const a = Buffer.from(c);
-  const b = Buffer.from(t);
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-
-export const studioCookie = () => ({ name: COOKIE, value: token() ?? "" });

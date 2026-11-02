@@ -1,49 +1,57 @@
 import { NextResponse } from "next/server";
-import { dbUpdate } from "@/lib/db";
-import { isStudioUser, passwordMatches, studioCookie } from "@/lib/studio-auth";
+import { dbRpc } from "@/lib/db";
+import { STUDIO_COOKIE, studioToken } from "@/lib/studio-auth";
 
-/** Anmelden, Abmelden und Status einer Anfrage aendern (Formulare auf /studio). */
+/** Passwort festlegen, Anmelden, Abmelden und Status einer Anfrage aendern (Formulare auf /studio). */
 
-const TRIES = new Map<string, number[]>();
+const COOKIE_OPTS = { httpOnly: true, secure: true, sameSite: "lax" as const, path: "/", maxAge: 60 * 60 * 24 * 30 };
 
 export async function POST(req: Request) {
   const form = await req.formData();
   const action = String(form.get("action") ?? "");
-  const back = new URL("/studio", req.url);
+  const go = (q = "") => NextResponse.redirect(new URL(`/studio${q}`, req.url), 303);
 
-  if (action === "login") {
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "?";
-    const now = Date.now();
-    const past = (TRIES.get(ip) ?? []).filter((t) => now - t < 15 * 60_000);
-    if (past.length >= 8) return NextResponse.redirect(new URL("/studio?e=zu-viele", req.url), 303);
-    past.push(now);
-    TRIES.set(ip, past);
-    if (!passwordMatches(String(form.get("password") ?? ""))) {
-      return NextResponse.redirect(new URL("/studio?e=falsch", req.url), 303);
+  try {
+    if (action === "setup") {
+      const pw = String(form.get("password") ?? "");
+      if (pw.length < 8) return go("?e=kurz");
+      if (pw !== String(form.get("password2") ?? "")) return go("?e=ungleich");
+      const token = await dbRpc<string>("studio_set_password", { p_new: pw });
+      if (!token) return go("?e=gesetzt");
+      const res = go();
+      res.cookies.set(STUDIO_COOKIE, token, COOKIE_OPTS);
+      return res;
     }
-    const res = NextResponse.redirect(back, 303);
-    const c = studioCookie();
-    res.cookies.set(c.name, c.value, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 30 });
-    return res;
-  }
 
-  if (!(await isStudioUser())) return NextResponse.redirect(back, 303);
-
-  if (action === "logout") {
-    const res = NextResponse.redirect(back, 303);
-    res.cookies.set(studioCookie().name, "", { path: "/", maxAge: 0 });
-    return res;
-  }
-
-  if (action === "status") {
-    const id = Number(form.get("id"));
-    const status = String(form.get("status"));
-    if (Number.isInteger(id) && ["neu", "in_arbeit", "erledigt"].includes(status)) {
-      await dbUpdate("leads", `id=eq.${id}`, { status });
+    if (action === "login") {
+      const token = await dbRpc<string>("studio_login", { p_pw: String(form.get("password") ?? "") });
+      if (token === "zu-viele") return go("?e=zu-viele");
+      if (!token) return go("?e=falsch");
+      const res = go();
+      res.cookies.set(STUDIO_COOKIE, token, COOKIE_OPTS);
+      return res;
     }
-    const days = String(form.get("days") ?? "");
-    return NextResponse.redirect(new URL(`/studio${/^\d+$/.test(days) ? `?d=${days}` : ""}#anfragen`, req.url), 303);
+
+    const token = await studioToken();
+
+    if (action === "logout") {
+      if (token) await dbRpc("studio_logout", { p_token: token });
+      const res = go();
+      res.cookies.set(STUDIO_COOKIE, "", { path: "/", maxAge: 0 });
+      return res;
+    }
+
+    if (action === "status" && token) {
+      const id = Number(form.get("id"));
+      const status = String(form.get("status"));
+      if (Number.isInteger(id)) await dbRpc("studio_lead_status", { p_token: token, p_id: id, p_status: status });
+      const days = String(form.get("days") ?? "");
+      return go(`${/^\d+$/.test(days) ? `?d=${days}` : ""}#anfragen`);
+    }
+  } catch (e) {
+    console.error("studio", action, e);
+    return go("?e=db");
   }
 
-  return NextResponse.redirect(back, 303);
+  return go();
 }
