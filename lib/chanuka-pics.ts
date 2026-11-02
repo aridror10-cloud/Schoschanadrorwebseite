@@ -43,4 +43,13 @@ export const CHANUKA_PICS: ChanukaPic[] = [
       en: "The menorah lit with colorful oil",
     },
   },
+  {
+    src: "/carlebach/chanuka-5.webp",
+    w: 1448,
+    h: 1086,
+    alt: {
+      he: "חנוכיה קרליבך, דגם שמחה, בגוון שחור",
+      en: "The Carlebach Menorah, Joy design, in black",
+    },
+  },
 ];

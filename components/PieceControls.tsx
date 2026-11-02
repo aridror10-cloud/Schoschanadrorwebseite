@@ -28,14 +28,17 @@ export function PieceControls({
   model,
   lang,
   plainImg,
+  initialVersion = "with",
 }: {
   model: ModelKey;
   lang: Lang;
   /** Foto derselben Aufnahme ohne Pasuk; fehlt es, wechselt nichts */
   plainImg?: string;
+  /** Vorauswahl der Fassung, z. B. aus dem Quiz */
+  initialVersion?: Version;
 }) {
   const t = content[lang].cart;
-  const [version, setVersion] = useState<Version>("with");
+  const [version, setVersion] = useState<Version>(HAS_PLAIN[model] ? initialVersion : "with");
   const [qty, setQty] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);

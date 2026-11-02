@@ -7,6 +7,8 @@ import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { CHANUKA_PICS } from "@/lib/chanuka-pics";
 import { YouTubeFacade } from "@/components/YouTubeFacade";
 import { ChanukaGallery } from "@/components/ChanukaGallery";
+import { Quiz } from "@/components/Quiz";
+import { QuickQuestion, StickyBuy, TrustRow } from "@/components/Boosters";
 import { HomesGallery } from "@/components/HomesGallery";
 import { visibleNav } from "@/components/site/SiteShell";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -71,6 +73,7 @@ export function Landing({ lang }: { lang: Lang }) {
     <div className="page" lang={lang} dir={t.dir}>
       <ScrollFx lang={lang} dir={t.dir} />
       <CartBar lang={lang} />
+      <StickyBuy lang={lang} />
       {/* Hebraeisch: Kopf der ganzen Website mit Klappmenue, damit man
           von der Verkaufsseite zu den anderen Bereichen findet. Englisch
           gibt es nur diese eine Seite, dort bleibt der schlanke Kopf. */}
@@ -162,12 +165,22 @@ export function Landing({ lang }: { lang: Lang }) {
           </div>
         </section>
 
+        {/* ===== QUIZ: welches Portraet passt (02.11.26) ===== */}
+        <section className="quiz" id="quiz">
+          <div className="wrap">
+            <Quiz lang={lang} />
+          </div>
+        </section>
+
         {/* ===== SCREEN 3 — CHOOSE YOUR PORTRAIT ===== */}
         <section className="choose" id="choose">
           <div className="wrap">
             <div className="section-head" data-reveal>
               <div className="kicker">{t.choose.kicker}</div>
               <h2>{t.choose.title}</h2>
+              <a href="#quiz" className="choose-quiz-link" data-track="quiz_link">
+                {lang === "he" ? "לא בטוחים איזה דיוקן? ענו על שאלון קצר" : "Not sure which portrait? Take the short quiz"}
+              </a>
             </div>
 
             <div className="pieces" data-reveal-group>
@@ -212,7 +225,9 @@ export function Landing({ lang }: { lang: Lang }) {
               {t.choose.bundle.note && <div className="price-note">{t.choose.bundle.note}</div>}
               <div className="bundle-save">{t.choose.bundle.save}</div>
               <PieceControls model="set" lang={lang} plainImg="/carlebach/set-plain.webp" />
+              <TrustRow lang={lang} />
               {customLink}
+              <QuickQuestion lang={lang} piece={lang === "he" ? "דיוקנאות קרליבך" : "Carlebach portraits"} />
             </div>
           </div>
         </section>
@@ -284,7 +299,11 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="chanuka-price">{t.chanuka.product.price}</div>
                 {t.chanuka.product.usd && <div className="chanuka-usd">{t.chanuka.product.usd}</div>}
                 {ORDERABLE.chanuka ? (
-                  <PieceControls model="chanuka" lang={lang} />
+                  <>
+                    <PieceControls model="chanuka" lang={lang} />
+                    <TrustRow lang={lang} dark wall={false} />
+                    <QuickQuestion lang={lang} piece={lang === "he" ? "חנוכיה קרליבך" : "Carlebach Menorah"} />
+                  </>
                 ) : lang === "he" ? (
                   <div className="chanuka-form">
                     <p className="chanuka-form-title">{t.chanuka.formTitle}</p>

@@ -18,7 +18,7 @@ import { dbInsert } from "@/lib/db";
  *   ORDER_FROM      Absender
  */
 
-type Kind = "business" | "order" | "interest";
+type Kind = "business" | "order" | "interest" | "question";
 
 const TO = process.env.ORDER_TO ?? "ssdror@gmail.com";
 const FROM = process.env.ORDER_FROM ?? "Shoshana Judaica <onboarding@resend.dev>";
@@ -27,12 +27,14 @@ const LABEL: Record<Kind, string> = {
   business: "פנייה עסקית",
   order: "בירור הזמנה",
   interest: "הבעת עניין",
+  question: "שאלה מהאתר",
 };
 
 const HEADING: Record<Kind, string> = {
   business: "פנייה עסקית חדשה",
   order: "בירור הזמנה חדש",
   interest: "הבעת עניין חדשה",
+  question: "שאלה חדשה מהאתר",
 };
 
 /* Ratenbegrenzung je Absender-IP, wie in /api/order */
@@ -131,8 +133,8 @@ export async function POST(request: Request) {
 
   const emailOk = !email || EMAIL_RE.test(email);
   const reachable = Boolean(phone) || (Boolean(email) && emailOk);
-  const pieceOk = kind === "business" || Boolean(piece);
-  const messageOk = kind !== "business" || Boolean(message);
+  const pieceOk = kind === "business" || kind === "question" || Boolean(piece);
+  const messageOk = (kind !== "business" && kind !== "question") || Boolean(message);
   if (!name || !emailOk || !reachable || !pieceOk || !messageOk) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
@@ -148,7 +150,7 @@ export async function POST(request: Request) {
     ["טלפון", phone],
     ["אימייל", email],
     [kind === "order" ? "היצירה המבוקשת" : "היצירה", piece],
-    [kind === "business" ? "הרעיון או הצורך" : "הערה", message],
+    [kind === "business" ? "הרעיון או הצורך" : kind === "question" ? "השאלה" : "הערה", message],
     ["הגיע דרך קישור", clamp(data.ref, 40)],
   ];
 
@@ -184,7 +186,7 @@ export async function POST(request: Request) {
     piece: piece || null,
     message: message || null,
     ref: clamp(data.ref, 40) || null,
-    lang: "he",
+    lang: data.lang === "en" ? "en" : "he",
     path: pathOf(request),
     data: { company: company || undefined, file: anhang ? anhang.filename : undefined },
   });
