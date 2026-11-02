@@ -15,13 +15,12 @@ const KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export const dbReady = () => Boolean(KEY);
 
-function headers(extra: Record<string, string> = {}) {
-  return {
-    apikey: KEY ?? "",
-    Authorization: `Bearer ${KEY ?? ""}`,
-    "Content-Type": "application/json",
-    ...extra,
-  };
+function headers(extra: Record<string, string> = {}): Record<string, string> {
+  const h: Record<string, string> = { apikey: KEY ?? "", "Content-Type": "application/json", ...extra };
+  // Neue Schluessel (sb_secret_...) sind kein JWT und gehoeren nur in "apikey";
+  // alte service_role-Schluessel (JWT) zusaetzlich als Bearer.
+  if (KEY && !KEY.startsWith("sb_")) h.Authorization = `Bearer ${KEY}`;
+  return h;
 }
 
 export async function dbInsert(table: "leads" | "events", row: Record<string, unknown>) {
