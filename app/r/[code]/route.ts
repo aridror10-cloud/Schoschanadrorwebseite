@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { dbInsert, deviceOf } from "@/lib/db";
 
 /**
  * Empfehlungslink fuer Partnerinnen: /r/<name>
@@ -15,6 +16,24 @@ export function GET(request: Request, { params }: { params: Promise<{ code: stri
     const clean = code.toLowerCase();
     if (/^[a-z0-9-]{2,40}$/.test(clean)) {
       res.cookies.set("sj_ref", clean, { maxAge: 60 * 60 * 24 * 60, path: "/", sameSite: "lax" });
+      // Klickzaehler fuer /studio (anonym)
+      const ua = request.headers.get("user-agent");
+      if (!/bot|crawl|spider|preview|facebookexternalhit|whatsapp/i.test(ua ?? "")) {
+        return dbInsert("events", {
+          type: "ref_click",
+          ref: clean,
+          path: target,
+          device: deviceOf(ua),
+          country: request.headers.get("x-vercel-ip-country")?.slice(0, 4) ?? null,
+          source: (() => {
+            try {
+              return new URL(request.headers.get("referer") ?? "").hostname.slice(0, 120) || null;
+            } catch {
+              return null;
+            }
+          })(),
+        }).then(() => res);
+      }
     }
     return res;
   });

@@ -29,10 +29,13 @@ export default function PrivacyPage() {
           </p>
           <h2>מה נאסף</h2>
           <p>
-            <strong>טופס הפנייה:</strong> השם, המייל, הטלפון והפרטים שאתם כותבים נשלחים אליי במייל, כדי שאוכל לחזור אליכם. הם לא נשמרים באתר.
+            <strong>טופס הפנייה:</strong> השם, המייל, הטלפון והפרטים שאתם כותבים נשלחים אליי במייל ונשמרים במאגר מאובטח (Supabase, שרת באירופה), כדי שאוכל לחזור אליכם ולא לפספס אף פנייה. בונה האתר מקבל עותק, כדי לעזור לי בטיפול בפניות.
           </p>
           <p>
             <strong>תשלום:</strong> התשלום מתבצע בדף מאובטח של סאמיט (SUMIT), שירות סליקה ישראלי מורשה. פרטי האשראי לא עוברים דרך האתר הזה ולא נשמרים בו.
+          </p>
+          <p>
+            <strong>סטטיסטיקה של האתר:</strong> האתר סופר ביקורים ופעולות, כמו צפייה בדף, לחיצה על כפתור, הוספה לסל או תשובות בשאלון, כדי להבין מה עובד ומה אפשר לשפר. הספירה אנונימית: בלי קובצי עוגיות, בלי כתובת IP ובלי שם.
           </p>
           <p>
             <strong>מדידה ופרסום:</strong> האתר משתמש בפיקסל של מטא (פייסבוק). הוא מדווח למטא על פעולות באתר, כמו צפייה בדף, הוספה לסל, מעבר לתשלום ושליחת טופס פנייה, כדי למדוד את יעילות הפרסום ולהציג פרסומות רלוונטיות בפייסבוק ובאינסטגרם. מטא עשויה לקשר את המידע לחשבון שלכם אצלה. לא נשלחים אליה פרטי תשלום.
@@ -63,10 +66,13 @@ export default function PrivacyPage() {
             </p>
             <h3>What is collected</h3>
             <p>
-              <strong>Enquiry form:</strong> the name, email, phone and details you enter are sent to me by email so that I can reply. They are not stored on this site.
+              <strong>Enquiry form:</strong> the name, email, phone and details you enter are sent to me by email and kept in a secure database (Supabase, servers in Europe), so that I can reply and no enquiry gets lost. The site's developer receives a copy to help me handle enquiries.
             </p>
             <p>
               <strong>Payment:</strong> payment takes place on a secure page of SUMIT, a licensed Israeli payment provider. Card details never pass through this site and are not stored here.
+            </p>
+            <p>
+              <strong>Site statistics:</strong> the site counts visits and actions, such as viewing a page, clicking a button, adding to the basket or answering the quiz, to see what works and what to improve. This is anonymous: no cookies, no IP address and no name.
             </p>
             <p>
               <strong>Measurement and advertising:</strong> this site uses the Meta (Facebook) Pixel. It reports actions on the site to Meta, such as viewing a page, adding to the basket, proceeding to checkout and sending an enquiry form, to measure advertising and show relevant ads on Facebook and Instagram. Meta may link this to your Meta account. No payment details are sent.

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { dbInsert } from "@/lib/db";
 
 /**
  * Anfragen der Website "שושנה יודאיקה" (Abschnitt 8 des Konzepts).
@@ -92,6 +93,16 @@ async function sendMail(payload: Record<string, unknown>) {
   return res.json();
 }
 
+/** Kopie jeder Anfrage an Bernard (02.11.26), abschaltbar mit NOTIFY_COPY="" */
+const COPY = (process.env.NOTIFY_COPY ?? "bernardfries7@gmail.com").split(",").map((s) => s.trim()).filter(Boolean);
+const pathOf = (r: Request) => {
+  try {
+    return new URL(r.headers.get("referer") ?? "").pathname.slice(0, 300);
+  } catch {
+    return null;
+  }
+};
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export async function POST(request: Request) {
@@ -164,10 +175,25 @@ export async function POST(request: Request) {
 
   const anhang = kind === "business" ? attachment(data.file) : null;
 
+  // Zuerst speichern: auch wenn die Mail scheitert, geht nichts verloren
+  await dbInsert("leads", {
+    kind,
+    name,
+    phone: phone || null,
+    email: email || null,
+    piece: piece || null,
+    message: message || null,
+    ref: clamp(data.ref, 40) || null,
+    lang: "he",
+    path: pathOf(request),
+    data: { company: company || undefined, file: anhang ? anhang.filename : undefined },
+  });
+
   try {
     await sendMail({
       from: FROM,
       to: [TO],
+      ...(COPY.length ? { bcc: COPY } : {}),
       ...(email ? { reply_to: email } : {}),
       ...(anhang ? { attachments: [anhang] } : {}),
       subject: `${HEADING[kind]} מהאתר: ${name}`,

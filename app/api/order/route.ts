@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { dbInsert } from "@/lib/db";
 
 /**
  * Nimmt eine Anfrage aus dem Formular entgegen (Sonderwunsch oder Frage)
@@ -92,6 +93,16 @@ async function sendMail(payload: Record<string, unknown>) {
   return res.json();
 }
 
+/** Kopie jeder Anfrage an Bernard (02.11.26), abschaltbar mit NOTIFY_COPY="" */
+const COPY = (process.env.NOTIFY_COPY ?? "bernardfries7@gmail.com").split(",").map((s) => s.trim()).filter(Boolean);
+const pathOf = (r: Request) => {
+  try {
+    return new URL(r.headers.get("referer") ?? "").pathname.slice(0, 300);
+  } catch {
+    return null;
+  }
+};
+
 export async function POST(request: Request) {
   let data: Record<string, unknown>;
   try {
@@ -156,10 +167,24 @@ export async function POST(request: Request) {
 
   const anhang = attachment(data.file);
 
+  await dbInsert("leads", {
+    kind: "carlebach_order",
+    name,
+    phone: clamp(data.phone, 60) || null,
+    email,
+    piece: [clamp(data.model, 120), clamp(data.version, 120), clamp(data.qty, 20)].filter(Boolean).join(" · ") || null,
+    message: clamp(data.notes) || null,
+    ref: clamp(data.ref, 40) || null,
+    lang: isHebrew ? "he" : "en",
+    path: pathOf(request),
+    data: { file: anhang ? anhang.filename : undefined },
+  });
+
   try {
     await sendMail({
       from: FROM,
       to: [TO],
+      ...(COPY.length ? { bcc: COPY } : {}),
       reply_to: email,
       ...(anhang ? { attachments: [anhang] } : {}),
       subject: isHebrew

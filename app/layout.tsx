@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
 import { MetaPixel } from "@/components/MetaPixel";
+import { Analytics } from "@/components/Analytics";
 import { HOME, brand } from "@/lib/studio";
 import { isTestPhase, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <MetaPixel />
+        <Analytics />
       </body>
     </html>
   );
