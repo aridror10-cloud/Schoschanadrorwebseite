@@ -79,12 +79,14 @@ const ERR: Record<string, string> = {
   code: "השם בקישור יכול להכיל רק אותיות באנגלית, מספרים ומקף.",
   total: "הסכום לא תקין.",
   login: "צריך להתחבר מחדש.",
+  has_sales: "אי אפשר למחוק משווק שיש לו מכירות. אפשר לסמן אותו כלא פעיל.",
 };
 const OK: Record<string, string> = {
   new: "המשווק נוסף. הקישור האישי מוכן לשליחה.",
   saved: "הפרטים נשמרו.",
   paid: "העמלות סומנו כשולמו.",
   added: "המכירה נוספה.",
+  deleted: "המשווק נמחק.",
 };
 
 export default async function PartnersPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
@@ -282,6 +284,14 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
                   <details open={!p.known}>
                     <summary>{p.known ? "עריכת פרטים" : "הוספת פרטים"}</summary>
                     <PartnerForm partner={p} />
+                    {p.known && p.list.length === 0 && (
+                      <form method="post" action="/api/studio" className="pt-delete">
+                        <input type="hidden" name="action" value="partner_delete" />
+                        <input type="hidden" name="back" value="/studio/partners" />
+                        <input type="hidden" name="code" value={p.code} />
+                        <button type="submit" className="pt-link">מחיקת המשווק (רק כשאין מכירות)</button>
+                      </form>
+                    )}
                   </details>
                 </div>
               </article>
@@ -328,7 +338,7 @@ function PartnerForm({ partner }: { partner?: Partner }) {
         <label>
           שם בקישור (לא חובה)
           <input name="code" maxLength={32} placeholder="miriam" dir="ltr" pattern="[A-Za-z0-9\-]*" />
-          <small>אותיות באנגלית. אם משאירים ריק, נוצר מהשם.</small>
+          <small>מומלץ שם קצר באנגלית, למשל miriam. כך הקישור יפה וקל לזכור. אם משאירים ריק, הוא נוצר מהשם.</small>
         </label>
       )}
       <label className="pt-wide">

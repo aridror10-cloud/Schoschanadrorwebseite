@@ -94,6 +94,8 @@
 .pt-more details { border-top: 1px solid #f1ece1; padding-top: 10px; }
 .pt-more summary { cursor: pointer; color: var(--pt-gold-text); font-size: 0.92rem; }
 .pt-more details[open] summary { margin-bottom: 10px; }
+.pt-delete { margin-top: 10px; }
+.pt-delete .pt-link { color: #9a4b2c; font-size: 0.85rem; }
 
 .pt-login { max-width: 360px; margin: 12vh auto 0; background: #fff; border: 1px solid var(--pt-line); border-radius: 14px; padding: 28px; display: grid; gap: 12px; }
 .pt-login p { margin: 0; color: var(--pt-soft); }

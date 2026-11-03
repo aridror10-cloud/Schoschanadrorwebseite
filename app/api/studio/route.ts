@@ -129,6 +129,11 @@ export async function POST(req: Request) {
       return go(`?${ok ? "ok=added" : "e=total"}&p=${encodeURIComponent(code)}#p-${encodeURIComponent(code)}`);
     }
 
+    if (action === "partner_delete" && token) {
+      const r = await dbRpc<string>("partner_delete", { p_token: token, p_code: String(form.get("code") ?? "") });
+      return go(r === "ok" ? "?ok=deleted" : `?e=${r ?? "db"}`);
+    }
+
     if (action.startsWith("partner") || action.startsWith("sale") || action === "pay_all") return go("?e=login");
   } catch (e) {
     console.error("studio", action, e);
