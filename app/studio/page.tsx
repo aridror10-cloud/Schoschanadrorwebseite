@@ -151,6 +151,7 @@ export default async function StudioPage({ searchParams }: { searchParams: Promi
               {d} Tage
             </a>
           ))}
+          <a href="/studio/partners">Partner (he)</a>
           <form method="post" action="/api/studio">
             <input type="hidden" name="action" value="logout" />
             <button type="submit" className="sd-link">Abmelden</button>
