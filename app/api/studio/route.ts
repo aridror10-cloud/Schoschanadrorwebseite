@@ -129,6 +129,14 @@ export async function POST(req: Request) {
       return go(`?${ok ? "ok=added" : "e=total"}&p=${encodeURIComponent(code)}#p-${encodeURIComponent(code)}`);
     }
 
+    if (action === "sale_amount" && token) {
+      const code = String(form.get("code") ?? "");
+      const id = Number(form.get("id"));
+      const total = Math.round(Number(String(form.get("total") ?? "").replace(",", ".")));
+      const ok = Number.isInteger(id) && (await dbRpc<boolean>("referral_sale_amount", { p_token: token, p_id: id, p_total: total }));
+      return go(`?${ok ? "ok=amount" : "e=total"}&p=${encodeURIComponent(code)}#p-${encodeURIComponent(code)}`);
+    }
+
     if (action === "partner_delete" && token) {
       const r = await dbRpc<string>("partner_delete", { p_token: token, p_code: String(form.get("code") ?? "") });
       return go(r === "ok" ? "?ok=deleted" : `?e=${r ?? "db"}`);

@@ -30,6 +30,7 @@ type Sale = {
   paid: boolean;
   paid_at: string | null;
   cancelled: boolean;
+  confirmed: boolean;
 };
 type Partner = {
   code: string;
@@ -47,6 +48,7 @@ type Partner = {
   revenue: number;
   commission: number;
   open: number;
+  pending: number;
   list: Sale[];
 };
 
@@ -86,6 +88,7 @@ const OK: Record<string, string> = {
   saved: "הפרטים נשמרו.",
   paid: "העמלות סומנו כשולמו.",
   added: "המכירה נוספה.",
+  amount: "הסכום עודכן.",
   deleted: "המשווק נמחק.",
 };
 
@@ -119,7 +122,7 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
 
   const partners = data;
   const active = partners.filter((p) => p.known && p.active).length;
-  const sum = (k: "clicks" | "sales" | "revenue" | "commission" | "open") => partners.reduce((a, p) => a + Number(p[k] ?? 0), 0);
+  const sum = (k: "clicks" | "sales" | "revenue" | "commission" | "open" | "pending") => partners.reduce((a, p) => a + Number(p[k] ?? 0), 0);
 
   const qr = new Map<string, string>();
   for (const p of partners) {
@@ -154,6 +157,7 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
         <Kpi label="כניסות דרך קישורים" value={sum("clicks")} />
         <Kpi label="מכירות" value={sum("sales")} />
         <Kpi label="סכום המכירות" value={ils(sum("revenue"))} />
+        <Kpi label="מכירות לבדיקה" value={sum("pending")} />
         <Kpi label="עמלות לתשלום" value={ils(sum("open"))} gold />
       </section>
 
@@ -161,8 +165,8 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
         <h2>משווק חדש</h2>
         <PartnerForm />
         <p className="pt-note">
-          מי שנכנס דרך הקישור נרשם על שם המשווק למשך 60 יום. כל קנייה באתר נרשמת כאן מעצמה, ומגיע אלייך מייל. לפני תשלום עמלה
-          כדאי לבדוק את הקבלה בסאמיט מאותה שעה.
+          מי שנכנס דרך הקישור נרשם על שם המשווק למשך 60 יום. כל קנייה באתר נרשמת כאן מעצמה, ומגיע אלייך מייל. מכירה כזו מופיעה
+          קודם כ״לבדיקה״: אחרי שרואים את הקבלה בסאמיט מאותה שעה לוחצים ״אישור״, ורק אז העמלה נספרת לתשלום.
         </p>
       </section>
 
@@ -183,6 +187,7 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
                     <h3>{p.name ?? p.code}</h3>
                     <p className="pt-sub">
                       {p.known ? `עמלה ${Number(p.pct)}%` : "קישור שנוצר בלי שם. אפשר להוסיף פרטים למטה."}
+                      {p.pending > 0 && <> · <span className="pt-check">{p.pending} לבדיקה</span></>}
                       {p.phone && <> · <span dir="ltr">{p.phone}</span></>}
                       {!p.active && " · לא פעיל"}
                     </p>
@@ -239,7 +244,7 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
                     </thead>
                     <tbody>
                       {p.list.map((s) => (
-                        <tr key={s.id} className={s.cancelled ? "is-cancel" : s.paid ? "is-paid" : ""}>
+                        <tr key={s.id} className={s.cancelled ? "is-cancel" : s.paid ? "is-paid" : s.confirmed ? "" : "is-check"}>
                           <td>{day(s.created_at)}</td>
                           <td>
                             {s.items?.length
@@ -250,10 +255,24 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
                           </td>
                           <td>{ils(s.total)}</td>
                           <td>{ils(s.commission)}</td>
-                          <td>{s.cancelled ? "בוטל" : s.paid ? "שולם" : "פתוח"}</td>
+                          <td>{s.cancelled ? "בוטל" : s.paid ? "שולם" : s.confirmed ? "לתשלום" : "לבדיקה"}</td>
                           <td className="pt-row-actions">
-                            {!s.cancelled && (
+                            {!s.cancelled && !s.confirmed && <SaleButton id={s.id} code={p.code} what="confirm" label="אישור" />}
+                            {!s.cancelled && s.confirmed && (
                               <SaleButton id={s.id} code={p.code} what={s.paid ? "unpaid" : "paid"} label={s.paid ? "ביטול סימון" : "שולם"} />
+                            )}
+                            {!s.cancelled && !s.paid && (
+                              <details className="pt-fix">
+                                <summary>תיקון סכום</summary>
+                                <form method="post" action="/api/studio">
+                                  <input type="hidden" name="action" value="sale_amount" />
+                                  <input type="hidden" name="back" value="/studio/partners" />
+                                  <input type="hidden" name="id" value={s.id} />
+                                  <input type="hidden" name="code" value={p.code} />
+                                  <input name="total" inputMode="numeric" pattern="[0-9]+" required defaultValue={s.total || ""} dir="ltr" aria-label="סכום בש״ח" />
+                                  <button type="submit" className="pt-btn pt-btn-small">שמירה</button>
+                                </form>
+                              </details>
                             )}
                             <SaleButton id={s.id} code={p.code} what={s.cancelled ? "restore" : "cancel"} label={s.cancelled ? "שחזור" : "ביטול מכירה"} quiet />
                           </td>
