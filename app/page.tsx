@@ -38,7 +38,16 @@ export default function HomePage() {
           <div className="wrap sj-hero-inner">
             <HeroMark />
             <p className="sj-hero-brand">{brand.name}</p>
-            <h1 className="sj-hero-title">{brand.slogan}</h1>
+            <h1 className="sj-hero-title">
+              {brand.slogan.split(" ").map((w, i, all) => (
+                <span key={i}>
+                  <span className="sj-word" style={{ "--i": i } as React.CSSProperties}>
+                    {w}
+                  </span>
+                  {i < all.length - 1 ? " " : null}
+                </span>
+              ))}
+            </h1>
             <p className="sj-hero-tagline">{HOME.hero.tagline}</p>
             {HOME.hero.paras.map((t) => (
               <p key={t.slice(0, 20)} className="sj-hero-sub">

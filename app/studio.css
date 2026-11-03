@@ -803,32 +803,95 @@ main:focus { outline: none; }
 @media (max-width: 1059px) {
   .sj-mark.is-hero { display: none; }
 }
-/* Aufbau beim Laden (03.11.26): Tropfen faellt, dann oeffnen sich die Boegen
-   von aussen nach innen. Viertelkreis bei r=160: 2*pi*160/4 = 251.3 */
+/* Aufbau beim Laden (03.11.26), laeuft einmal und steht dann still:
+   0.2 s  Titel und Text erscheinen weich nacheinander
+   0.3 s  Tropfen faellt, kommt bei ~1.0 s auf, zwei feine Wellenringe
+   1.0 s  die Boegen oeffnen sich von aussen nach innen, mit weicher Kante
+   3.4 s  ein Lichtschimmer gleitet einmal ueber die Boegen
+   Maskenstrich: 110 Grad bei r=160 = 2*pi*160*110/360 = 307 */
 .sj-mark.is-hero { animation: none; }
 .sj-fan {
-  stroke-dasharray: 252 1100;
-  stroke-dashoffset: 252;
-  animation: sjFan 1.9s cubic-bezier(0.45, 0, 0.12, 1) forwards;
+  stroke-dasharray: 308 1400;
+  stroke-dashoffset: 308;
+  animation: sjFan 2.2s cubic-bezier(0.5, 0, 0.1, 1) forwards;
 }
-.sj-fan-0 { animation-delay: 0.95s; }
-.sj-fan-1 { animation-delay: 1.2s; }
-.sj-fan-2 { animation-delay: 1.45s; }
+.sj-fan-0 { animation-delay: 1s; }
+.sj-fan-1 { animation-delay: 1.3s; }
+.sj-fan-2 { animation-delay: 1.6s; }
 @keyframes sjFan { to { stroke-dashoffset: 0; } }
+
 .sj-mark.is-hero .sj-mark-drop {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  animation: sjDropFall 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  animation: sjDropFall 1.4s cubic-bezier(0.33, 0, 0.2, 1) 0.3s both;
 }
 @keyframes sjDropFall {
-  0% { opacity: 0; transform: translateY(-46px) scale(0.55, 0.7); }
-  55% { opacity: 0.55; transform: translateY(2px) scale(1.04, 0.96); }
-  78% { transform: translateY(0) scale(0.99, 1.01); }
-  100% { opacity: 0.4; transform: none; }
+  0% { opacity: 0; transform: translateY(-60px) scale(0.6, 0.78); }
+  30% { opacity: 0.45; }
+  50% { opacity: 0.6; transform: translateY(0) scale(1.07, 0.92); }
+  68% { transform: translateY(-2px) scale(0.98, 1.03); }
+  84% { transform: translateY(0) scale(1.005, 0.995); }
+  100% { opacity: 0.42; transform: none; }
 }
+
+.sj-ripple {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sjRipple 1.8s cubic-bezier(0.15, 0.6, 0.3, 1) 1s forwards;
+}
+.sj-ripple-2 { animation-delay: 1.22s; animation-duration: 2s; }
+@keyframes sjRipple {
+  0% { opacity: 0; transform: scale(0.6); }
+  12% { opacity: 0.55; }
+  100% { opacity: 0; transform: scale(11); }
+}
+
+.sj-sheen {
+  opacity: 0;
+  animation: sjSheen 2.4s cubic-bezier(0.45, 0, 0.25, 1) 3.4s forwards;
+}
+@keyframes sjSheen {
+  0% { opacity: 0; transform: translateX(0); }
+  15% { opacity: 0.55; }
+  85% { opacity: 0.55; }
+  100% { opacity: 0; transform: translateX(430px); }
+}
+
+/* Text der Eroeffnung: steigt weich aus leichter Unschaerfe auf */
+.sj-hero-inner > .sj-hero-brand,
+.sj-hero-title .sj-word,
+.sj-hero-inner > .sj-hero-tagline,
+.sj-hero-inner > .sj-hero-sub,
+.sj-hero-inner > .sj-hero-cta {
+  animation: sjRise 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sj-hero-title .sj-word { display: inline-block; }
+.sj-hero-inner > .sj-hero-brand { animation-delay: 0.1s; }
+.sj-hero-title .sj-word { animation-delay: calc(0.22s + var(--i) * 0.13s); }
+.sj-hero-inner > .sj-hero-tagline { animation-delay: 0.7s; }
+.sj-hero-inner > .sj-hero-sub { animation-delay: 0.82s; }
+.sj-hero-inner > .sj-hero-sub + .sj-hero-sub { animation-delay: 0.92s; }
+.sj-hero-inner > .sj-hero-cta { animation-delay: 1.05s; }
+@keyframes sjRise {
+  from { opacity: 0; transform: translateY(16px); filter: blur(7px); }
+  60% { filter: blur(0); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sj-fan { animation: none; stroke-dashoffset: 0; }
-  .sj-mark.is-hero .sj-mark-drop { animation: none; }
+  .sj-mark.is-hero .sj-mark-drop,
+  .sj-ripple,
+  .sj-sheen,
+  .sj-hero-inner > .sj-hero-brand,
+  .sj-hero-title .sj-word,
+  .sj-hero-inner > .sj-hero-tagline,
+  .sj-hero-inner > .sj-hero-sub,
+  .sj-hero-inner > .sj-hero-cta { animation: none; }
 }
 .sj-mark.is-hero .sj-mark-bands { opacity: 0.1; }
 .sj-mark.is-hero .sj-mark-drop { opacity: 0.4; }

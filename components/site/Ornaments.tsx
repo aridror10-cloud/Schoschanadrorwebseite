@@ -35,15 +35,47 @@ export function HeroMark() {
   return (
     <svg className="sj-mark is-hero" viewBox={VIEW} aria-hidden="true" focusable="false">
       <defs>
+        {/* weiche Vorderkante: der Maskenstrich ist leicht verwischt und
+            beginnt 10 Grad vor den Boegen, damit ihre Kanten scharf bleiben */}
+        <filter id="sj-feather" filterUnits="userSpaceOnUse" x="-80" y="-80" width="420" height="480">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
         {ARCS.map((_, i) => (
-          <mask key={i} id={`sj-fan-${i}`} maskUnits="userSpaceOnUse" x="-2" y="-2" width="248" height="311">
-            <circle className={`sj-fan sj-fan-${i}`} cx="0" cy="64" r="160" fill="none" stroke="#fff" strokeWidth="330" />
+          <mask key={i} id={`sj-fan-${i}`} maskUnits="userSpaceOnUse" x="-40" y="-40" width="330" height="390">
+            <circle
+              className={`sj-fan sj-fan-${i}`}
+              cx="0"
+              cy="64"
+              r="160"
+              fill="none"
+              stroke="#fff"
+              strokeWidth="340"
+              transform="rotate(-10 0 64)"
+              filter="url(#sj-feather)"
+            />
           </mask>
         ))}
+        <clipPath id="sj-arcs-clip">
+          <path d={BANDS} />
+        </clipPath>
+        <linearGradient id="sj-sheen-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#c9a24f" stopOpacity="0" />
+          <stop offset="0.5" stopColor="#c9a24f" stopOpacity="0.6" />
+          <stop offset="1" stopColor="#c9a24f" stopOpacity="0" />
+        </linearGradient>
       </defs>
       {ARCS.map((d, i) => (
         <path key={i} className="sj-mark-bands" d={d} mask={`url(#sj-fan-${i})`} />
       ))}
+      {/* einmaliger Lichtschimmer ueber die fertigen Boegen */}
+      <g clipPath="url(#sj-arcs-clip)">
+        <g transform="rotate(18 120 180)">
+          <rect className="sj-sheen" x="-140" y="-80" width="80" height="520" fill="url(#sj-sheen-grad)" />
+        </g>
+      </g>
+      {/* Wellenringe, wo der Tropfen aufkommt */}
+      <circle className="sj-ripple sj-ripple-1" cx="223.7" cy="47" r="4" vectorEffect="non-scaling-stroke" />
+      <circle className="sj-ripple sj-ripple-2" cx="223.7" cy="47" r="4" vectorEffect="non-scaling-stroke" />
       <path className="sj-mark-drop" d={DROP} />
     </svg>
   );
