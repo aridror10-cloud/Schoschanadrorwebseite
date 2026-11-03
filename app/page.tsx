@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLink, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
-import { BrandMark } from "@/components/site/Ornaments";
+import { HeroMark } from "@/components/site/Ornaments";
 import { YahrzeitBand } from "@/components/site/YahrzeitBand";
 import { ARTICLES, formatDate } from "@/lib/articles";
 import { COLLECTIONS, HOME, PROJECTS, brand } from "@/lib/studio";
@@ -36,7 +36,7 @@ export default function HomePage() {
         {/* ===== Eroeffnung ===== */}
         <section className="sj-hero">
           <div className="wrap sj-hero-inner">
-            <BrandMark className="is-hero" />
+            <HeroMark />
             <p className="sj-hero-brand">{brand.name}</p>
             <h1 className="sj-hero-title">{brand.slogan}</h1>
             <p className="sj-hero-tagline">{HOME.hero.tagline}</p>

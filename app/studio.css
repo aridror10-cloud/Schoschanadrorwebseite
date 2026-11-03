@@ -789,11 +789,46 @@ main:focus { outline: none; }
 }
 .sj-hero-inner { position: relative; }
 .sj-hero-inner > :not(.sj-mark) { position: relative; }
+/* Shoshana 02.11.26: Zeichen rechts neben dem Titel statt mittig dahinter */
+.sj-hero { overflow-x: clip; }
+/* Nur im freien Rand: linke Kante 370px rechts der Mitte (Titel und Text
+   reichen hoechstens 360px weit), Breite so, dass 40px Abstand zum Rand bleiben */
 .sj-mark.is-hero {
-  width: min(300px, 58vw);
-  left: 50%;
+  --w: min(250px, (100vw - 740px) / 2 - 40px);
+  width: var(--w);
+  right: calc(80px - var(--w));
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
+}
+@media (max-width: 1059px) {
+  .sj-mark.is-hero { display: none; }
+}
+/* Aufbau beim Laden (03.11.26): Tropfen faellt, dann oeffnen sich die Boegen
+   von aussen nach innen. Viertelkreis bei r=160: 2*pi*160/4 = 251.3 */
+.sj-mark.is-hero { animation: none; }
+.sj-fan {
+  stroke-dasharray: 252 1100;
+  stroke-dashoffset: 252;
+  animation: sjFan 1.9s cubic-bezier(0.45, 0, 0.12, 1) forwards;
+}
+.sj-fan-0 { animation-delay: 0.95s; }
+.sj-fan-1 { animation-delay: 1.2s; }
+.sj-fan-2 { animation-delay: 1.45s; }
+@keyframes sjFan { to { stroke-dashoffset: 0; } }
+.sj-mark.is-hero .sj-mark-drop {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sjDropFall 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+@keyframes sjDropFall {
+  0% { opacity: 0; transform: translateY(-46px) scale(0.55, 0.7); }
+  55% { opacity: 0.55; transform: translateY(2px) scale(1.04, 0.96); }
+  78% { transform: translateY(0) scale(0.99, 1.01); }
+  100% { opacity: 0.4; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sj-fan { animation: none; stroke-dashoffset: 0; }
+  .sj-mark.is-hero .sj-mark-drop { animation: none; }
 }
 .sj-mark.is-hero .sj-mark-bands { opacity: 0.1; }
 .sj-mark.is-hero .sj-mark-drop { opacity: 0.4; }

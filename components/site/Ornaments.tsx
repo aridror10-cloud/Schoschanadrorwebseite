@@ -21,6 +21,34 @@ export function BrandMark({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * Zeichen der Startseite, das sich beim Laden einmal aufbaut (03.11.26):
+ * Der Tropfen faellt, danach oeffnen sich die drei Boegen nacheinander wie
+ * ein Faecher. Alle drei Boegen sind Viertelringe um den Punkt (0, 64);
+ * jede Maske ist ein dicker Kreisstrich um diesen Punkt, dessen Strich von
+ * 0 auf ein Viertel waechst (rechts oben nach links unten). Danach steht
+ * alles still. Bei "Bewegung reduzieren" ist es sofort fertig (studio.css).
+ */
+const ARCS = BANDS.split(/(?=M)/).map((s) => s.trim());
+
+export function HeroMark() {
+  return (
+    <svg className="sj-mark is-hero" viewBox={VIEW} aria-hidden="true" focusable="false">
+      <defs>
+        {ARCS.map((_, i) => (
+          <mask key={i} id={`sj-fan-${i}`} maskUnits="userSpaceOnUse" x="-2" y="-2" width="248" height="311">
+            <circle className={`sj-fan sj-fan-${i}`} cx="0" cy="64" r="160" fill="none" stroke="#fff" strokeWidth="330" />
+          </mask>
+        ))}
+      </defs>
+      {ARCS.map((d, i) => (
+        <path key={i} className="sj-mark-bands" d={d} mask={`url(#sj-fan-${i})`} />
+      ))}
+      <path className="sj-mark-drop" d={DROP} />
+    </svg>
+  );
+}
+
 /** Trenner ueber Ueberschriften: Goldlinie, Tropfen, Goldlinie. */
 export function Divider({ className = "" }: { className?: string }) {
   return (
