@@ -68,6 +68,14 @@ export async function POST(req: Request) {
       return res;
     }
 
+    if (action === "change_pw" && token) {
+      const pw = String(form.get("password") ?? "");
+      if (pw.length < 8) return go("?e=pw-kurz#passwort");
+      if (pw !== String(form.get("password2") ?? "")) return go("?e=pw-ungleich#passwort");
+      const r = await dbRpc<string>("studio_change_password", { p_token: token, p_new: pw });
+      return go(r === "ok" ? "?ok=pw#passwort" : `?e=${r === "login" ? "falsch" : "db"}`);
+    }
+
     if (action === "status" && token) {
       const id = Number(form.get("id"));
       const status = String(form.get("status"));

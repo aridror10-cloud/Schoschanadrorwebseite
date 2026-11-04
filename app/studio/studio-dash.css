@@ -77,3 +77,9 @@
 @media (max-width: 560px) {
   .sd-step { grid-template-columns: 90px 1fr 44px; }
 }
+
+/* Passwort aendern (04.11.26) */
+.sd-pw form { display: flex; flex-wrap: wrap; gap: 8px; }
+.sd-pw input { flex: 1 1 220px; font: inherit; border: 1px solid var(--sd-line); border-radius: 8px; padding: 9px 11px; }
+.sd-pw button { font: inherit; font-weight: 600; background: var(--sd-ink); color: #fff; border: 0; border-radius: 8px; padding: 9px 18px; cursor: pointer; }
+.sd-ok { background: #f3f7ec; border: 1px solid #cfe0b8; color: #44612a; padding: 10px 14px; border-radius: 8px; }

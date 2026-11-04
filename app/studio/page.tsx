@@ -263,6 +263,20 @@ export default async function StudioPage({ searchParams }: { searchParams: Promi
           </div>
         )}
       </section>
+
+      <section className="sd-card sd-pw" id="passwort">
+        <h2>Passwort ändern</h2>
+        {sp.ok === "pw" && <p className="sd-ok">Neues Passwort gespeichert. Alle anderen Geräte sind jetzt abgemeldet.</p>}
+        {sp.e === "pw-kurz" && <p className="sd-warn">Bitte mindestens 8 Zeichen.</p>}
+        {sp.e === "pw-ungleich" && <p className="sd-warn">Die beiden Passwörter sind nicht gleich.</p>}
+        <form method="post" action="/api/studio">
+          <input type="hidden" name="action" value="change_pw" />
+          <input type="password" name="password" placeholder="Neues Passwort (mind. 8 Zeichen)" autoComplete="new-password" minLength={8} required />
+          <input type="password" name="password2" placeholder="Neues Passwort wiederholen" autoComplete="new-password" minLength={8} required />
+          <button type="submit">Speichern</button>
+        </form>
+        <p className="sd-note">Gilt auch für Shoshanas Seite /studio/partners. Danach sind alle anderen Geräte abgemeldet, dieses bleibt angemeldet.</p>
+      </section>
     </div>
   );
 }
