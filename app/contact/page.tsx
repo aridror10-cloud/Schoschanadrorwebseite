@@ -19,7 +19,7 @@ export default function ContactPage() {
   return (
     <SiteShell>
       <section className="sj-page-hero has-rosette">
-        <HeroMark id="sjc" className="is-corner" />
+        <HeroMark id="sjc" className="is-corner" variant="waves" />
         <div className="wrap sj-contact">
           <div className="sj-contact-side">
             <SectionHead as="h1" kicker={CONTACT.kicker} title={CONTACT.title}>

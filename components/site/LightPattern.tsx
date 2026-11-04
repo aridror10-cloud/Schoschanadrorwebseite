@@ -12,8 +12,11 @@ import { useEffect, useRef } from "react";
  * Ohne Maus (Handy): das Licht gleitet einmal quer durch, wenn das Band
  * ins Bild kommt, und verblasst dann.
  * Bei "Bewegung reduzieren" bleibt nur das ruhige Grundmuster.
+ *
+ * variant "wellen" (Schlussband der Unterseiten, 04.11.26): Wellenmuster
+ * aus gespiegelten Boegen, je mit dem Tropfen als Flamme (muster-wellen.svg).
  */
-export function LightPattern() {
+export function LightPattern({ variant = "menora" }: { variant?: "menora" | "wellen" }) {
   const glow = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -99,7 +102,7 @@ export function LightPattern() {
   }, []);
 
   return (
-    <div className="sj-pattern" aria-hidden="true">
+    <div className={`sj-pattern${variant === "wellen" ? " is-wellen" : ""}`} aria-hidden="true">
       <div className="sj-pattern-glow" ref={glow} />
     </div>
   );

@@ -799,9 +799,10 @@ main:focus { outline: none; }
   --w: min(250px, (100vw - 740px) / 2 - 40px);
   width: var(--w);
   left: calc(50% + 370px);
-  /* Shoshana 04.11.26: das ש (die Boegen) auf Titelhoehe, der Tropfen
-     darueber. Boegen beginnen bei 66 von 248 Einheiten Breite. */
-  top: calc(0.1em - var(--w) * 0.266);
+  /* Shoshana 04.11.26: das ש (die Boegen) genau auf Hoehe der Buchstaben-
+     Oberkante (gemessen: 0.234em unter der Titelkante), der Tropfen darueber.
+     Die Boegen beginnen bei 66 von 248 Einheiten Breite. */
+  top: calc(0.234em - var(--w) * 0.266);
 }
 @media (max-width: 1059px) {
   .sj-hero-title .sj-mark.is-hero { display: none; }
@@ -831,6 +832,15 @@ main:focus { outline: none; }
 }
 @media (max-width: 1059px) {
   .sj-title-window { display: none; }
+}
+/* Seitentitel mit Foto in den Buchstaben (04.11.26) */
+.sj-has-window { position: relative; }
+.sj-title-window.is-photo {
+  background-image: linear-gradient(rgba(70, 50, 15, 0.12), rgba(70, 50, 15, 0.12)), var(--wimg);
+  background-size: 100% 100%, cover;
+  background-position: 0 0, calc(50% + var(--wp, 0px)) var(--wpy, 45%);
+  -webkit-mask-image: radial-gradient(circle 170px at var(--wx, 50%) var(--wy, 50%), #000 0%, rgba(0, 0, 0, 0.85) 32%, rgba(0, 0, 0, 0.3) 64%, transparent 100%);
+  mask-image: radial-gradient(circle 170px at var(--wx, 50%) var(--wy, 50%), #000 0%, rgba(0, 0, 0, 0.85) 32%, rgba(0, 0, 0, 0.3) 64%, transparent 100%);
 }
 
 /* Aufbau beim Laden, laeuft einmal:
@@ -943,6 +953,9 @@ main:focus { outline: none; }
   background: url("/studio/muster.svg") 50% 0 / 210px auto repeat;
 }
 .sj-pattern::before { opacity: 0.065; }
+.sj-pattern.is-wellen::before,
+.sj-pattern.is-wellen .sj-pattern-glow::before { background-image: url("/studio/muster-wellen.svg"); background-size: 200px auto; }
+.sj-pattern.is-wellen::before { opacity: 0.075; }
 .sj-pattern-glow {
   position: absolute;
   inset: 0;
@@ -956,6 +969,71 @@ main:focus { outline: none; }
   position: absolute;
   inset: 0;
   background: radial-gradient(circle 360px at var(--mx, 50%) var(--my, 45%), rgba(210, 184, 120, 0.06), transparent 70%);
+}
+
+/* ---------- Andere Aufbau-Animation je Seite (04.11.26) ---------- */
+/* Gemeinsam: Boegen drehen und skalieren um ihren Mittelpunkt (0, 64) */
+.sj-mark .sj-arc { transform-box: view-box; transform-origin: 0px 64px; }
+
+/* sketch (Ueber mich): Goldlinie zeichnet die Umrisse, dann fuellt es sich */
+.sj-sketch-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.3;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: sjSketch 3.6s cubic-bezier(0.55, 0, 0.25, 1) forwards;
+}
+.sj-sketch-0 { animation-delay: 0.2s; }
+.sj-sketch-1 { animation-delay: 0.55s; }
+.sj-sketch-2 { animation-delay: 0.9s; }
+.sj-sketch-drop { animation-delay: 1.25s; }
+@keyframes sjSketch {
+  0% { stroke-dashoffset: 1; opacity: 1; }
+  62% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.sj-mark.is-anim.v-sketch .sj-arc { animation: sjFillIn 1.4s ease 2.1s both; }
+.sj-mark.is-anim.v-sketch .sj-mark-drop { animation: sjFillIn 1.2s ease 2.5s both; }
+@keyframes sjFillIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* waves (Kontakt): von innen nach aussen, federnd */
+.sj-mark.is-anim.v-waves .sj-arc { animation: sjWave 1.7s cubic-bezier(0.34, 1.4, 0.64, 1) both; }
+.sj-mark.is-anim.v-waves .sj-arc-2 { animation-delay: 0.2s; }
+.sj-mark.is-anim.v-waves .sj-arc-1 { animation-delay: 0.42s; }
+.sj-mark.is-anim.v-waves .sj-arc-0 { animation-delay: 0.64s; }
+@keyframes sjWave { from { opacity: 0; transform: scale(0.35); } 55% { opacity: 1; } to { opacity: 1; transform: none; } }
+.sj-mark.is-anim.v-waves .sj-mark-drop { animation-delay: 1.15s; }
+
+/* laser (Werke): leuchtende Linie faehrt hinunter, darunter ist die Form frei */
+.sj-laser-rect { transform-box: view-box; transform-origin: 0 0; transform: scaleY(0); animation: sjLaserCut 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards; }
+.sj-laser-line { fill: #e0a93a; filter: drop-shadow(0 0 2px rgba(224, 169, 58, 0.9)); opacity: 0; animation: sjLaserLine 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards; }
+@keyframes sjLaserCut { to { transform: scaleY(1); } }
+@keyframes sjLaserLine {
+  0% { opacity: 0; transform: translateY(0); }
+  8% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(322px); }
+}
+.sj-mark.is-anim.v-laser .sj-mark-drop { animation: none; }
+
+/* assemble (Design): Boegen drehen sich herein und rasten ein */
+.sj-mark.is-anim.v-assemble .sj-arc { animation: sjAssemble 1.6s cubic-bezier(0.2, 1.25, 0.4, 1) both; }
+.sj-mark.is-anim.v-assemble .sj-arc-0 { --r: -38deg; animation-delay: 0.15s; }
+.sj-mark.is-anim.v-assemble .sj-arc-1 { --r: 30deg; animation-delay: 0.35s; }
+.sj-mark.is-anim.v-assemble .sj-arc-2 { --r: -70deg; animation-delay: 0.55s; }
+@keyframes sjAssemble {
+  from { opacity: 0; transform: rotate(var(--r)); }
+  45% { opacity: 1; }
+  to { opacity: 1; transform: none; }
+}
+.sj-mark.is-anim.v-assemble .sj-mark-drop { animation-delay: 1.2s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sj-sketch { display: none; }
+  .sj-laser { display: none; }
+  .sj-mark .sj-arc, .sj-laser-rect, .sj-mark.is-anim .sj-mark-drop { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
 /* Trenner ueber Ueberschriften (04.11.26): beim Erscheinen faellt der kleine

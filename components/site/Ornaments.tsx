@@ -31,30 +31,57 @@ export function BrandMark({ className = "" }: { className?: string }) {
  */
 const ARCS = BANDS.split(/(?=M)/).map((s) => s.trim());
 
-export function HeroMark({ id, className = "" }: { id: string; className?: string }) {
+/**
+ * Jede Seite baut das Zeichen anders auf (04.11.26, Wunsch Bernard):
+ * - fan (Startseite): Tropfen faellt, Boegen oeffnen sich wie ein Faecher
+ * - sketch (Ueber mich): feine Goldlinie zeichnet die Form, dann fuellt sie sich
+ * - waves (Kontakt): Boegen breiten sich von innen nach aussen aus wie Wellen
+ * - laser (Werke): eine leuchtende Linie faehrt hinunter und schneidet die Form frei
+ * - assemble (Design): die Boegen drehen sich herein und rasten ein
+ */
+export type MarkVariant = "fan" | "sketch" | "waves" | "laser" | "assemble";
+
+export function HeroMark({ id, className = "", variant = "fan" }: { id: string; className?: string; variant?: MarkVariant }) {
+  const fan = variant === "fan";
+  const laser = variant === "laser";
+  const arcs = ARCS.map((d, i) => (
+    <path key={i} className={`sj-mark-bands sj-arc sj-arc-${i}`} d={d} mask={fan ? `url(#${id}-fan-${i})` : undefined} />
+  ));
+  const drop = <path className="sj-mark-drop" d={DROP} />;
   return (
-    <svg className={`sj-mark is-anim ${className}`} viewBox={VIEW} aria-hidden="true" focusable="false">
+    <svg className={`sj-mark is-anim v-${variant} ${className}`} viewBox={VIEW} aria-hidden="true" focusable="false">
       <defs>
-        {/* weiche Vorderkante: der Maskenstrich ist leicht verwischt und
-            beginnt 25 Grad vor den Boegen, damit ihre Kanten scharf bleiben */}
-        <filter id={`${id}-feather`} filterUnits="userSpaceOnUse" x="-80" y="-80" width="420" height="480">
-          <feGaussianBlur stdDeviation="7" />
-        </filter>
-        {ARCS.map((_, i) => (
-          <mask key={i} id={`${id}-fan-${i}`} maskUnits="userSpaceOnUse" x="-40" y="-40" width="330" height="390">
-            <circle
-              className={`sj-fan sj-fan-${i}`}
-              cx="0"
-              cy="64"
-              r="160"
-              fill="none"
-              stroke="#fff"
-              strokeWidth="340"
-              transform="rotate(-25 0 64)"
-              filter={`url(#${id}-feather)`}
-            />
-          </mask>
-        ))}
+        {fan && (
+          <>
+            {/* weiche Vorderkante: der Maskenstrich ist leicht verwischt und
+                beginnt 25 Grad vor den Boegen, damit ihre Kanten scharf bleiben */}
+            <filter id={`${id}-feather`} filterUnits="userSpaceOnUse" x="-80" y="-80" width="420" height="480">
+              <feGaussianBlur stdDeviation="7" />
+            </filter>
+            {ARCS.map((_, i) => (
+              <mask key={i} id={`${id}-fan-${i}`} maskUnits="userSpaceOnUse" x="-40" y="-40" width="330" height="390">
+                <circle
+                  className={`sj-fan sj-fan-${i}`}
+                  cx="0"
+                  cy="64"
+                  r="160"
+                  fill="none"
+                  stroke="#fff"
+                  strokeWidth="340"
+                  transform="rotate(-25 0 64)"
+                  filter={`url(#${id}-feather)`}
+                />
+              </mask>
+            ))}
+          </>
+        )}
+        {laser && (
+          <>
+            <mask id={`${id}-cut`} maskUnits="userSpaceOnUse" x="-10" y="-10" width="270" height="330">
+              <rect className="sj-laser-rect" x="-10" y="-10" width="270" height="330" fill="#fff" />
+            </mask>
+          </>
+        )}
         <clipPath id={`${id}-arcs`}>
           <path d={BANDS} />
         </clipPath>
@@ -69,9 +96,22 @@ export function HeroMark({ id, className = "" }: { id: string; className?: strin
           <stop offset="1" stopColor="#e9c46a" stopOpacity="0" />
         </radialGradient>
       </defs>
-      {ARCS.map((d, i) => (
-        <path key={i} className="sj-mark-bands" d={d} mask={`url(#${id}-fan-${i})`} />
-      ))}
+      {laser ? (
+        <g mask={`url(#${id}-cut)`}>
+          {arcs}
+          {drop}
+        </g>
+      ) : (
+        arcs
+      )}
+      {variant === "sketch" && (
+        <g className="sj-sketch">
+          {ARCS.map((d, i) => (
+            <path key={i} className={`sj-sketch-line sj-sketch-${i}`} d={d} pathLength={1} />
+          ))}
+          <path className="sj-sketch-line sj-sketch-drop" d={DROP} pathLength={1} />
+        </g>
+      )}
       {/* einmaliger Lichtschimmer ueber die fertigen Boegen */}
       <g clipPath={`url(#${id}-arcs)`}>
         <g transform="rotate(18 120 180)">
@@ -80,7 +120,12 @@ export function HeroMark({ id, className = "" }: { id: string; className?: strin
       </g>
       {/* warmes Leuchten um den Tropfen, nur wenn die Maus nahe ist */}
       <circle className="sj-flame" cx="223.7" cy="24" r="58" fill={`url(#${id}-flame)`} />
-      <path className="sj-mark-drop" d={DROP} />
+      {!laser && drop}
+      {laser && (
+        <g className="sj-laser">
+          <rect className="sj-laser-line" x="-6" y="-8" width="258" height="2.4" rx="1.2" />
+        </g>
+      )}
     </svg>
   );
 }

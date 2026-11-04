@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LightPattern } from "./LightPattern";
+import { TitleWindow } from "./HeroMenorah";
 import type { ReactNode } from "react";
 import type { Collection, Pic, Project } from "@/lib/studio";
 import { WORKS } from "@/lib/studio";
@@ -58,6 +59,7 @@ export function SectionHead({
   as: Tag = "h2",
   center = false,
   ornament = false,
+  goldTitle = false,
 }: {
   kicker?: string;
   title: string;
@@ -66,12 +68,17 @@ export function SectionHead({
   center?: boolean;
   /** Goldlinie mit Stern ueber dem Titel */
   ornament?: boolean;
+  /** Titel wird unter der Maus golden, mit der Menora als Licht (wie Startseite) */
+  goldTitle?: boolean;
 }) {
   return (
     <div className={`sj-head${center ? " is-center" : ""}`} data-reveal>
       {ornament && <Divider className={center ? "is-center" : ""} />}
       {kicker && <p className="sj-kicker">{kicker}</p>}
-      <Tag className="sj-title">{title}</Tag>
+      <Tag className={`sj-title${goldTitle ? " sj-has-window" : ""}`}>
+        {title}
+        {goldTitle && <TitleWindow text={title} />}
+      </Tag>
       {children}
     </div>
   );
@@ -136,7 +143,7 @@ export function CallBand({
 }) {
   return (
     <section className="sj-band">
-      <LightPattern />
+      <LightPattern variant="wellen" />
       <div className="wrap sj-band-inner" data-reveal>
         <h2>{title}</h2>
         <p>{text}</p>

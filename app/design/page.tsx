@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CallBand, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
 import { HeroMark } from "@/components/site/Ornaments";
+import { TitleWindow } from "@/components/site/HeroMenorah";
 import { DESIGN, PROJECTS } from "@/lib/studio";
 import { DESIGN_PICS } from "@/lib/studio-pics";
 
@@ -19,11 +20,14 @@ export default function DesignPage() {
   return (
     <SiteShell>
       <section className="sj-page-hero has-rosette">
-        <HeroMark id="sjc" className="is-corner" />
+        <HeroMark id="sjc" className="is-corner" variant="assemble" />
         <div className="wrap sj-split">
           <div className="sj-split-text" data-reveal>
             <p className="sj-kicker">{DESIGN.kicker}</p>
-            <h1 className="sj-title sj-title-xl">{DESIGN.title}</h1>
+            <h1 className="sj-title sj-title-xl sj-has-window">
+              {DESIGN.title}
+              <TitleWindow text={DESIGN.title} />
+            </h1>
             <p className="sj-lead">{DESIGN.paras[0]}</p>
             {DESIGN.paras.slice(1).map((t) => (
               <p key={t.slice(0, 20)}>{t}</p>

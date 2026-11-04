@@ -18,9 +18,9 @@ export default function WorksPage() {
   return (
     <SiteShell>
       <section className="sj-page-hero is-center has-rosette">
-        <HeroMark id="sjc" className="is-corner" />
+        <HeroMark id="sjc" className="is-corner" variant="laser" />
         <div className="wrap sj-narrow">
-          <SectionHead as="h1" kicker={brand.slogan} title={WORKS.title} center ornament>
+          <SectionHead as="h1" kicker={brand.slogan} title={WORKS.title} center ornament goldTitle>
             <p className="sj-lead">{WORKS.paras[0]}</p>
             <p>{WORKS.paras[1]}</p>
           </SectionHead>

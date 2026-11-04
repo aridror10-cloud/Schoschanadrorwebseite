@@ -14,13 +14,16 @@ import { useEffect, useRef } from "react";
  * Buchstaben Gold + Menora als Hintergrund zeigen (background-clip: text),
  * sichtbar nur im weichen Kreis um den Zeiger. Ohne Maus oder bei
  * "Bewegung reduzieren" bleibt der Titel unveraendert.
+ *
+ * Mit image (Seitentitel, 04.11.26): statt Gold und Menora zeigen die
+ * Buchstaben ein Foto von Shoshanas Werk, leicht mitgleitend.
  */
-export function TitleWindow({ text }: { text: string }) {
+export function TitleWindow({ text, image }: { text: string; image?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    const area = el?.closest(".sj-hero-inner") as HTMLElement | null;
+    const area = el?.closest(".sj-hero-inner, section") as HTMLElement | null;
     if (!el || !area) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
@@ -80,7 +83,12 @@ export function TitleWindow({ text }: { text: string }) {
   }, []);
 
   return (
-    <span className="sj-title-window" ref={ref} aria-hidden="true">
+    <span
+      className={`sj-title-window${image ? " is-photo" : ""}`}
+      ref={ref}
+      aria-hidden="true"
+      style={image ? ({ "--wimg": `url("${image}")`, "--wpy": image.includes("chanuka") ? "78%" : "45%" } as React.CSSProperties) : undefined}
+    >
       {text}
     </span>
   );

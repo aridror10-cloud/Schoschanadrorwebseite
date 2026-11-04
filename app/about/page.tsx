@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CallBand, Figure } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
 import { HeroMark } from "@/components/site/Ornaments";
+import { TitleWindow } from "@/components/site/HeroMenorah";
 import { ABOUT, brand } from "@/lib/studio";
 import { ABOUT_PICS } from "@/lib/studio-pics";
 
@@ -19,11 +20,14 @@ export default function AboutPage() {
   return (
     <SiteShell>
       <section className="sj-page-hero has-rosette">
-        <HeroMark id="sjc" className="is-corner" />
+        <HeroMark id="sjc" className="is-corner" variant="sketch" />
         <div className="wrap sj-split">
           <div className="sj-split-text" data-reveal>
             <p className="sj-kicker">{brand.slogan}</p>
-            <h1 className="sj-title sj-title-xl">{ABOUT.title}</h1>
+            <h1 className="sj-title sj-title-xl sj-has-window">
+              {ABOUT.title}
+              <TitleWindow text={ABOUT.title} />
+            </h1>
             <p className="sj-lead">{ABOUT.intro}</p>
           </div>
           <div data-reveal>
