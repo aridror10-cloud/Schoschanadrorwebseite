@@ -3,9 +3,11 @@ import Link from "next/link";
 import { CallBand, Figure } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
 import { HeroMark } from "@/components/site/Ornaments";
+import { AboutMark, type AboutMarkKind } from "@/components/site/AboutMarks";
 import { TitleWindow } from "@/components/site/HeroMenorah";
 import { ABOUT, brand } from "@/lib/studio";
 import { ABOUT_PICS } from "@/lib/studio-pics";
+import "./about-marks.css";
 
 /** Seite "אודות" (Abschnitt 6), Text woertlich aus dem Konzept. */
 
@@ -15,6 +17,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
   openGraph: { title: `${ABOUT.title} | ${brand.person}`, description: ABOUT.intro, url: "/about" },
 };
+
+/* Reihenfolge wie die Abschnitte: Material, Herstellung, Idee, eigene Werke */
+const MARK_KINDS: readonly AboutMarkKind[] = ["laser", "blueprint", "sketch", "papercut"];
 
 export default function AboutPage() {
   return (
@@ -41,10 +46,8 @@ export default function AboutPage() {
           <div className="wrap sj-about-row">
             <div className="sj-about-head" data-reveal>
               <h2 className="sj-title">{s.title}</h2>
-              {/* je Abschnitt ein anderer Aufbau des Zeichens, beim Hinscrollen */}
-              <div className="sj-about-mark">
-                <HeroMark id={`sja${i}`} variant={(["sketch", "waves", "forge", "assemble", "fan"] as const)[i % 5]} />
-              </div>
+              {/* je Abschnitt entsteht das Zeichen anders, passend zum Inhalt */}
+              <AboutMark id={`sja${i}`} kind={MARK_KINDS[i % MARK_KINDS.length] ?? "laser"} />
             </div>
             <div className="sj-about-copy" data-reveal>
               {s.paras.map((p, j) => (

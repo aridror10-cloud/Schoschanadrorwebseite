@@ -1059,15 +1059,7 @@ main:focus { outline: none; }
   .sj-corner-mark { display: none; }
 }
 
-/* Ueber mich (04.11.26): kleines Zeichen unter jeder Abschnittsueberschrift,
-   jedes mit eigener Aufbau-Animation, startet beim Hinscrollen. */
-.sj-about-mark { width: 92px; margin-top: 26px; pointer-events: none; }
-.sj-about-mark .sj-mark { position: static; display: block; width: 100%; }
-.fx .sj-about-head:not(.is-visible) .sj-mark,
-.fx .sj-about-head:not(.is-visible) .sj-mark * { animation-play-state: paused; }
-@media (max-width: 760px) {
-  .sj-about-mark { display: none; }
-}
+/* Ueber mich: Zeichen unter den Abschnittsueberschriften jetzt in app/about/about-marks.css */
 
 /* Fusszeile (04.11.26): Goldlinie von der Mitte, Tropfen faellt darauf */
 .site-footer::before { display: none; }

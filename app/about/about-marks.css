@@ -1,0 +1,131 @@
+/*
+ * Zeichen unter den Abschnittsueberschriften auf "Ueber mich" (04.11.26),
+ * siehe components/site/AboutMarks.tsx. Grundzustand = fertige Zeichnung.
+ * Bewegung nur auf breiten Bildschirmen, mit JS (.fx) und ohne
+ * "Bewegung reduzieren"; sie laeuft einmal, sobald .is-drawn gesetzt ist.
+ */
+
+.am {
+  --am-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --am-line: #b59d5f;
+  --am-pencil: #85765a;
+  width: 176px;
+  margin-top: 18px;
+  /* Rand der Zeichenflaeche ausgleichen: Zeichen buendig mit dem Titel */
+  margin-inline-start: -23px;
+  pointer-events: none;
+}
+.am svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* gezeichnete Linien: pathLength 1, Strich von 0 bis 1 */
+.am .am-draw { fill: none; stroke-dasharray: 1 2; stroke-dashoffset: 0; }
+
+/* ---------- Laser ---------- */
+.am-laser .am-plan path { fill: none; stroke: var(--am-line); stroke-width: 1.1; stroke-dasharray: 3.2 3.4; }
+.am-laser .am-plan,
+.am-laser .am-nodes,
+.am-laser .am-beam { opacity: 0; }
+.am-laser .am-nodes rect { fill: #fff; stroke: var(--gold); stroke-width: 1; }
+.am-laser .am-nodes circle { fill: var(--gold); }
+.am-laser .am-nodes line { stroke: var(--gold); stroke-width: 0.8; }
+.am-laser .am-cut { fill: none; stroke: var(--gold-text); stroke-width: 1; stroke-opacity: 0.55; stroke-dasharray: 1 2; }
+.am-laser .am-beam path { fill: none; stroke-linecap: round; stroke-dasharray: 0.008 3; stroke-dashoffset: 0.008; }
+.am-laser .am-beam-halo { stroke: rgba(236, 178, 70, 0.14); stroke-width: 20; }
+.am-laser .am-beam-glow { stroke: rgba(230, 168, 58, 0.34); stroke-width: 9; }
+.am-laser .am-beam-core { stroke: #fff4d6; stroke-width: 3; }
+
+/* ---------- Bauzeichnung ---------- */
+.am-blueprint .am-bp { opacity: 0.78; }
+.am-blueprint .am-bp path,
+.am-blueprint .am-bp circle { fill: none; stroke: var(--am-line); stroke-width: 1; }
+.am-blueprint .am-bp .am-bp-fine { stroke-width: 0.8; }
+.am-blueprint .am-axis { stroke-dasharray: 16 4 2.5 4; }
+.am-blueprint mask path { stroke: #fff; stroke-width: 8; }
+.am-blueprint .am-tick { fill: none; stroke: var(--gold-text); stroke-width: 1; opacity: 0.8; }
+
+/* ---------- Skizze ---------- */
+.am-sketch .am-sk path { stroke: var(--am-pencil); stroke-width: 1.15; stroke-linecap: round; }
+/* am Ende bleibt nur ein Strich als feine Tuschekontur stehen */
+.am-sketch .am-sk-p0 { opacity: 0; }
+.am-sketch .am-sk-p1 { opacity: 0.7; }
+.am-sketch .am-sk-p1 path { stroke: var(--gold-text); stroke-width: 0.95; }
+.am-sketch .am-sk-p0,
+.am-sketch .am-sk-p1 { transform-box: view-box; transform-origin: 122px 154px; }
+
+/* ---------- Scherenschnitt ---------- */
+.am-papercut .am-pc-card { fill: #6b5626; opacity: 0.13; }
+.am-papercut .am-pc-rim { fill: none; stroke: rgba(74, 60, 24, 0.12); stroke-width: 0.8; }
+.am-papercut .am-pc-piece { opacity: 0; }
+.am-papercut .am-pc-shadow { fill: #3b3020; opacity: 0; }
+.am-papercut .am-pc-face { stroke-width: 1.2; }
+.am-papercut .am-knife { stroke: #6f6142; stroke-width: 0.9; }
+
+/* ---------- Bewegung ---------- */
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  .fx .am:not(.is-drawn) *,
+  .fx .am:not(.is-drawn) { animation-play-state: paused !important; }
+
+  .fx .am .am-draw { animation: amDraw var(--t, 1.2s) cubic-bezier(0.45, 0, 0.25, 1) var(--d, 0s) both; }
+
+  /* Laser */
+  .fx .am-laser .am-plan { animation: amPlan 3.6s linear 0.05s both; }
+  .fx .am-laser .am-nodes { animation: amPlan 3.6s linear 0.2s both; }
+  .fx .am-laser .am-cut { animation: amDraw var(--t) cubic-bezier(0.45, 0, 0.55, 1) var(--d) both; }
+  .fx .am-laser .am-beam { opacity: 1; }
+  .fx .am-laser .am-beam path {
+    animation:
+      amBeamMove var(--t) cubic-bezier(0.45, 0, 0.55, 1) var(--d) both,
+      amBeamFade var(--t) linear var(--d) both;
+  }
+  .fx .am-laser .am-fill { animation: amFadeIn 1.1s var(--am-ease) var(--d) both; }
+
+  /* Bauzeichnung */
+  .fx .am-blueprint .am-tick { animation: amFadeIn 0.8s ease var(--d) both; }
+  .fx .am-blueprint .am-part { animation: amPartIn var(--t) var(--am-ease) var(--d) both; }
+  .fx .am-blueprint .am-part-drop { animation-name: amDropIn; }
+
+  /* Skizze */
+  .fx .am-sketch .am-wipe { animation: amWipe var(--t) cubic-bezier(0.4, 0, 0.2, 1) var(--d) both; }
+  .fx .am-sketch .am-sk-p0 { animation: amLoose0 var(--t) var(--am-ease) var(--d) both; }
+  .fx .am-sketch .am-sk-p1 { animation: amLoose1 var(--t) var(--am-ease) var(--d) both; }
+
+  /* Scherenschnitt */
+  .fx .am-papercut .am-pc-piece { animation: amLift var(--t) cubic-bezier(0.33, 0, 0.2, 1) var(--d) both; }
+  .fx .am-papercut .am-pc-shadow { animation: amLiftShadow var(--t) cubic-bezier(0.33, 0, 0.2, 1) var(--d) both; }
+}
+
+@keyframes amDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes amFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes amPlan { 0% { opacity: 0; } 14% { opacity: 1; } 78% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes amBeamMove { from { stroke-dashoffset: 0.008; } to { stroke-dashoffset: -0.992; } }
+@keyframes amBeamFade { 0% { opacity: 0; } 8% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes amPartIn {
+  from { opacity: 0; transform: translate(16px, 16px); }
+  45% { opacity: 1; }
+  to { opacity: 1; transform: none; }
+}
+@keyframes amDropIn {
+  from { opacity: 0; transform: translateY(-18px); }
+  45% { opacity: 1; }
+  to { opacity: 1; transform: none; }
+}
+@keyframes amWipe { from { transform: translateX(640px); } to { transform: none; } }
+@keyframes amLoose0 { from { opacity: 1; transform: rotate(-2.6deg) scale(1.04) translate(-4px, 5px); } 55% { opacity: 1; } to { opacity: 0; transform: none; } }
+@keyframes amLoose1 { from { opacity: 1; transform: rotate(2.2deg) scale(0.97) translate(5px, -4px); } to { opacity: 0.7; transform: none; } }
+@keyframes amLift {
+  0% { opacity: 1; transform: none; }
+  55% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-6px, -11px) scale(1.015); }
+}
+@keyframes amLiftShadow {
+  0% { opacity: 0; transform: none; }
+  60% { opacity: 0.3; }
+  100% { opacity: 0.22; transform: translate(9px, 15px); }
+}
+
+/* Handy: klein neben der Ueberschrift, fertig gezeichnet, ohne Bewegung */
+@media (max-width: 760px) {
+  .sj-about-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+  .sj-about-head .sj-title { margin-bottom: 0; }
+  .am { flex: 0 0 auto; width: 74px; margin: 0; margin-inline-end: -8px; }
+}
