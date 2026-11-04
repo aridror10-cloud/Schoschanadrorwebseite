@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import QRCode from "qrcode";
 import { dbRpc } from "@/lib/db";
+import { REF_TARGETS } from "@/lib/ref-redirect";
 import { studioToken } from "@/lib/studio-auth";
 import { CopyButton } from "./CopyButton";
 import "./partners.css";
@@ -220,6 +221,31 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
                       </a>
                     </div>
                   </div>
+                </div>
+
+                <div className="pt-direct">
+                  <p className="pt-direct-title">קישורים ישירים, נרשמים גם הם על שם המשווק:</p>
+                  {Object.entries(REF_TARGETS).map(([t, info]) => {
+                    const dl = `${SITE}/r/${p.code}/${t}`;
+                    return (
+                      <div key={t} className="pt-direct-row">
+                        <span className="pt-direct-label">{info.he}</span>
+                        <code dir="ltr">{dl}</code>
+                        <CopyButton text={dl} small />
+                        <a
+                          className="pt-btn pt-btn-ghost pt-btn-small"
+                          href={`https://wa.me/${intlPhone(p.phone)}?text=${encodeURIComponent(dl)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          וואטסאפ
+                        </a>
+                        <a className="pt-btn pt-btn-ghost pt-btn-small" href={`/api/qr?code=${p.code}&t=${t}`}>
+                          QR
+                        </a>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <div className="pt-stats">

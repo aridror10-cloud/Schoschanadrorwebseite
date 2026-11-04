@@ -3,12 +3,12 @@
 import { useState } from "react";
 
 /** Link kopieren, mit kurzer Bestaetigung */
-export function CopyButton({ text }: { text: string }) {
+export function CopyButton({ text, small }: { text: string; small?: boolean }) {
   const [done, setDone] = useState(false);
   return (
     <button
       type="button"
-      className="pt-btn pt-btn-ghost"
+      className={`pt-btn pt-btn-ghost${small ? " pt-btn-small" : ""}`}
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(text);
@@ -24,7 +24,7 @@ export function CopyButton({ text }: { text: string }) {
         window.setTimeout(() => setDone(false), 1800);
       }}
     >
-      {done ? "הועתק ✓" : "העתקת הקישור"}
+      {done ? "הועתק ✓" : small ? "העתקה" : "העתקת הקישור"}
     </button>
   );
 }

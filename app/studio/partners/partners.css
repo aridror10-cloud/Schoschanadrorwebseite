@@ -115,3 +115,10 @@
 .pt-fix summary::-webkit-details-marker { display: none; }
 .pt-fix form { display: flex; gap: 6px; margin-top: 6px; }
 .pt-fix input { width: 90px; font: inherit; font-size: 0.88rem; border: 1px solid var(--pt-line); border-radius: 6px; padding: 5px 8px; }
+
+/* Direktlinks (04.11.26): /r/<name>/chanuka usw. */
+.pt-direct { margin-top: 10px; display: grid; gap: 6px; }
+.pt-direct-title { margin: 4px 0 2px; color: var(--pt-soft); font-size: 0.85rem; }
+.pt-direct-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px dashed #efe9dc; }
+.pt-direct-label { min-width: 110px; font-weight: 600; font-size: 0.9rem; }
+.pt-direct-row code { flex: 1 1 240px; font-size: 0.85rem; color: var(--pt-soft); overflow-wrap: anywhere; text-align: left; }

@@ -1,40 +1,7 @@
-import { NextResponse } from "next/server";
-import { dbInsert, deviceOf } from "@/lib/db";
+import { refRedirect } from "@/lib/ref-redirect";
 
-/**
- * Empfehlungslink fuer Partnerinnen: /r/<name>
- * Merkt sich den Namen 60 Tage im Cookie "sj_ref" und fuehrt zur
- * Carlebach-Seite. Optional ?to=/pfad fuer ein anderes Ziel auf der Website.
- * Siehe lib/ref.ts fuer die Auswertung.
- */
-export function GET(request: Request, { params }: { params: Promise<{ code: string }> }) {
-  return params.then(({ code }) => {
-    const url = new URL(request.url);
-    const to = url.searchParams.get("to");
-    const target = to && /^\/[a-z0-9/_#-]*$/i.test(to) ? to : "/carlebach";
-    const res = NextResponse.redirect(new URL(target, url.origin), 302);
-    const clean = code.toLowerCase();
-    if (/^[a-z0-9-]{2,40}$/.test(clean)) {
-      res.cookies.set("sj_ref", clean, { maxAge: 60 * 60 * 24 * 60, path: "/", sameSite: "lax" });
-      // Klickzaehler fuer /studio (anonym)
-      const ua = request.headers.get("user-agent");
-      if (!/bot|crawl|spider|preview|facebookexternalhit|whatsapp/i.test(ua ?? "")) {
-        return dbInsert("events", {
-          type: "ref_click",
-          ref: clean,
-          path: target,
-          device: deviceOf(ua),
-          country: request.headers.get("x-vercel-ip-country")?.slice(0, 4) ?? null,
-          source: (() => {
-            try {
-              return new URL(request.headers.get("referer") ?? "").hostname.slice(0, 120) || null;
-            } catch {
-              return null;
-            }
-          })(),
-        }).then(() => res);
-      }
-    }
-    return res;
-  });
+/** Empfehlungslink /r/<name>, fuehrt zur Carlebach-Seite (Logik in lib/ref-redirect.ts) */
+export async function GET(request: Request, { params }: { params: Promise<{ code: string }> }) {
+  const { code } = await params;
+  return refRedirect(request, code);
 }
