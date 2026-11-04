@@ -45,47 +45,100 @@
 .yz-progress li.is-now path { stroke: var(--gold); animation: yzNow 1.4s ease both; }
 @keyframes yzNow { 0% { fill: rgba(171, 145, 73, 0.35); } 100% { fill: rgba(171, 145, 73, 0); } }
 
-.yz-menorah-box { position: relative; width: 100%; max-width: 520px; aspect-ratio: 524 / 466; }
+.yz-stage-note { margin: 0; font-size: 0.88rem; color: #6f6a60; letter-spacing: 0.2px; }
+
+/* ===== Menora (zweite Fassung 04.11.26): Messing, steigendes Gold, Flammen ===== */
+.yz-menorah-box { position: relative; width: 100%; max-width: 520px; aspect-ratio: 524 / 496; }
 .yz-menorah { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .yz-dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
-.yz-ghost { fill: none; stroke: rgba(171, 145, 73, 0.32); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 3 5; }
+/* Vorahnung: feine gestrichelte Linie */
+.yz-ghost { fill: none; stroke: rgba(171, 145, 73, 0.34); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 3 5; transition: opacity 1s ease; }
 .yz-ghost path, .yz-ghost g { transition: opacity 0.6s ease 0.5s; }
 .yz-ghost .is-off { opacity: 0; }
-.yz-sheen-layer { opacity: 0; transition: opacity 1.4s ease 0.6s; pointer-events: none; }
-.is-lit .yz-sheen-layer { opacity: 1; }
-.is-lit .yz-ghost { opacity: 0; transition: opacity 1s ease; }
-.yz-stage-note { margin: 0; font-size: 0.88rem; color: #6f6a60; letter-spacing: 0.2px; }
-/* gewachsene Arme: zartes Gold statt flacher Platzhalter */
-.yz-arm-base { fill: url(#yz-gold); fill-opacity: 0.32; }
-.yz-arm-gold { opacity: 0; transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1); }
-.is-lit .yz-arm-gold { opacity: 1; }
+.is-lit .yz-ghost { opacity: 0; }
+
+/* waehrend der Fragen: mattes, noch nicht poliertes Messing */
+.yz-pale { opacity: 0.55; transition: opacity 1.6s ease 1.2s; }
+.is-lit .yz-pale { opacity: 0; }
 .yz-sweep {
   stroke-dasharray: 392 1400;
   stroke-dashoffset: 392;
-  transition: stroke-dashoffset 1.15s cubic-bezier(0.5, 0, 0.1, 1);
+  transition: stroke-dashoffset 1.25s cubic-bezier(0.5, 0, 0.1, 1);
 }
 .yz-sweep.is-on { stroke-dashoffset: 0; }
+.yz-cup {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scale(0.3, 0);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.85s, opacity 0.5s ease 0.85s;
+}
+.yz-cup.is-on { transform: none; opacity: 1; }
 .yz-stem {
   transform-box: fill-box;
-  transform-origin: 50% 0;
+  transform-origin: 50% 100%;
   transform: scaleY(0);
   opacity: 0;
-  transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+  transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
 }
 .yz-stem.is-on { transform: none; opacity: 1; }
 
-.yz-flame-drop { fill: #dcb65a; opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+/* Anzuenden: Gold steigt vom Fuss auf (weiche Kante) */
+.yz-pour-c, .yz-pour-front { transform-box: fill-box; transform-origin: 50% 50%; transform: scale(0); }
+.is-lit .yz-pour-c { animation: yzPour 2.3s cubic-bezier(0.4, 0.1, 0.3, 1) both; }
+.yz-pour-front { opacity: 0; vector-effect: non-scaling-stroke; }
+.is-lit .yz-pour-front { animation: yzPour 2.3s cubic-bezier(0.4, 0.1, 0.3, 1) both, yzFront 2.3s ease both; }
+@keyframes yzPour { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes yzFront { 0% { opacity: 0; } 15% { opacity: 0.9; } 70% { opacity: 0.75; } 100% { opacity: 0; } }
+
+/* ein einziger Lichtreflex, wenn das Gold oben ist */
+.yz-glint { opacity: 0; }
+.is-lit .yz-glint { animation: yzGlint 1.6s cubic-bezier(0.4, 0, 0.2, 1) 2.05s both; }
+@keyframes yzGlint {
+  0% { opacity: 0; transform: translateX(0); }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(1150px); }
+}
+
+/* warmer Schein dahinter */
+.yz-aura { opacity: 0; transition: opacity 2.6s ease 1.6s; }
+.is-lit .yz-aura { opacity: 1; }
+
+/* Funke, dann Flamme, von der Mitte nach aussen */
+.yz-spark, .yz-flame-ignite, .yz-flame-flick { transform-box: fill-box; }
+.yz-spark { transform-origin: 50% 50%; opacity: 0; }
 .yz-flame-glow { opacity: 0; }
-.is-lit .yz-flame-drop { animation: yzIgnite 0.95s cubic-bezier(0.33, 0, 0.2, 1) calc(0.35s + var(--fd) * 0.17s) both; }
-.is-lit .yz-flame-glow { animation: yzGlow 1.8s ease calc(0.35s + var(--fd) * 0.17s) both; }
+.yz-flame-ignite { transform-origin: 50% 100%; opacity: 0; }
+.yz-flame-flick { transform-origin: 50% 100%; }
+.is-lit .yz-spark { animation: yzSpark 0.6s ease-out calc(1.85s + var(--fd) * 0.2s) both; }
+.is-lit .yz-flame-ignite { animation: yzIgnite 1.1s cubic-bezier(0.25, 0.1, 0.2, 1) calc(1.95s + var(--fd) * 0.2s) both; }
+.is-lit .yz-flame-glow { animation: yzGlow 2.2s ease calc(1.95s + var(--fd) * 0.2s) both; }
+@keyframes yzSpark {
+  0% { opacity: 0; transform: scale(0.2); }
+  30% { opacity: 1; transform: scale(2.6); }
+  100% { opacity: 0; transform: scale(0.6); }
+}
 @keyframes yzIgnite {
-  0% { opacity: 0; transform: translateY(8px) scale(0.3, 0.45); }
-  55% { opacity: 1; transform: translateY(0) scale(1.12, 0.94); }
-  78% { transform: scale(0.97, 1.04); }
+  0% { opacity: 0; transform: scale(0.15, 0.1); }
+  45% { opacity: 1; transform: scale(0.82, 1.12); }
+  75% { transform: scale(1.04, 0.97); }
   100% { opacity: 1; transform: none; }
 }
-@keyframes yzGlow { 0% { opacity: 0; } 35% { opacity: 1; } 100% { opacity: 0.62; } }
+@keyframes yzGlow { 0% { opacity: 0; } 40% { opacity: 1; } 100% { opacity: 0.7; } }
+
+/* ganz leises Flackern, nur mit Maus und ohne "Bewegung reduzieren" */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .is-lit .yz-flame-flick { animation: yzFlick 3.4s ease-in-out calc(3.4s + var(--fd) * 0.37s) infinite alternate; }
+  .is-lit .yz-flame:nth-of-type(odd) .yz-flame-flick { animation-duration: 2.9s; }
+  @keyframes yzFlick {
+    0% { transform: none; }
+    30% { transform: scale(0.97, 1.035) skewX(0.8deg); }
+    65% { transform: scale(1.02, 0.985) skewX(-0.6deg); }
+    100% { transform: scale(0.99, 1.02); }
+  }
+}
 
 .yz-slogan {
   font-family: var(--font-frank), serif;

@@ -17,8 +17,9 @@ import {
   type Path,
   type RelatedWork,
 } from "@/lib/journey";
-import { ARCS, DROP } from "./Ornaments";
-import { STAGE_VIEW, runGoldParticles } from "./goldParticles";
+import { DROP } from "./Ornaments";
+import { MenorahStage } from "./MenorahStage";
+import { runGoldParticles } from "./goldParticles";
 
 /**
  * Fragenweg "יצירה משלכם" (04.11.26). Sieben Fragen bauen die Menora:
@@ -33,26 +34,6 @@ import { STAGE_VIEW, runGoldParticles } from "./goldParticles";
 type Phase = "ask" | "calc" | "profile" | "sending" | "sent";
 const KEY = "sj_yetzira";
 const TOTAL = QUESTIONS.length;
-
-/** Reihenfolge der wachsenden Arme: rechts aussen, links aussen, ... */
-const ARM_ORDER: [side: "r" | "l", arc: number][] = [
-  ["r", 0],
-  ["l", 0],
-  ["r", 1],
-  ["l", 1],
-  ["r", 2],
-  ["l", 2],
-];
-/** Flammen: Spitzen der Boegen und die Mitte (hoeher, wie der Schamasch) */
-const FLAMES = [
-  { x: -221, y: 12, d: 3 },
-  { x: -129, y: 12, d: 2 },
-  { x: -28, y: 12, d: 1 },
-  { x: 0, y: -36, d: 0 },
-  { x: 28, y: 12, d: 1 },
-  { x: 129, y: 12, d: 2 },
-  { x: 221, y: 12, d: 3 },
-];
 
 /** Index der ersten unbeantworteten Pflichtfrage, TOTAL - 1 wenn alles da ist */
 function firstMissing(a: Answers) {
@@ -356,104 +337,7 @@ export function CreationFunnel({ related }: { related: Record<string, RelatedWor
           ))}
         </ol>
         <div className="yz-menorah-box">
-          <svg className="yz-menorah" viewBox={`${STAGE_VIEW.x} ${STAGE_VIEW.y} ${STAGE_VIEW.w} ${STAGE_VIEW.h}`}>
-            <defs>
-              <filter id="yz-feather" filterUnits="userSpaceOnUse" x="-500" y="-500" width="1000" height="1100">
-                <feGaussianBlur stdDeviation="7" />
-              </filter>
-              <linearGradient id="yz-gold" gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="370">
-                <stop offset="0" stopColor="#e6cb82" />
-                <stop offset="0.35" stopColor="#c9a24f" />
-                <stop offset="0.7" stopColor="#ad8a3c" />
-                <stop offset="1" stopColor="#8f7228" />
-              </linearGradient>
-              <linearGradient id="yz-sheen" gradientUnits="userSpaceOnUse" x1="-260" y1="0" x2="260" y2="0">
-                <stop offset="0" stopColor="#fff3cf" stopOpacity="0" />
-                <stop offset="0.3" stopColor="#fff3cf" stopOpacity="0.28" />
-                <stop offset="0.5" stopColor="#fff3cf" stopOpacity="0" />
-                <stop offset="0.7" stopColor="#fff3cf" stopOpacity="0.28" />
-                <stop offset="1" stopColor="#fff3cf" stopOpacity="0" />
-              </linearGradient>
-              <radialGradient id="yz-glow">
-                <stop offset="0" stopColor="#f3d27a" stopOpacity="0.75" />
-                <stop offset="0.4" stopColor="#e9c46a" stopOpacity="0.22" />
-                <stop offset="1" stopColor="#e9c46a" stopOpacity="0" />
-              </radialGradient>
-              {ARM_ORDER.map(([side, arc], order) => (
-                <mask key={`${side}${arc}`} id={`yz-m-${side}${arc}`} maskUnits="userSpaceOnUse" x="-80" y="-80" width="420" height="480">
-                  <circle
-                    className={`yz-sweep${order < grown ? " is-on" : ""}`}
-                    cx="0"
-                    cy="64"
-                    r="160"
-                    fill="none"
-                    stroke="#fff"
-                    strokeWidth="340"
-                    transform="rotate(-25 0 64)"
-                    filter="url(#yz-feather)"
-                  />
-                </mask>
-              ))}
-            </defs>
-            {/* zarte Vorahnung der ganzen Menora, damit man sieht, was entsteht */}
-            <g className="yz-ghost">
-              {(["r", "l"] as const).map((side) => (
-                <g key={side} transform={side === "r" ? "translate(-1 0)" : "translate(1 0) scale(-1 1)"}>
-                  {ARCS.map((d, arc) => {
-                    const order = ARM_ORDER.findIndex(([s, a]) => s === side && a === arc);
-                    return <path key={arc} d={d} className={order < grown ? "is-off" : ""} />;
-                  })}
-                </g>
-              ))}
-              <g className={grown >= TOTAL ? "is-off" : ""}>
-                <rect x="-11" y="300" width="22" height="52" rx="2" />
-                <path d="M-84 352 H84 L68 368 H-68 Z" />
-              </g>
-            </g>
-            {/* Arme: rechts die Haelfte des Zeichens, links das Spiegelbild */}
-            {(["r", "l"] as const).map((side) => (
-              <g key={side} transform={side === "r" ? "translate(-1 0)" : "translate(1 0) scale(-1 1)"}>
-                {ARCS.map((d, arc) => {
-                  const order = ARM_ORDER.findIndex(([s, a]) => s === side && a === arc);
-                  return (
-                    <g key={arc} className={`yz-arm${order < grown ? " is-on" : ""}`} mask={`url(#yz-m-${side}${arc})`}>
-                      <path className="yz-arm-base" d={d} />
-                      <path className="yz-arm-gold" d={d} fill="url(#yz-gold)" />
-                    </g>
-                  );
-                })}
-              </g>
-            ))}
-            {/* Schaft und Fuss: siebte Antwort */}
-            <g className={`yz-stem${grown >= TOTAL ? " is-on" : ""}`}>
-              <rect x="-11" y="300" width="22" height="52" rx="2" className="yz-arm-base" />
-              <path d="M-84 352 H84 L68 368 H-68 Z" className="yz-arm-base" />
-              <rect x="-11" y="300" width="22" height="52" rx="2" className="yz-arm-gold" fill="url(#yz-gold)" />
-              <path d="M-84 352 H84 L68 368 H-68 Z" className="yz-arm-gold" fill="url(#yz-gold)" />
-            </g>
-            {/* zarter Glanz ueber dem Gold, spiegelgleich */}
-            <g className="yz-sheen-layer">
-              <g transform="translate(-1 0)">
-                {ARCS.map((d, i) => (
-                  <path key={i} d={d} fill="url(#yz-sheen)" />
-                ))}
-              </g>
-              <g transform="translate(1 0) scale(-1 1)">
-                {ARCS.map((d, i) => (
-                  <path key={i} d={d} fill="url(#yz-sheen)" />
-                ))}
-              </g>
-            </g>
-            {/* Flammen */}
-            {FLAMES.map((f, i) => (
-              <g key={i} className="yz-flame" style={{ "--fd": f.d } as React.CSSProperties}>
-                <circle cx={f.x} cy={f.y + 22} r="46" fill="url(#yz-glow)" className="yz-flame-glow" />
-                <g transform={`translate(${f.x - 223.7} ${f.y})`}>
-                  <path d={DROP} className="yz-flame-drop" />
-                </g>
-              </g>
-            ))}
-          </svg>
+          <MenorahStage grown={grown} lit={lit} />
           <canvas ref={canvasRef} className="yz-dust" />
         </div>
         {lit || done ? <p className="yz-slogan">{YETZIRA.slogan}</p> : <p className="yz-stage-note">{YETZIRA.stageNote}</p>}

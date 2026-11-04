@@ -10,7 +10,7 @@
 import { BANDS } from "./Ornaments";
 
 /** muss zur viewBox der Buehne passen */
-export const STAGE_VIEW = { x: -262, y: -96, w: 524, h: 466 };
+export const STAGE_VIEW = { x: -262, y: -96, w: 524, h: 496 };
 
 interface P {
   sx: number;
