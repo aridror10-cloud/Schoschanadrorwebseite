@@ -62,6 +62,9 @@ const MODEL: Record<string, string> = {
   sukkot: "Sukkot-Ausgabe",
   sukkotSet: "Sukkot-Serie",
   chanuka: "Chanukkia",
+  chanukaBlack: "Chanukkia schwarz",
+  chanukaWhite: "Chanukkia weiss",
+  chanukaGold: "Chanukkia gold",
 };
 const PAGE: Record<string, string> = {
   "/": "Startseite",

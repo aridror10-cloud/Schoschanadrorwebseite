@@ -7,6 +7,7 @@ import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { CHANUKA_PICS } from "@/lib/chanuka-pics";
 import { YouTubeFacade } from "@/components/YouTubeFacade";
 import { ChanukaGallery } from "@/components/ChanukaGallery";
+import { ChanukaColorBuy } from "@/components/ChanukaColorBuy";
 import { Quiz } from "@/components/Quiz";
 import { QuickQuestion, StickyBuy, TrustRow } from "@/components/Boosters";
 import { HomesGallery } from "@/components/HomesGallery";
@@ -301,7 +302,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 {t.chanuka.product.usd && <div className="chanuka-usd">{t.chanuka.product.usd}</div>}
                 {ORDERABLE.chanuka ? (
                   <>
-                    <PieceControls model="chanuka" lang={lang} />
+                    <ChanukaColorBuy lang={lang} />
                     <TrustRow lang={lang} dark wall={false} />
                     <QuickQuestion lang={lang} piece={lang === "he" ? "חנוכיה קרליבך" : "Carlebach Menorah"} />
                   </>

@@ -197,7 +197,7 @@ export interface LandingContent {
     more: string;
     add: string;
     added: string;
-    names: Record<"simcha" | "regesh" | "shrika" | "set" | "sukkot" | "sukkotSet" | "chanuka", string>;
+    names: Record<"simcha" | "regesh" | "shrika" | "set" | "sukkot" | "sukkotSet" | "chanuka" | "chanukaBlack" | "chanukaWhite" | "chanukaGold", string>;
     title: string;
     remove: string;
     checkout: string;
@@ -491,7 +491,7 @@ export const content: Record<Lang, LandingContent> = {
       more: "עוד אחד",
       add: "הוספה לסל",
       added: "נוסף לסל ✓",
-      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה", sukkotSet: "סדרת סוכות (4 חלקים)", chanuka: "חנוכיה קרליבך, דגם שמחה" },
+      names: { simcha: "שמחה", regesh: "רגש", shrika: "שריקה", set: "הסט המלא", sukkot: "שמחה לנוי סוכה", sukkotSet: "סדרת סוכות (4 חלקים)", chanuka: "חנוכיה קרליבך, דגם שמחה, כסוף טבעי", chanukaBlack: "חנוכיה קרליבך, דגם שמחה, שחור", chanukaWhite: "חנוכיה קרליבך, דגם שמחה, לבן", chanukaGold: "חנוכיה קרליבך, דגם שמחה, זהב" },
       title: "הסל שלכם",
       remove: "הסרה מהסל",
       checkout: "מעבר לתשלום",
@@ -510,7 +510,7 @@ export const content: Record<Lang, LandingContent> = {
       product: {
         title: "חנוכיה קרליבך | דגם „שמחה”",
         text: [
-          "חנוכייה בעיצוב מגזרת מתכת בגוון כסוף טבעי, המשלבת את דיוקנו של ר׳ שלמה קרליבך ואת מילות הפסוק ״אורך ימים אשביעהו ואראהו בישועתי״. יצירה המחברת בין אור החנוכה, ניגוניו של ר׳ שלמה והכמיהה לישועה.",
+          "חנוכייה בעיצוב מגזרת מתכת, בגוון כסוף טבעי או בשחור, לבן וזהב, המשלבת את דיוקנו של ר׳ שלמה קרליבך ואת מילות הפסוק ״אורך ימים אשביעהו ואראהו בישועתי״. יצירה המחברת בין אור החנוכה, ניגוניו של ר׳ שלמה והכמיהה לישועה.",
         ],
         size: "מידות: גובה 22 ס״מ, רוחב 27 ס״מ",
         price: "290 ₪",
@@ -878,7 +878,7 @@ Please send me the next steps to complete the order.`,
       more: "One more",
       add: "Add to basket",
       added: "Added ✓",
-      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set", sukkot: "Joy, Sukkot edition", sukkotSet: "Sukkot series (4 pieces)", chanuka: "Carlebach Menorah, Joy design" },
+      names: { simcha: "Joy", regesh: "Soul", shrika: "Whistling", set: "Full set", sukkot: "Joy, Sukkot edition", sukkotSet: "Sukkot series (4 pieces)", chanuka: "Carlebach Menorah, Joy design, natural silver", chanukaBlack: "Carlebach Menorah, Joy design, black", chanukaWhite: "Carlebach Menorah, Joy design, white", chanukaGold: "Carlebach Menorah, Joy design, gold" },
       title: "Your basket",
       remove: "Remove from basket",
       checkout: "Checkout",
@@ -898,7 +898,7 @@ Please send me the next steps to complete the order.`,
       product: {
         title: "The Carlebach Menorah | “Joy” design",
         text: [
-          "A menorah designed as a metal cutwork in a natural silver tone, bringing together the portrait of Reb Shlomo Carlebach and the words of the verse “Orech Yamim Asbi’ehu Ve’arehu Bishuati”. A piece that joins the light of Chanukah, the melodies of Reb Shlomo and the longing for salvation.",
+          "A menorah designed as a metal cutwork, in natural silver or in black, white and gold, bringing together the portrait of Reb Shlomo Carlebach and the words of the verse “Orech Yamim Asbi’ehu Ve’arehu Bishuati”. A piece that joins the light of Chanukah, the melodies of Reb Shlomo and the longing for salvation.",
         ],
         size: "Size: 22 cm high, 27 cm wide (8.7 × 10.6 in)",
         price: "₪290",

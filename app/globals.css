@@ -1167,6 +1167,30 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
 .chanuka-usd { color: #b9ae96; font-size: 0.9rem; }
 .chanuka-size { margin: 4px 0 14px; font-size: 0.95rem; letter-spacing: 0.2px; opacity: 0.85; }
 .chanuka-buy .pc { margin-top: 16px; }
+/* Farbwahl der Chanukkia (04.11.26): Metallplaettchen mit Namen */
+.chanuka-buy .cc { margin-top: 20px; }
+.cc-label { margin: 0 0 10px; font-size: 0.92rem; color: #b9ae98 !important; letter-spacing: 0.2px; }
+.cc-name { color: #f1e2b8; }
+.cc-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.cc-swatch {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 13px 7px 11px; border-radius: 999px;
+  border: 1px solid rgba(231, 207, 146, 0.22); background: rgba(255, 255, 255, 0.03);
+  color: #d8cfbd; font: inherit; font-size: 0.9rem; cursor: pointer;
+  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+.cc-swatch:hover { border-color: rgba(231, 207, 146, 0.55); }
+.cc-swatch.is-on { border-color: #e7cf92; background: rgba(231, 207, 146, 0.1); color: #fff; }
+.cc-swatch:focus-visible { outline: 2px solid #e7cf92; outline-offset: 2px; }
+.cc-chip {
+  width: 18px; height: 18px; border-radius: 50%; flex: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+.cc-swatch.is-on .cc-chip { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 0 2px #1b1a17, 0 0 0 3px #e7cf92; }
+@media (max-width: 560px) {
+  .cc-swatches { display: grid; grid-template-columns: 1fr 1fr; }
+  .cc-swatch { padding: 8px 11px 8px 9px; font-size: 0.88rem; }
+}
 .chanuka-buy .chanuka-form { margin-top: 18px; }
 .chanuka-form-note { font-size: 0.92rem; margin: -6px 0 12px !important; color: #cbbf9f !important; }
 @media (max-width: 860px) {

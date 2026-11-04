@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChanukaPic } from "@/lib/chanuka-pics";
+import { CHANUKA_PIC_EVENT, CHANUKA_THUMB_EVENT } from "@/components/ChanukaColorBuy";
 
 type Labels = { enlarge: string; show: string; prev: string; next: string; close: string };
 
@@ -27,6 +28,16 @@ export function ChanukaGallery({
   const opener = useRef<HTMLButtonElement | null>(null);
 
   const close = useCallback(() => setOpen(null), []);
+
+  /* Farbwahl unter dem Preis zeigt das Foto der Farbe gross (04.11.26) */
+  useEffect(() => {
+    const onPic = (e: Event) => {
+      const i = (e as CustomEvent<number>).detail;
+      if (typeof i === "number" && i >= 0 && i < pics.length) setMain(i);
+    };
+    window.addEventListener(CHANUKA_PIC_EVENT, onPic);
+    return () => window.removeEventListener(CHANUKA_PIC_EVENT, onPic);
+  }, [pics.length]);
   const step = useCallback(
     (d: number) => setOpen((i) => (i === null ? i : (i + d + pics.length) % pics.length)),
     [pics.length],
@@ -84,7 +95,10 @@ export function ChanukaGallery({
               key={p.src}
               type="button"
               className={`chanuka-thumb${i === main ? " is-on" : ""}`}
-              onClick={() => setMain(i)}
+              onClick={() => {
+                setMain(i);
+                window.dispatchEvent(new CustomEvent(CHANUKA_THUMB_EVENT, { detail: i }));
+              }}
               aria-label={`${labels.show}: ${p.alt[lang]}`}
               aria-pressed={i === main}
             >

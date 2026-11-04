@@ -7,7 +7,7 @@ import type { ModelKey, Version } from "@/lib/cart";
  * noch gegen. Ergebnis wird anonym gezaehlt (quiz_result, siehe /studio).
  */
 
-export type QuizResult = Exclude<ModelKey, "sukkot" | "sukkotSet">;
+export type QuizResult = Exclude<ModelKey, "sukkot" | "sukkotSet" | "chanukaBlack" | "chanukaWhite" | "chanukaGold">;
 type Score = Partial<Record<QuizResult, number>>;
 
 export interface QuizAnswer {

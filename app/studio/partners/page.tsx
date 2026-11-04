@@ -61,6 +61,9 @@ const MODEL: Record<string, string> = {
   sukkot: "מהדורת סוכות",
   sukkotSet: "סדרת סוכות",
   chanuka: "חנוכיה",
+  chanukaBlack: "חנוכיה שחורה",
+  chanukaWhite: "חנוכיה לבנה",
+  chanukaGold: "חנוכיה זהב",
 };
 
 const ils = (n: number) => `₪${Math.round(n).toLocaleString("en-US")}`;

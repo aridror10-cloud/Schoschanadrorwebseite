@@ -23,6 +23,10 @@ export const MODELS = {
   sukkotSet: { price: 1890 },
   /** Chanukkia "Simcha" mit Pasuk "ארך ימים" (Shoshana, 21.10.26) */
   chanuka: { price: 290 },
+  /** dieselbe Chanukkia in weiteren Farben (04.11.26, alle 290 ₪) */
+  chanukaBlack: { price: 290 },
+  chanukaWhite: { price: 290 },
+  chanukaGold: { price: 290 },
 } as const;
 
 export type ModelKey = keyof typeof MODELS;
@@ -42,6 +46,9 @@ export const HAS_PLAIN: Record<ModelKey, boolean> = {
   sukkot: false,
   sukkotSet: false,
   chanuka: false,
+  chanukaBlack: false,
+  chanukaWhite: false,
+  chanukaGold: false,
 };
 
 /**
@@ -62,6 +69,10 @@ export const ORDERABLE: Record<ModelKey, boolean> = {
    *  ueber das kurze Formular im Chanukka-Abschnitt. */
   /** seit 02.11.26 in beiden SUMIT-Katalogen (per API angelegt) */
   chanuka: true,
+  /** Farben seit 04.11.26 in beiden SUMIT-Katalogen (per API angelegt) */
+  chanukaBlack: true,
+  chanukaWhite: true,
+  chanukaGold: true,
 };
 
 /** Eine Zeile im Korb: Werk, Fassung, Stueckzahl */

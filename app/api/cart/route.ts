@@ -41,6 +41,10 @@ const SUMIT: Record<Lang, { catalog: string; items: ItemTable }> = {
       sukkotSet: { with: 2338520016, without: null },
       // Chanukkia: Nummer eintragen, sobald das Produkt bei SUMIT existiert
       chanuka: { with: 2553175857, without: null },
+      // Farben (04.11.26): "חנוכיה קרליבך, דגם שמחה, שחור / לבן / זהב"
+      chanukaBlack: { with: 2571360771, without: null },
+      chanukaWhite: { with: 2571361071, without: null },
+      chanukaGold: { with: 2571360779, without: null },
     },
   },
   en: {
@@ -53,6 +57,9 @@ const SUMIT: Record<Lang, { catalog: string; items: ItemTable }> = {
       sukkot: { with: 2339426974, without: null },
       sukkotSet: { with: 2339429071, without: null },
       chanuka: { with: 2553175862, without: null },
+      chanukaBlack: { with: 2571360780, without: null },
+      chanukaWhite: { with: 2571361072, without: null },
+      chanukaGold: { with: 2571361073, without: null },
     },
   },
 };
