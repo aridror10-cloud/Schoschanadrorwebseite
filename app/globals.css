@@ -1165,6 +1165,7 @@ footer { padding: 36px 0; background: var(--charcoal-deep); border-top: 1px soli
 .chanuka-buy p + p { margin-top: 10px; }
 .chanuka-price { font-family: var(--font-frank), serif; font-size: 2.2rem; color: #e7cf92; margin-top: 18px; }
 .chanuka-usd { color: #b9ae96; font-size: 0.9rem; }
+.chanuka-size { margin: 4px 0 14px; font-size: 0.95rem; letter-spacing: 0.2px; opacity: 0.85; }
 .chanuka-buy .pc { margin-top: 16px; }
 .chanuka-buy .chanuka-form { margin-top: 18px; }
 .chanuka-form-note { font-size: 0.92rem; margin: -6px 0 12px !important; color: #cbbf9f !important; }

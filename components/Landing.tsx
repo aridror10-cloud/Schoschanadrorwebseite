@@ -296,6 +296,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 {t.chanuka.product.text.map((p) => (
                   <p key={p.slice(0, 20)}>{p}</p>
                 ))}
+                <p className="chanuka-size">{t.chanuka.product.size}</p>
                 <div className="chanuka-price">{t.chanuka.product.price}</div>
                 {t.chanuka.product.usd && <div className="chanuka-usd">{t.chanuka.product.usd}</div>}
                 {ORDERABLE.chanuka ? (

@@ -1,7 +1,8 @@
 /**
  * Fotos der Chanukkia "Simcha" in Shoshanas Reihenfolge (01.11.26):
  * 1 brennend mit goldenem Oel (Hauptbild), 2 leere Becher auf dunklem
- * Grund, 3 ohne Becher auf hellem Grund, 4 buntes Oel.
+ * Grund, 3 ohne Becher auf hellem Grund, 4 buntes Oel, 5 schwarz,
+ * 6 mit Massen 22 x 27 cm (Shoshana, 04.11.26).
  * Ist die Liste leer, zeigt der Abschnitt die neun Lichter.
  */
 export type ChanukaPic = { src: string; w: number; h: number; alt: { he: string; en: string } };
@@ -50,6 +51,15 @@ export const CHANUKA_PICS: ChanukaPic[] = [
     alt: {
       he: "חנוכיה קרליבך, דגם שמחה, בגוון שחור",
       en: "The Carlebach Menorah, Joy design, in black",
+    },
+  },
+  {
+    src: "/carlebach/chanuka-6.webp",
+    w: 1448,
+    h: 1086,
+    alt: {
+      he: "מידות החנוכיה: גובה 22 ס״מ, רוחב 27 ס״מ",
+      en: "Menorah dimensions: 22 cm high, 27 cm wide",
     },
   },
 ];
