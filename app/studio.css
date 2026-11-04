@@ -1041,7 +1041,7 @@ main:focus { outline: none; }
   .sj-mark .sj-arc, .sj-mark.is-anim .sj-mark-drop { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
-/* Zeichen umgekehrt in der Ecke unten links (Werke, letzte Kollektion,
+/* Zeichen gespiegelt (nicht gedreht, Bernard 04.11.26) in der Ecke unten links (Werke, letzte Kollektion,
    04.11.26): im freien Rand, baut sich mit dem Faecher auf, sobald man
    dorthin scrollt. */
 .sj-collection { position: relative; }
@@ -1052,7 +1052,7 @@ main:focus { outline: none; }
   width: min(200px, calc((100% - 1160px) / 2 - 10px));
   pointer-events: none;
 }
-.sj-corner-mark .sj-mark { position: static; display: block; width: 100%; transform: rotate(180deg); }
+.sj-corner-mark .sj-mark { position: static; display: block; width: 100%; transform: scaleX(-1); }
 .fx .sj-corner-mark:not(.is-visible) .sj-mark,
 .fx .sj-corner-mark:not(.is-visible) .sj-mark * { animation-play-state: paused; }
 @media (max-width: 1379px) {
