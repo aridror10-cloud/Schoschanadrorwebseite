@@ -39,9 +39,13 @@ export default function AboutPage() {
       {ABOUT.sections.map((s, i) => (
         <section key={s.title} className={`sj-section sj-about${i % 2 ? "" : " sj-tint"}`}>
           <div className="wrap sj-about-row">
-            <h2 className="sj-title" data-reveal>
-              {s.title}
-            </h2>
+            <div className="sj-about-head" data-reveal>
+              <h2 className="sj-title">{s.title}</h2>
+              {/* je Abschnitt ein anderer Aufbau des Zeichens, beim Hinscrollen */}
+              <div className="sj-about-mark">
+                <HeroMark id={`sja${i}`} variant={(["sketch", "waves", "forge", "assemble", "fan"] as const)[i % 5]} />
+              </div>
+            </div>
             <div className="sj-about-copy" data-reveal>
               {s.paras.map((p, j) => (
                 <p key={p.slice(0, 24)} className={s.title === "יצירה מקורית" && j === s.paras.length - 1 ? "sj-credo" : undefined}>

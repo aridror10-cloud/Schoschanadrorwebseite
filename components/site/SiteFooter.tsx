@@ -6,6 +6,11 @@ import { FOOTER, brand, type NavItem } from "@/lib/studio";
 export function SiteFooter({ items }: { items: NavItem[] }) {
   return (
     <footer className="site-footer">
+      {/* Goldlinie zieht sich von der Mitte auf, ein Tropfen faellt darauf (04.11.26) */}
+      <div className="sj-footer-rule" data-reveal aria-hidden="true">
+        <span className="sj-footer-line" />
+        <span className="sj-footer-drop" />
+      </div>
       <div className="wrap site-footer-grid">
         <div className="site-footer-brand">
           <Link href="/" aria-label={brand.name}>

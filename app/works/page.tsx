@@ -18,7 +18,7 @@ export default function WorksPage() {
   return (
     <SiteShell>
       <section className="sj-page-hero is-center has-rosette">
-        <HeroMark id="sjc" className="is-corner" variant="laser" />
+        <HeroMark id="sjc" className="is-corner" variant="forge" />
         <div className="wrap sj-narrow">
           <SectionHead as="h1" kicker={brand.slogan} title={WORKS.title} center ornament goldTitle>
             <p className="sj-lead">{WORKS.paras[0]}</p>
@@ -32,6 +32,11 @@ export default function WorksPage() {
         const thumbs = c.items.slice(0, 3);
         return (
           <section key={c.slug} className={`sj-section sj-collection${i % 2 ? " sj-tint" : ""}`} id={c.slug}>
+            {i === COLLECTIONS.length - 1 && (
+              <div className="sj-corner-mark" data-reveal>
+                <HeroMark id="sjw" />
+              </div>
+            )}
             <div className="wrap sj-split">
               <div className="sj-split-text" data-reveal>
                 <p className="sj-kicker">
