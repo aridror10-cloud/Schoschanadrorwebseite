@@ -29,7 +29,7 @@ export function BrandMark({ className = "" }: { className?: string }) {
  * 0 auf ein Viertel waechst (rechts oben nach links unten). Danach steht
  * alles still. Bei "Bewegung reduzieren" ist es sofort fertig (studio.css).
  */
-const ARCS = BANDS.split(/(?=M)/).map((s) => s.trim());
+export const ARCS = BANDS.split(/(?=M)/).map((s) => s.trim());
 
 /**
  * Jede Seite baut das Zeichen anders auf (04.11.26, Wunsch Bernard):

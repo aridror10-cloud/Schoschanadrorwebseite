@@ -12,13 +12,16 @@ import { dbInsert } from "@/lib/db";
  *
  * Die Carlebach-Anfragen laufen unveraendert ueber /api/order.
  *
+ * Seit 04.11.26 zusaetzlich: creation  פנייה מהשאלון  Fragenweg /yetzira
+ * (Antworten, Profil, Technik, Prioritaet; Prioritaet steht im Betreff).
+ *
  * Umgebungsvariablen (dieselben wie /api/order):
  *   RESEND_API_KEY  Pflicht, sonst 503 und das Formular zeigt den Mailweg
  *   ORDER_TO        Empfaengerin (Standard ssdror@gmail.com)
  *   ORDER_FROM      Absender
  */
 
-type Kind = "business" | "order" | "interest" | "question";
+type Kind = "business" | "order" | "interest" | "question" | "creation";
 
 const TO = process.env.ORDER_TO ?? "ssdror@gmail.com";
 const FROM = process.env.ORDER_FROM ?? "Shoshana Judaica <onboarding@resend.dev>";
@@ -28,6 +31,7 @@ const LABEL: Record<Kind, string> = {
   order: "בירור הזמנה",
   interest: "הבעת עניין",
   question: "שאלה מהאתר",
+  creation: "פנייה מהשאלון ׳יצירה משלכם׳",
 };
 
 const HEADING: Record<Kind, string> = {
@@ -35,6 +39,7 @@ const HEADING: Record<Kind, string> = {
   order: "בירור הזמנה חדש",
   interest: "הבעת עניין חדשה",
   question: "שאלה חדשה מהאתר",
+  creation: "פרופיל יצירה חדש",
 };
 
 /* Ratenbegrenzung je Absender-IP, wie in /api/order */
@@ -118,22 +123,42 @@ export async function POST(request: Request) {
   // Honigtopf: Roboter fuellen das unsichtbare Feld aus
   if (clamp(data.website)) return NextResponse.json({ ok: true });
 
-  const kind = data.kind as Kind;
-  if (!(kind in LABEL)) return NextResponse.json({ error: "invalid" }, { status: 400 });
+  // nur eigene Schluessel (nicht "constructor" o. ae., keine Arrays)
+  const kind = typeof data.kind === "string" && Object.hasOwn(LABEL, data.kind) ? (data.kind as Kind) : null;
+  if (!kind) return NextResponse.json({ error: "invalid" }, { status: 400 });
 
   const ip = (request.headers.get("x-forwarded-for") ?? "unknown").split(",")[0]?.trim() ?? "unknown";
   if (tooMany(ip)) return NextResponse.json({ error: "too_many" }, { status: 429 });
 
-  const name = clamp(data.name, 120);
+  const name = clamp(data.name, 120).replace(/[\r\n]+/g, " ");
   const email = clamp(data.email, 160);
   const phone = clamp(data.phone, 60);
   const company = clamp(data.company, 160);
   const piece = clamp(data.piece, 200);
   const message = clamp(data.message);
 
+  // Fragenweg: Antworten und Profil, geprueft und gekuerzt
+  const answers =
+    kind === "creation" && Array.isArray(data.answers)
+      ? (data.answers as unknown[])
+          .slice(0, 12)
+          .map((x) => {
+            const r = (x ?? {}) as Record<string, unknown>;
+            return { q: clamp(r.q, 160), a: clamp(r.a, 300) };
+          })
+          .filter((x) => x.q && x.a)
+      : [];
+  const profileTitle = clamp(data.profileTitle, 120);
+  const technique = clamp(data.technique, 120);
+  const sentence = clamp(data.sentence, 600);
+  // nur bekannte Werte, sie stehen im Betreff
+  const PRIO = ["תאריך יעד", "כמות גדולה", "זמן קצר לכמות", "פנייה עסקית"];
+  const priority = Array.isArray(data.priority) ? PRIO.filter((p) => (data.priority as unknown[]).includes(p)) : [];
+  if (kind === "creation" && !answers.length) return NextResponse.json({ error: "invalid" }, { status: 400 });
+
   const emailOk = !email || EMAIL_RE.test(email);
   const reachable = Boolean(phone) || (Boolean(email) && emailOk);
-  const pieceOk = kind === "business" || kind === "question" || Boolean(piece);
+  const pieceOk = kind === "business" || kind === "question" || kind === "creation" || Boolean(piece);
   const messageOk = (kind !== "business" && kind !== "question") || Boolean(message);
   if (!name || !emailOk || !reachable || !pieceOk || !messageOk) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
@@ -153,24 +178,44 @@ export async function POST(request: Request) {
     [kind === "business" ? "הרעיון או הצורך" : kind === "question" ? "השאלה" : "הערה", message],
     ["הגיע דרך קישור", clamp(data.ref, 40)],
   ];
+  if (kind === "creation") {
+    rows.splice(
+      5,
+      2,
+      ["הפרופיל", profileTitle],
+      ["הדרך המומלצת", technique],
+      ...answers.map((x) => [x.q, x.a] as [string, string]),
+      ["בסיכום", sentence],
+      ["עדיפות", priority.join(", ")],
+    );
+  }
 
-  const table = rows
-    .filter(([, value]) => value)
-    .map(
-      ([label, value]) =>
-        `<tr><td style="padding:7px 0 7px 14px;color:#8a7238;white-space:nowrap;vertical-align:top">${esc(
-          label,
-        )}</td><td style="padding:7px 0;color:#2e2e2e">${esc(value).replace(/\n/g, "<br>")}</td></tr>`,
-    )
-    .join("");
+  const tableOf = (list: [string, string][]) =>
+    list
+      .filter(([, value]) => value)
+      .map(
+        ([label, value]) =>
+          `<tr><td style="padding:7px 0 7px 14px;color:#8a7238;white-space:nowrap;vertical-align:top">${esc(
+            label,
+          )}</td><td style="padding:7px 0;color:#2e2e2e">${esc(value).replace(/\n/g, "<br>")}</td></tr>`,
+      )
+      .join("");
+  const table = tableOf(rows);
+  // Bestaetigung an die Kundin: ohne interne Felder und ohne freien Text
+  // (sonst koennte man ueber das Formular fremden Text an beliebige Adressen schicken)
+  const INTERNAL = new Set(["סוג הפנייה", "הגיע דרך קישור", "עדיפות", "בסיכום"]);
+  const ideaQ = "ספרו במשפט אחד על הרעיון";
+  const customerTable = tableOf(
+    rows.filter(([label]) => !INTERNAL.has(label) && !(kind === "creation" && label === ideaQ)),
+  );
 
-  const shell = (heading: string, intro: string, footnote = "") => `
+  const shell = (heading: string, intro: string, footnote = "", body = table) => `
     <div dir="rtl" style="font-family:system-ui,Arial,sans-serif;background:#faf8f4;padding:28px">
       <div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid rgba(171,145,73,.4);padding:26px 28px">
         <div style="font-size:12px;letter-spacing:1.6px;color:#ab9149">שושנה יודאיקה</div>
         <h1 style="font-size:19px;margin:8px 0 4px;color:#2e2e2e;font-weight:600">${esc(heading)}</h1>
         <p style="font-size:14px;color:#5c5c5c;margin:0 0 18px">${esc(intro)}</p>
-        <table style="width:100%;border-collapse:collapse;font-size:14px;border-top:1px solid rgba(171,145,73,.3)">${table}</table>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;border-top:1px solid rgba(171,145,73,.3)">${body}</table>
         ${footnote ? `<p style="font-size:13px;color:#5c5c5c;margin:18px 0 0">${esc(footnote)}</p>` : ""}
       </div>
     </div>`;
@@ -183,12 +228,15 @@ export async function POST(request: Request) {
     name,
     phone: phone || null,
     email: email || null,
-    piece: piece || null,
-    message: message || null,
+    piece: kind === "creation" ? profileTitle || null : piece || null,
+    message: kind === "creation" ? answers.map((x) => `${x.q}: ${x.a}`).join("\n") || null : message || null,
     ref: clamp(data.ref, 40) || null,
     lang: data.lang === "en" ? "en" : "he",
     path: pathOf(request),
-    data: { company: company || undefined, file: anhang ? anhang.filename : undefined },
+    data:
+      kind === "creation"
+        ? { funnel: "yetzira", technique, priority, sentence: sentence.slice(0, 400) }
+        : { company: company || undefined, file: anhang ? anhang.filename : undefined },
   });
 
   try {
@@ -198,8 +246,8 @@ export async function POST(request: Request) {
       ...(COPY.length ? { bcc: COPY } : {}),
       ...(email ? { reply_to: email } : {}),
       ...(anhang ? { attachments: [anhang] } : {}),
-      subject: `${HEADING[kind]} מהאתר: ${name}`,
-      html: shell(HEADING[kind], "התקבלה פנייה דרך טופס האתר."),
+      subject: `${priority.length && kind === "creation" ? `★ ${priority.join(", ")} · ` : ""}${HEADING[kind]} מהאתר: ${name}`,
+      html: shell(HEADING[kind], kind === "creation" ? "התקבל פרופיל יצירה מהשאלון באתר." : "התקבלה פנייה דרך טופס האתר."),
     });
   } catch {
     return NextResponse.json({ error: "send_failed" }, { status: 502 });
@@ -216,7 +264,8 @@ export async function POST(request: Request) {
         html: shell(
           "הפנייה התקבלה, תודה!",
           "אחזור אליך בהקדם. אלה הפרטים שהתקבלו:",
-          kind === "interest" ? "הבעת עניין אינה הזמנה מחייבת." : "",
+          kind === "interest" ? "הבעת עניין אינה הזמנה מחייבת." : kind === "creation" ? "זהו כיוון ראשוני. נבחן אותו יחד בשיחת האפיון." : "",
+          customerTable,
         ),
       });
     } catch {

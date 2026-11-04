@@ -180,7 +180,10 @@ export default function HomePage() {
             <h2 className="sj-title">{HOME.meet.title}</h2>
             <p className="sj-lead">{HOME.meet.text}</p>
             <div className="sj-meet-actions">
-              <Link href="/contact?type=business" className="sj-btn">
+              <Link href="/yetzira" className="sj-btn" data-track="yetzira_cta">
+                יצירה משלכם בכמה שאלות
+              </Link>
+              <Link href="/contact?type=business" className="sj-btn sj-btn-ghost">
                 {HOME.meet.business}
               </Link>
               <Link href="/contact?type=order" className="sj-btn sj-btn-ghost">

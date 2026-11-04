@@ -52,6 +52,7 @@ const KIND: Record<string, string> = {
   carlebach_order: "Carlebach-Anfrage",
   question: "Frage",
   quiz: "Quiz",
+  creation: "Fragenweg Yetzira",
 };
 const MODEL: Record<string, string> = {
   simcha: "Simcha (Freude)",
@@ -72,6 +73,7 @@ const PAGE: Record<string, string> = {
   "/contact": "Kontakt",
   "/toda": "Danke nach Kauf",
   "/privacy": "Datenschutz",
+  "/yetzira": "Fragenweg Yetzira",
 };
 const pageName = (p: string) => PAGE[p.replace(/#.*$/, "")] ?? p;
 const pct = (a: number, b: number) => (b > 0 ? `${Math.round((100 * a) / b)} %` : "0 %");

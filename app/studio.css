@@ -1100,12 +1100,19 @@ main:focus { outline: none; }
 /* Fehler aus der Pruefung (04.11.26):
    Handy: Eckzeichen nur zart (Animationen setzen die Boegen sonst deckend) */
 @media (max-width: 760px) {
-  .sj-page-hero .sj-mark.is-corner { opacity: 0.4; }
+  /* Pruefung 04.11.26: am Handy lag das Zeichen hinter dem Text, dort aus */
+  .sj-page-hero .sj-mark.is-corner { display: none; }
 }
 /* Werke-Kopf (zentriert): zwischen 761 und 1379 px ragte das Eckzeichen in den Text */
 @media (min-width: 761px) and (max-width: 1379px) {
   .sj-page-hero.is-center .sj-mark.is-corner { display: none; }
 }
+
+/* Artikelende (04.11.26): kleines Zeichen als Unterschrift */
+.sj-article-sign { width: 56px; margin: 44px auto 0; }
+.sj-article-sign .sj-mark { position: static; display: block; width: 100%; }
+.fx .sj-article-sign:not(.is-visible) .sj-mark,
+.fx .sj-article-sign:not(.is-visible) .sj-mark * { animation-play-state: paused; }
 
 /* Knoepfe (04.11.26): beim Darueberfahren gleitet einmal ein feiner Lichtschein */
 .sj-btn { position: relative; overflow: hidden; isolation: isolate; }
@@ -1122,6 +1129,7 @@ main:focus { outline: none; }
 @keyframes sjBtnSheen { to { transform: translateX(120%); } }
 /* Goldgrund mit Menora wie im Titel, beim Darueberfahren gleiten die Boegen
    einmal durch den Knopf (04.11.26) */
+@media (hover: hover) {
 .sj-btn:not(.sj-btn-ghost):hover,
 .sj-band .sj-btn:not(.sj-btn-ghost):hover {
   background-color: #b8913f;
@@ -1134,6 +1142,7 @@ main:focus { outline: none; }
   border-color: #a8822f;
   color: #1f1a10;
   animation: sjBtnGold 1.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
 }
 @keyframes sjBtnGold {
   from { background-position: 0% 30%, 0 0; }

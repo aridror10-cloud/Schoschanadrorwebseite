@@ -27,5 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...ARTICLES.map((a) => page(`/articles/${a.slug}`, 0.6)),
     page("/about", 0.6),
     page("/contact", 0.6),
+    page("/yetzira", 0.7),
   ];
 }

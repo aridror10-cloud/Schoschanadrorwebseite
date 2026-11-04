@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLink, CallBand, Figure } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
+import { HeroMark } from "@/components/site/Ornaments";
 import { ARTICLES, articleBySlug, formatDate } from "@/lib/articles";
 import { ARTICLES_PAGE, brand } from "@/lib/studio";
 
@@ -89,6 +90,10 @@ export default async function ArticlePage({ params }: Props) {
                 return null;
             }
           })}
+          {/* Schlusszeichen: das Zeichen zeichnet sich einmal wie eine Unterschrift (04.11.26) */}
+          <div className="sj-article-sign" data-reveal aria-hidden="true">
+            <HeroMark id="sjart" variant="sketch" />
+          </div>
         </div>
         {related.length > 0 && (
           <div className="wrap sj-narrow sj-related">
