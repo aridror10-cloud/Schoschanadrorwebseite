@@ -1307,7 +1307,7 @@ main:focus { outline: none; }
   width: 200px;
   pointer-events: none;
 }
-.sj-pour-mark svg { display: block; width: 100%; height: auto; overflow: visible; }
+.sj-pour-mark svg { display: block; width: 100%; height: auto; overflow: visible; transform: rotate(-90deg); /* Bernard: 90 Grad nach links */ }
 .sj-pour-rest { opacity: 0.3; }
 .sj-pour-warm { opacity: 0; }
 .sj-pour-sweep { stroke-dasharray: 392 1400; stroke-dashoffset: 0; }
