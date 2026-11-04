@@ -1294,3 +1294,28 @@ main:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   .sj-project-link::before, .sj-project-link::after, .sj-door::before, .sj-door::after, .sj-project .sj-fig::after { transition: none; }
 }
+
+/* ---------- Startseite "מרעיון למוצר": grosses Zeichen, nach unten offen (04.11.26) ----------
+   Nur die Boegen, ohne Tropfen, links neben dem Kopf im freien Raum.
+   Beim Hinscrollen oeffnen sie sich wie ein Faecher (PourMark.tsx).
+   Ohne "fx" (kein JS, Bewegung reduziert) gleich fertig. */
+.sj-pour-host { position: relative; }
+.sj-pour-mark {
+  position: absolute;
+  top: 6px;
+  right: calc(760px + 90px);
+  width: 200px;
+  pointer-events: none;
+}
+.sj-pour-mark svg { display: block; width: 100%; height: auto; overflow: visible; }
+.sj-pour-rest { opacity: 0.3; }
+.sj-pour-warm { opacity: 0; }
+.sj-pour-sweep { stroke-dasharray: 392 1400; stroke-dashoffset: 0; }
+.fx .sj-pour-mark .sj-pour-sweep { stroke-dashoffset: 392; }
+.fx .sj-pour-mark.is-visible .sj-pour-sweep { animation: sjPourSweep 2.2s cubic-bezier(0.4, 0, 0.12, 1) calc(0.25s + var(--del)) both; }
+.fx .sj-pour-mark.is-visible .sj-pour-warm { animation: sjPourWarm 3.2s ease-out calc(0.25s + var(--del)) both; }
+@keyframes sjPourSweep { from { stroke-dashoffset: 392; } to { stroke-dashoffset: 0; } }
+@keyframes sjPourWarm { 0% { opacity: 0; } 25% { opacity: 0.6; } 55% { opacity: 0.42; } 100% { opacity: 0; } }
+@media (max-width: 1179px) {
+  .sj-pour-mark { display: none; }
+}

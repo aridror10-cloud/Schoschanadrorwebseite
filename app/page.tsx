@@ -5,6 +5,7 @@ import { SiteShell } from "@/components/site/SiteShell";
 import { TitleWindow } from "@/components/site/HeroMenorah";
 import { HeroMark } from "@/components/site/Ornaments";
 import { LightPattern } from "@/components/site/LightPattern";
+import { PourMark } from "@/components/site/PourMark";
 import { YahrzeitBand } from "@/components/site/YahrzeitBand";
 import { ARTICLES, formatDate } from "@/lib/articles";
 import { COLLECTIONS, HOME, PROJECTS, brand } from "@/lib/studio";
@@ -88,8 +89,9 @@ export default function HomePage() {
 
         {/* ===== Vom Gedanken zum Produkt: vier Leistungen (19.10.26) ===== */}
         <section className="sj-section">
-          <div className="wrap">
-            <SectionHead title={HOME.services.title} ornament>
+          <div className="wrap sj-pour-host">
+            <PourMark id="sjp" />
+            <SectionHead title={HOME.services.title}>
               <p className="sj-lead">{HOME.services.paras[0]}</p>
               <p>{HOME.services.paras[1]}</p>
             </SectionHead>

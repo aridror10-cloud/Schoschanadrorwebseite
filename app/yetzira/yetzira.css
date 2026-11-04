@@ -61,18 +61,19 @@
 /* waehrend der Fragen: mattes, noch nicht poliertes Messing */
 .yz-pale { opacity: 0.55; transition: opacity 1.6s ease 1.2s; }
 .is-lit .yz-pale { opacity: 0; }
+/* Faecher (04.11.26 weicher): laenger, sanft anlaufend, sehr lang auslaufend */
 .yz-sweep {
   stroke-dasharray: 392 1400;
   stroke-dashoffset: 392;
-  transition: stroke-dashoffset 1.25s cubic-bezier(0.5, 0, 0.1, 1);
+  transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.12, 1);
 }
 .yz-sweep.is-on { stroke-dashoffset: 0; }
 .yz-cup {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  transform: scale(0.3, 0);
+  transform: scale(0.6, 0);
   opacity: 0;
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.85s, opacity 0.5s ease 0.85s;
+  transition: transform 1.1s cubic-bezier(0.2, 1, 0.3, 1) 1.05s, opacity 0.7s ease 1.05s;
 }
 .yz-cup.is-on { transform: none; opacity: 1; }
 .yz-stem {
@@ -80,9 +81,14 @@
   transform-origin: 50% 100%;
   transform: scaleY(0);
   opacity: 0;
-  transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  transition: transform 1.9s cubic-bezier(0.4, 0, 0.12, 1), opacity 0.8s ease;
 }
 .yz-stem.is-on { transform: none; opacity: 1; }
+/* warmer Goldhauch: kommt mit dem Schwung, klingt danach langsam ab */
+.yz-warm { opacity: 0; }
+.yz-warm.is-on { animation: yzWarm 3s ease-out both; }
+@keyframes yzWarm { 0% { opacity: 0; } 25% { opacity: 0.55; } 55% { opacity: 0.4; } 100% { opacity: 0; } }
+.is-lit .yz-warmfx { display: none; }
 
 /* Anzuenden: Gold steigt vom Fuss auf (weiche Kante) */
 .yz-pour-c, .yz-pour-front { transform-box: fill-box; transform-origin: 50% 50%; transform: scale(0); }

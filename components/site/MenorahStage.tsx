@@ -34,7 +34,7 @@ const CUPS = [
   { x: 28, w: 44 },
 ] as const;
 const cupPath = (cx: number, w: number, top = 52) =>
-  `M${cx - w / 2} ${top} H${cx + w / 2} L${cx + w / 2 - 6} ${top + 9} Q${cx} ${top + 15} ${cx - w / 2 + 6} ${top + 9} Z`;
+  `M${cx - w / 2} ${top} H${cx + w / 2} L${cx + w / 2 - 6} ${top + 12} Q${cx} ${top + 17} ${cx - w / 2 + 6} ${top + 12} Z`;
 
 /** Flammen: auf den Schalen und auf dem Schamasch in der Mitte */
 const FLAMES = [
@@ -84,7 +84,7 @@ export function MenorahStage({ grown, lit }: { grown: number; lit: boolean }) {
     >
       <defs>
         <filter id="yz-feather" filterUnits="userSpaceOnUse" x="-500" y="-500" width="1000" height="1100">
-          <feGaussianBlur stdDeviation="7" />
+          <feGaussianBlur stdDeviation="9" />
         </filter>
         <filter id="yz-soft" filterUnits="userSpaceOnUse" x="-700" y="-700" width="1400" height="1400">
           <feGaussianBlur stdDeviation="5" />
@@ -218,6 +218,19 @@ export function MenorahStage({ grown, lit }: { grown: number; lit: boolean }) {
             </g>
           )),
         )}
+      </g>
+
+      {/* waehrend ein Arm waechst: kurz sattes Gold, das sanft zu Messing abklingt */}
+      <g className="yz-warmfx">
+        {SIDES.map((side) => (
+          <g key={side} transform={sideT(side)}>
+            {ARCS.map((d, arc) => (
+              <g key={arc} mask={`url(#yz-m-${side}${arc})`}>
+                <path d={d} fill="url(#yz-bevel)" className={`yz-warm${armOn(side, arc) ? " is-on" : ""}`} />
+              </g>
+            ))}
+          </g>
+        ))}
       </g>
 
       {/* das volle Gold, steigt beim Anzuenden vom Fuss auf */}
