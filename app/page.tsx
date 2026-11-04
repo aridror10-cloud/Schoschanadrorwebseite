@@ -36,9 +36,9 @@ export default function HomePage() {
         {/* ===== Eroeffnung ===== */}
         <section className="sj-hero">
           <div className="wrap sj-hero-inner">
-            <HeroMark />
             <p className="sj-hero-brand">{brand.name}</p>
             <h1 className="sj-hero-title">
+              <HeroMark id="sjh" className="is-hero" />
               {brand.slogan.split(" ").map((w, i, all) => (
                 <span key={i}>
                   <span className="sj-word" style={{ "--i": i } as React.CSSProperties}>
