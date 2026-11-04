@@ -510,7 +510,7 @@ export const content: Record<Lang, LandingContent> = {
       product: {
         title: "חנוכיה קרליבך | דגם „שמחה”",
         text: [
-          "חנוכיה ממתכת בגוון כסוף טבעי, המשלבת את דיוקנו של ר׳ שלמה קרליבך ואת מילות הפסוק. חנוכיה הנושאת עמה את הניגון, את התפילה ואת התקווה לאור ולישועה.",
+          "חנוכייה בעיצוב מגזרת מתכת בגוון כסוף טבעי, המשלבת את דיוקנו של ר׳ שלמה קרליבך ואת מילות הפסוק ״אורך ימים אשביעהו ואראהו בישועתי״. יצירה המחברת בין אור החנוכה, ניגוניו של ר׳ שלמה והכמיהה לישועה.",
         ],
         size: "מידות: גובה 22 ס״מ, רוחב 27 ס״מ",
         price: "290 ₪",
@@ -898,7 +898,7 @@ Please send me the next steps to complete the order.`,
       product: {
         title: "The Carlebach Menorah | “Joy” design",
         text: [
-          "A metal menorah in a natural silver tone, bringing together the portrait of Reb Shlomo Carlebach and the words of the verse. A menorah that carries the melody, the prayer and the hope for light and salvation.",
+          "A menorah designed as a metal cutwork in a natural silver tone, bringing together the portrait of Reb Shlomo Carlebach and the words of the verse “Orech Yamim Asbi’ehu Ve’arehu Bishuati”. A piece that joins the light of Chanukah, the melodies of Reb Shlomo and the longing for salvation.",
         ],
         size: "Size: 22 cm high, 27 cm wide (8.7 × 10.6 in)",
         price: "₪290",
