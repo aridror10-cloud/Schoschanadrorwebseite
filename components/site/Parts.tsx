@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LightPattern } from "./LightPattern";
 import type { ReactNode } from "react";
 import type { Collection, Pic, Project } from "@/lib/studio";
 import { WORKS } from "@/lib/studio";
@@ -135,6 +136,7 @@ export function CallBand({
 }) {
   return (
     <section className="sj-band">
+      <LightPattern />
       <div className="wrap sj-band-inner" data-reveal>
         <h2>{title}</h2>
         <p>{text}</p>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CallBand, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
-import { BrandMark, HeroMark } from "@/components/site/Ornaments";
+import { HeroMark } from "@/components/site/Ornaments";
 import { DESIGN, PROJECTS } from "@/lib/studio";
 import { DESIGN_PICS } from "@/lib/studio-pics";
 
@@ -19,7 +19,7 @@ export default function DesignPage() {
   return (
     <SiteShell>
       <section className="sj-page-hero has-rosette">
-        <BrandMark className="is-corner" />
+        <HeroMark id="sjc" className="is-corner" />
         <div className="wrap sj-split">
           <div className="sj-split-text" data-reveal>
             <p className="sj-kicker">{DESIGN.kicker}</p>
