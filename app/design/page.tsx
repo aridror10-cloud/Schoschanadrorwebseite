@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CallBand, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
-import { BrandMark } from "@/components/site/Ornaments";
+import { BrandMark, HeroMark } from "@/components/site/Ornaments";
 import { DESIGN, PROJECTS } from "@/lib/studio";
 import { DESIGN_PICS } from "@/lib/studio-pics";
 
@@ -63,7 +63,10 @@ export default function DesignPage() {
         </div>
       </section>
 
-      <section className="sj-section sj-tint">
+      <section className="sj-section sj-tint sj-side-host">
+        <div className="sj-side-mark" data-reveal>
+          <HeroMark id="sjd" />
+        </div>
         <div className="wrap sj-narrow">
           <SectionHead title={DESIGN.audience.title} center>
             <p className="sj-lead">{DESIGN.audience.text}</p>

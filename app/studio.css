@@ -805,6 +805,32 @@ main:focus { outline: none; }
   .sj-hero-title .sj-mark.is-hero { display: none; }
 }
 
+/* Gold im Titel (04.11.26): deckungsgleiche Kopie des Titels, deren
+   Buchstaben Gold und die grosse Menora zeigen, nur im weichen Kreis um den
+   Zeiger (HeroMenorah.tsx setzt --wa 0..1, --wx/--wy, --wp). */
+.sj-title-window {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image:
+    url("/studio/menorah-licht.svg"),
+    linear-gradient(100deg, #6e5216 0%, #9a7426 24%, #b58a35 46%, #8a6620 64%, #a98232 82%, #6b4f14 100%);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 108% auto, 100% 100%;
+  background-position: calc(50% + var(--wp, 0px)) 34%, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  opacity: var(--wa, 0);
+  -webkit-mask-image: radial-gradient(circle 210px at var(--wx, 50%) var(--wy, 50%), #000 0%, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.35) 62%, transparent 100%);
+  mask-image: radial-gradient(circle 210px at var(--wx, 50%) var(--wy, 50%), #000 0%, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.35) 62%, transparent 100%);
+}
+@media (max-width: 1059px) {
+  .sj-title-window { display: none; }
+}
+
 /* Aufbau beim Laden, laeuft einmal:
    0.2 s  Titel und Text erscheinen weich nacheinander
    0.3 s  der Tropfen faellt, kommt bei ~1.0 s auf (ohne Wellenringe)
@@ -858,6 +884,25 @@ main:focus { outline: none; }
   100% { opacity: 0; transform: translateX(430px); }
 }
 
+/* Gespiegeltes Zeichen im linken Rand eines Abschnitts (Design-Seite,
+   "Fuer wen"). Baut sich auf, sobald man dorthin scrollt. */
+.sj-side-host { position: relative; overflow-x: clip; }
+.sj-side-mark {
+  --w: min(230px, 50vw - 500px);
+  position: absolute;
+  width: var(--w);
+  right: calc(50% + 460px);
+  top: 50%;
+  translate: 0 -50%;
+  pointer-events: none;
+}
+.sj-side-mark .sj-mark { position: static; display: block; width: 100%; transform: scaleX(-1); }
+.fx .sj-side-mark:not(.is-visible) .sj-mark,
+.fx .sj-side-mark:not(.is-visible) .sj-mark * { animation-play-state: paused; }
+@media (max-width: 1199px) {
+  .sj-side-mark { display: none; }
+}
+
 /* Text der Eroeffnung: steigt weich aus leichter Unschaerfe auf */
 .sj-hero-inner > .sj-hero-brand,
 .sj-hero-title .sj-word,
@@ -879,6 +924,35 @@ main:focus { outline: none; }
   to { opacity: 1; transform: none; filter: none; }
 }
 
+/* ---------- Dunkles Werk-Band: Muster aus Shoshanas Zeichen ----------
+   Grundmuster ruhig und zart; darueber dasselbe Muster heller, nur im
+   Lichtkreis, den LightPattern.tsx mit der Maus fuehrt. */
+.sj-dark.sj-section { position: relative; overflow: hidden; background-image: none; }
+.sj-dark > .wrap { position: relative; z-index: 1; }
+.sj-pattern { position: absolute; inset: 0; pointer-events: none; }
+.sj-pattern::before,
+.sj-pattern-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/studio/muster.svg") 50% 0 / 210px auto repeat;
+}
+.sj-pattern::before { opacity: 0.065; }
+.sj-pattern-glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  -webkit-mask-image: radial-gradient(circle 320px at var(--mx, 50%) var(--my, 45%), #000 0%, rgba(0, 0, 0, 0.42) 42%, transparent 100%);
+  mask-image: radial-gradient(circle 320px at var(--mx, 50%) var(--my, 45%), #000 0%, rgba(0, 0, 0, 0.42) 42%, transparent 100%);
+}
+.sj-pattern-glow::before { opacity: 0.34; }
+.sj-pattern-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 360px at var(--mx, 50%) var(--my, 45%), rgba(210, 184, 120, 0.06), transparent 70%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sj-fan { animation: none; stroke-dashoffset: 0; }
   .sj-mark.is-anim .sj-mark-drop,
@@ -888,6 +962,7 @@ main:focus { outline: none; }
   .sj-hero-inner > .sj-hero-tagline,
   .sj-hero-inner > .sj-hero-sub,
   .sj-hero-inner > .sj-hero-cta { animation: none; }
+  .sj-pattern-glow { display: none; }
 }
 .sj-page-hero.has-rosette { position: relative; overflow: hidden; }
 .sj-page-hero.has-rosette > .wrap { position: relative; }
@@ -922,12 +997,7 @@ main:focus { outline: none; }
 .sj-divider path { fill: var(--gold); }
 .sj-dark .sj-divider path { fill: var(--gold-soft); }
 
-/* Dunkles Werk-Band: Gittermuster wie ein lasergeschnittenes Gelaender */
-.sj-dark {
-  background-color: #262522;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cg fill='none' stroke='%23c7b074' stroke-opacity='0.07' stroke-width='1'%3E%3Cpath d='M28 0 L56 16.2 L56 48.5 L28 64.7 L0 48.5 L0 16.2 Z'/%3E%3Cpath d='M28 64.7 L28 97 M0 48.5 L-28 64.7 M56 48.5 L84 64.7'/%3E%3Cpath d='M28 16 L42 40 L14 40 Z M28 49 L14 25 L42 25 Z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 56px 97px;
-}
+/* Dunkles Werk-Band: Sterngitter ersetzt am 03.11.26 durch Shoshanas Zeichen (siehe .sj-pattern) */
 
 /* Goldene Rahmenecken beim Darueberfahren (Projekt- und Werkkacheln) */
 .sj-project-link,

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLink, Figure, ProjectCard, SectionHead } from "@/components/site/Parts";
 import { SiteShell } from "@/components/site/SiteShell";
+import { TitleWindow } from "@/components/site/HeroMenorah";
 import { HeroMark } from "@/components/site/Ornaments";
+import { LightPattern } from "@/components/site/LightPattern";
 import { YahrzeitBand } from "@/components/site/YahrzeitBand";
 import { ARTICLES, formatDate } from "@/lib/articles";
 import { COLLECTIONS, HOME, PROJECTS, brand } from "@/lib/studio";
@@ -39,6 +41,7 @@ export default function HomePage() {
             <p className="sj-hero-brand">{brand.name}</p>
             <h1 className="sj-hero-title">
               <HeroMark id="sjh" className="is-hero" />
+              <TitleWindow text={brand.slogan} />
               {brand.slogan.split(" ").map((w, i, all) => (
                 <span key={i}>
                   <span className="sj-word" style={{ "--i": i } as React.CSSProperties}>
@@ -124,6 +127,7 @@ export default function HomePage() {
 
         {/* ===== Werke und Kollektionen ===== */}
         <section className="sj-section sj-dark">
+          <LightPattern />
           <div className="wrap">
             <div className="sj-split sj-split-top">
               <div className="sj-split-text" data-reveal>
