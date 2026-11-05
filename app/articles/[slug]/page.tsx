@@ -9,6 +9,13 @@ import { ARTICLES_PAGE, brand } from "@/lib/studio";
 
 /** Artikelseite (feste Vorlage): Titel, Titelbild, Text, Verwandtes, Weg zum Angebot. */
 
+/** *so* wird fett (Schreibweise aus Shoshanas Mails) */
+function rich(text: string) {
+  return text.split(/(\*[^*]+\*)/g).map((part, i) =>
+    part.length > 2 && part.startsWith("*") && part.endsWith("*") ? <strong key={i}>{part.slice(1, -1)}</strong> : part,
+  );
+}
+
 export function generateStaticParams() {
   // Next braucht mindestens einen Eintrag fuer den statischen Export;
   // ohne Artikel liefert der Platzhalter einfach "nicht gefunden".
@@ -66,7 +73,7 @@ export default async function ArticlePage({ params }: Props) {
           {a.body.map((b, i) => {
             switch (b.type) {
               case "p":
-                return <p key={i}>{b.text}</p>;
+                return <p key={i}>{rich(b.text)}</p>;
               case "h":
                 return <h2 key={i}>{b.text}</h2>;
               case "quote":
@@ -75,9 +82,26 @@ export default async function ArticlePage({ params }: Props) {
                 return (
                   <ul key={i}>
                     {b.items.map((t) => (
-                      <li key={t}>{t}</li>
+                      <li key={t}>{rich(t)}</li>
                     ))}
                   </ul>
+                );
+              case "links":
+                return (
+                  <div key={i} className="sj-article-actions">
+                    {b.items.map((l) => (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        className={`sj-btn${l.ghost ? " sj-btn-ghost" : ""}`}
+                        {...(l.download ? { download: "" } : {})}
+                        {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        {...(l.track ? { "data-track": l.track } : {})}
+                      >
+                        {l.label}
+                      </a>
+                    ))}
+                  </div>
                 );
               case "img":
                 return (

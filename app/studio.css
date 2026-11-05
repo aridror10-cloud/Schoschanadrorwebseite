@@ -508,6 +508,12 @@ main:focus { outline: none; }
   color: var(--charcoal-deep);
 }
 .sj-article-body ul { padding-inline-start: 22px; }
+.sj-article-body strong { font-weight: 600; color: #2b2925; }
+/* Knoepfe im Artikel, z. B. Vorlage herunterladen (05.11.26) */
+.sj-article-body .sj-article-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+@media (max-width: 560px) {
+  .sj-article-body .sj-article-actions .sj-btn { width: 100%; text-align: center; }
+}
 .sj-article-body figcaption { margin-top: 8px; font-size: 0.88rem; color: #77736a; }
 .sj-related { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); }
 .sj-related h2 { font-family: var(--font-frank), serif; font-weight: 500; font-size: 1.3rem; margin-bottom: 12px; }
