@@ -88,7 +88,7 @@ export default async function ArticlePage({ params }: Props) {
                 );
               case "links":
                 return (
-                  <div key={i} className="sj-article-actions">
+                  <div key={i} id={b.id} className="sj-article-actions">
                     {b.items.map((l) => (
                       <a
                         key={l.href}

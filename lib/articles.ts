@@ -19,7 +19,7 @@ export type Block =
   | { type: "img"; pic: Pic; caption?: string }
   | { type: "list"; items: string[] }
   /** Knoepfe, z. B. Download der Vorlage oder Link nach aussen */
-  | { type: "links"; items: { label: string; href: string; download?: boolean; external?: boolean; track?: string; ghost?: boolean }[] };
+  | { type: "links"; id?: string; items: { label: string; href: string; download?: boolean; external?: boolean; track?: string; ghost?: boolean }[] };
 
 /* In "p" und "list" steht *so* fett, wie in Shoshanas Mails. */
 
@@ -84,6 +84,7 @@ export const ARTICLES: Article[] = [
       { type: "h", text: "אז קדימה, יוצרים!" },
       {
         type: "links",
+        id: "download",
         items: [
           {
             label: "להורדת התבנית ודף ההוראות",

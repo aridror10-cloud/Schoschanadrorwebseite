@@ -510,7 +510,7 @@ main:focus { outline: none; }
 .sj-article-body ul { padding-inline-start: 22px; }
 .sj-article-body strong { font-weight: 600; color: #2b2925; }
 /* Knoepfe im Artikel, z. B. Vorlage herunterladen (05.11.26) */
-.sj-article-body .sj-article-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.sj-article-body .sj-article-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; scroll-margin-top: 45vh; }
 @media (max-width: 560px) {
   .sj-article-body .sj-article-actions .sj-btn { width: 100%; text-align: center; }
 }

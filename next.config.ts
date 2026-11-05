@@ -37,6 +37,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/sukkot", destination: "/carlebach", permanent: false },
       { source: "/en/sukkot", destination: "/en", permanent: false },
+      // Kurzlink fuer Beitraege ausserhalb der Website (05.11.26): fuehrt
+      // direkt zum Download-Knopf im Artikel mit der Chanukkia-Vorlage
+      { source: "/tavnit", destination: "/articles/chanukiya-laser-template#download", permanent: false },
     ];
   },
 
